@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo Brecha: O Incidente</title>
+    <title>Protocolo Brecha: O Incident</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -15,14 +15,34 @@
         .font-cyber { font-family: 'Orbitron', sans-serif; }
         .card-shadow-hacker { box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2); }
         .card-shadow-corp { box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2); }
-        /* Esconder scrollbars mas manter funcionalidade */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-slate-200 min-h-screen flex flex-col justify-between select-none">
+<body class="text-slate-200 min-h-screen flex flex-col justify-between select-none relative">
 
-    <header class="w-full bg-slate-900/80 border-b border-slate-800 backdrop-blur-md p-3 sticky top-0 z-50">
+    <!-- OVERLAY DE FIM DE JOGO (SUBSTITUTO DO ALERT DE image_491edb.png) -->
+    <div id="screen-gameover" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-center items-center p-6 transition-all duration-500">
+        <div id="modal-gameover-box" class="w-full max-w-md bg-slate-900 border-2 p-6 rounded-2xl text-center shadow-2xl transition-all transform scale-95">
+            <div id="go-badge" class="inline-block px-4 py-1 rounded-full font-cyber text-xs font-black uppercase mb-4 tracking-widest">
+                RESULTADO DA OPERAÇÃO
+            </div>
+            <h2 id="go-titulo" class="text-3xl font-cyber font-black tracking-tight uppercase mb-3 text-white">
+                Fim de Jogo
+            </h2>
+            <div class="p-4 bg-black/40 border border-slate-800 rounded-xl mb-6">
+                <p id="go-motivo" class="text-sm text-slate-300 font-mono leading-relaxed">
+                    Análise do incidente finalizada com sucesso.
+                </p>
+            </div>
+            <button onclick="reiniciarPartida()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-cyber font-bold text-xs uppercase py-3 rounded-xl tracking-widest transition-all active:scale-95 shadow-lg shadow-purple-500/20">
+                🔄 INICIAR NOVA SIMULAÇÃO
+            </button>
+        </div>
+    </div>
+
+    <!-- BARRA SUPERIOR: RELÓGIO & RODADA -->
+    <header class="w-full bg-slate-900/80 border-b border-slate-800 backdrop-blur-md p-3 sticky top-0 z-40">
         <div class="max-w-md mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2">
                 <span class="text-xs bg-purple-900/50 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded-full font-cyber font-bold">
@@ -39,7 +59,9 @@
         </div>
     </header>
 
+    <!-- PLACAR DO JOGO (MEDIDORES GLOBAIS ESTILO GAMER) -->
     <section class="w-full max-w-md mx-auto p-3 space-y-2.5">
+        <!-- INTEGRIDADE DO SISTEMA (IS) -->
         <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2">
             <div class="flex justify-between text-xs font-bold mb-1">
                 <span class="text-red-400 flex items-center gap-1">❤️ INTEGRIDADE DO SISTEMA (IS)</span>
@@ -50,6 +72,7 @@
             </div>
         </div>
 
+        <!-- DADOS COMPROMETIDOS (DC) -->
         <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2">
             <div class="flex justify-between text-xs font-bold mb-1">
                 <span class="text-amber-400 flex items-center gap-1">☣️ DADOS COMPROMETIDOS (DC)</span>
@@ -60,6 +83,7 @@
             </div>
         </div>
 
+        <!-- NÍVEL DE GOVERNANÇA (NG) -->
         <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2">
             <div class="flex justify-between text-xs font-bold mb-1">
                 <span class="text-blue-400 flex items-center gap-1">🛡️ NÍVEL DE GOVERNANÇA (NG)</span>
@@ -71,6 +95,7 @@
         </div>
     </section>
 
+    <!-- ARENA CENTRAL (TABULEIRO DE GELOS E COMBATE) -->
     <section class="w-full max-w-md mx-auto px-3 my-1">
         <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-xl p-3">
             <div class="flex justify-between items-center border-b border-slate-800 pb-1.5 mb-2.5">
@@ -78,7 +103,9 @@
                 <span id="badge-turno" class="text-[10px] font-cyber px-2 py-0.5 rounded uppercase bg-green-500/20 text-green-400 border border-green-500/30">Turno do Invasor</span>
             </div>
             
+            <!-- CAMADAS DO SERVIDOR -->
             <div class="space-y-2">
+                <!-- SLOT GELO 1 -->
                 <div id="slot-gelo1" class="flex justify-between items-center p-2 bg-slate-900/50 rounded-lg border border-dashed border-slate-700 transition-all">
                     <div>
                         <div class="text-[10px] text-slate-500 uppercase font-bold">Perímetro Externo (Gelo 1)</div>
@@ -87,6 +114,7 @@
                     <button onclick="interagirGelo(1)" id="btn-gelo1" class="text-[10px] bg-blue-600/20 text-blue-400 border border-blue-500/30 px-2 py-1 rounded font-bold uppercase hidden">Ativar (Rez)</button>
                 </div>
 
+                <!-- SLOT GELO 2 -->
                 <div id="slot-gelo2" class="flex justify-between items-center p-2 bg-slate-900/50 rounded-lg border border-dashed border-slate-700 transition-all">
                     <div>
                         <div class="text-[10px] text-slate-500 uppercase font-bold">Banco de Dados (Gelo 2)</div>
@@ -96,13 +124,16 @@
                 </div>
             </div>
 
+            <!-- BOTÃO DE LANÇAR ATAQUE DIRETO -->
             <button onclick="executarInvasaoRun()" id="btn-atacar-servidor" class="w-full mt-3 bg-gradient-to-r from-red-600 to-rose-600 text-white font-cyber font-bold text-xs uppercase py-2 rounded-lg shadow-lg tracking-widest transition-all active:scale-95">
                 ⚡ INICIAR INVASÃO (THE RUN) ⚡
             </button>
         </div>
     </section>
 
+    <!-- DASHBOARD DE RECURSOS E AÇÕES RÁPIDAS -->
     <section class="w-full max-w-md mx-auto px-3 py-1 grid grid-cols-2 gap-3">
+        <!-- STATUS INVASOR -->
         <div class="bg-zinc-950/80 p-2 rounded-lg border border-green-500/20 flex justify-between items-center">
             <div>
                 <span class="text-[10px] uppercase font-bold text-green-400 block">💻 Hacker</span>
@@ -112,6 +143,7 @@
                 <button onclick="ganharRecursoRapido('h-cred')" class="bg-zinc-900 hover:bg-zinc-800 text-[9px] px-1 py-0.5 rounded text-white border border-zinc-700 font-bold">+$1</button>
             </div>
         </div>
+        <!-- STATUS CORPORAÇÃO -->
         <div class="bg-zinc-950/80 p-2 rounded-lg border border-blue-500/20 flex justify-between items-center">
             <div>
                 <span class="text-[10px] uppercase font-bold text-blue-400 block">🏢 Empresa</span>
@@ -123,12 +155,14 @@
         </div>
     </section>
 
+    <!-- CONSOLE MINIMALISTA DE LOGS -->
     <section class="w-full max-w-md mx-auto px-3">
         <div id="caixa-logs" class="bg-black/80 border border-slate-900 rounded-lg p-2 text-[10px] font-mono h-14 overflow-y-auto text-emerald-400/80 space-y-0.5 no-scrollbar">
             <div>> Sistema inicializado. Pronto para a rodada.</div>
         </div>
     </section>
 
+    <!-- ÁREA DE CARTAS DA MÃO -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950/90 border-t border-slate-800 backdrop-blur-md rounded-t-2xl">
         <div class="flex justify-between items-center mb-2 px-1">
             <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Sua Mão de Cartas</span>
@@ -139,7 +173,8 @@
         </div>
         
         <div id="deck-carrossel" class="flex gap-3 overflow-x-auto pb-2 pt-1 px-1 no-scrollbar snap-x snap-mandatory">
-            </div>
+            <!-- Gerado dinamicamente -->
+        </div>
     </section>
 
     <script>
@@ -195,7 +230,6 @@
         }
 
         function atualizarPaineis() {
-            // Números e Barras de Progresso
             document.getElementById("num-is").innerText = game.is;
             document.getElementById("bar-is").style.width = `${(game.is / 50) * 100}%`;
             document.getElementById("num-dc").innerText = `${game.dc} / 20`;
@@ -209,7 +243,6 @@
             document.getElementById("lbl-c-act").innerText = game.cAcoes;
             document.getElementById("lbl-c-cred").innerText = game.cCreditos;
 
-            // Atualização dos Slots de Gelo da Arena
             const g1 = document.getElementById("slot-gelo1");
             const btnG1 = document.getElementById("btn-gelo1");
             if (game.gelo1.instalado) {
@@ -234,7 +267,6 @@
                 btnG2.classList.add("hidden");
             }
 
-            // Exibição e controle dos botões e badges de turno
             const badge = document.getElementById("badge-turno");
             const btnAtacar = document.getElementById("btn-atacar-servidor");
             if (game.turno === "invasor") {
@@ -254,21 +286,14 @@
             let list = game.abaAtiva === "invasor" ? cartasHacker : cartasCorp;
             let c = list.find(item => item.id === id);
 
-            if (game.turno !== game.abaAtiva) {
-                alert("Você não pode jogar cartas no turno do oponente!");
-                return;
-            }
+            if (game.turno !== game.abaAtiva) return;
 
             if (game.turno === "invasor") {
-                if (game.hAcoes < 1) return alert("Ações esgotadas!");
-                if (game.hCreditos < c.custo) return alert("Créditos insuficientes!");
-                game.hAcoes -= 1;
-                game.hCreditos -= c.custo;
+                if (game.hAcoes < 1 || game.hCreditos < c.custo) return;
+                game.hAcoes -= 1; game.hCreditos -= c.custo;
             } else {
-                if (game.cAcoes < 1) return alert("Ações esgotadas!");
-                if (game.cCreditos < c.custo) return alert("Créditos insuficientes!");
-                game.cAcoes -= 1;
-                game.cCreditos -= c.custo;
+                if (game.cAcoes < 1 || game.cCreditos < c.custo) return;
+                game.cAcoes -= 1; game.cCreditos -= c.custo;
             }
 
             c.exec();
@@ -278,9 +303,9 @@
 
         function ganharRecursoRapido(tipo) {
             if (game.turno === "invasor" && tipo === "h-cred" && game.hAcoes > 0) {
-                game.hAcoes -= 1; game.hCreditos += 1; log("Hacker gastou 1 ação para ganhar $1.");
+                game.hAcoes -= 1; game.hCreditos += 1; log("Hacker minerou +$1.");
             } else if (game.turno === "corp" && tipo === "c-cred" && game.cAcoes > 0) {
-                game.cAcoes -= 1; game.cCreditos += 1; log("TI gastou 1 ação para ganhar $1.");
+                game.cAcoes -= 1; game.cCreditos += 1; log("TI liberou +$1 em verba.");
             }
             atualizarPaineis();
         }
@@ -288,62 +313,50 @@
         function interagirGelo(slot) {
             if (game.turno !== "corp") return;
             if (slot === 1 && game.cCreditos >= game.gelo1.custo) {
-                game.cCreditos -= game.gelo1.custo; game.gelo1.ativo = true; log("🛡️ TI ATIVOU (Rez): Gestão de Acessos RBAC online!");
+                game.cCreditos -= game.gelo1.custo; game.gelo1.ativo = true; log("🛡️ Gelo 1 online.");
             } else if (slot === 2 && game.cCreditos >= game.gelo2.custo) {
-                game.cCreditos -= game.gelo2.custo; game.gelo2.ativo = true; log("🛡️ TI ATIVOU (Rez): Roteamento NAT Restrito online!");
+                game.cCreditos -= game.gelo2.custo; game.gelo2.ativo = true; log("🛡️ Gelo 2 online.");
             }
             atualizarPaineis();
         }
 
         function executarInvasaoRun() {
-            if (game.turno !== "invasor" || game.hAcoes < 1) return alert("Sem ações para invadir!");
+            if (game.turno !== "invasor" || game.hAcoes < 1) return;
             game.hAcoes -= 1;
-            log("🚨 OPERAÇÃO DE INVASÃO iniciada nos servidores centrais!");
+            log("🚨 Operação de invasão iniciada nos servidores!");
 
-            // Confronto de Camadas (Mecânica Netrunner Simplificada)
             if (game.gelo1.instalado && game.gelo1.ativo) {
                 if (game.programaInstalado && game.hCreditos >= 2) {
-                    game.hCreditos -= 2; log("↳ Hacker usou Privilege Escalation para burlar o Gelo 1.");
+                    game.hCreditos -= 2; log("↳ Passou pelo Gelo 1 usando escalonamento.");
                 } else {
-                    game.is -= 6; log("💥 RETALIAÇÃO: Hacker travou no controle RBAC. Tomou -6 de dano de rede.");
+                    game.is -= 6; log("💥 Bloqueado no RBAC. -6 IS.");
                     atualizarPaineis(); return;
                 }
             }
             if (game.gelo2.instalado && game.gelo2.ativo) {
                 if (game.hCreditos >= 3) {
-                    game.hCreditos -= 3; log("↳ Hacker injetou scripts alternativos para passar pelo NAT.");
+                    game.hCreditos -= 3; log("↳ Burlou o roteamento NAT.");
                 } else {
-                    game.is -= 6; log("💥 RETALIAÇÃO: NAT descartou pacotes do Hacker. Tomou -6 de dano.");
+                    game.is -= 6; log("💥 Bloqueado no NAT. -6 IS.");
                     atualizarPaineis(); return;
                 }
             }
 
-            // Sucesso do ataque
             let bonusDC = game.fase === 3 ? 5 : 4;
             game.dc += bonusDC;
-            log(`🏆 SUCESSO: Servidor violado! Extração de dados: +${bonusDC} DC.`);
+            log(`🏆 Invasão bem-sucedida! Extração: +${bonusDC} DC.`);
             atualizarPaineis();
         }
 
         function passarTurnoSistemico() {
             if (game.turno === "invasor") {
-                game.turno = "corp";
-                game.cAcoes = game.fase === 4 ? 5 : 3;
-                game.abaAtiva = "corp";
-                log("🔄 Turno da TI (Empresa). Comprando carta automática e gerando ações.");
+                game.turno = "corp"; game.cAcoes = game.fase === 4 ? 5 : 3; game.abaAtiva = "corp";
             } else {
-                game.turno = "invasor";
-                game.hAcoes = 4;
-                game.rodada += 1;
-                game.abaAtiva = "invasor";
-                
-                // Evolução automática das 5 Fases do Relógio
+                game.turno = "invasor"; game.hAcoes = 4; game.rodada += 1; game.abaAtiva = "invasor";
                 game.fase = Math.min(5, Math.floor((game.rodada - 1) / 3) + 1);
                 document.getElementById("txt-fase-titulo").innerText = fases[game.fase].t;
                 document.getElementById("txt-fase-efeito").innerText = fases[game.fase].e;
-                
-                if (game.fase === 5) { game.ng += 2; log("🛡️ Fase 5 Ativa: +2 NG passivo para a TI."); }
-                log("🔄 Turno do Invasor. Conexões de rede reestabelecidas.");
+                if (game.fase === 5) game.ng += 2;
             }
             mudarAba(game.abaAtiva);
             atualizarPaineis();
@@ -356,15 +369,39 @@
             renderizarMao();
         }
 
+        // LÓGICA DO NOVO MODAL IMPRESSIONANTE (EM SUBSTITUIÇÃO AO PRINT DE image_491edb.png)
         function validarFimDeJogo() {
-            if (game.is <= 0) alertFim("O Hacker Venceu!", "A integridade da rede corporativa chegou a zero. Queda completa de sistema!");
-            if (game.dc >= 20) alertFim("O Hacker Venceu!", "O código-fonte foi completamente exfiltrado e vazado!");
-            if (game.ng >= 20) alertFim("A Defesa da TI Venceu!", "Controles baseados em COBIT/ITIL aplicados. Incidente contido!");
-            if (game.rodada > 15) alertFim("A Defesa da TI Venceu!", "Tempo limite estourado. A equipe forense rastreou o IP do hacker!");
+            if (game.is <= 0) dispararTelaGameOver("Hacker Venceu!", "A integridade da rede chegou a zero. Queda completa de infraestrutura!", "hacker");
+            else if (game.dc >= 20) dispararTelaGameOver("Hacker Venceu!", "O código-fonte foi completamente exfiltrado e vazado da base de dados!", "hacker");
+            else if (game.ng >= 20) dispararTelaGameOver("A TI Venceu!", "Framework COBIT/ITIL estável e resiliente. Incidente completamente contido!", "defesa");
+            else if (game.rodada > 15) dispararTelaGameOver("A TI Venceu!", "Tempo limite estourado. A equipe forense isolou os sockets e rastreou o IP do hacker!", "defesa");
         }
 
-        function alertFim(titulo, motivo) {
-            alert(`🏆 ${titulo}\n\nMotivo: ${motivo}`);
+        function dispararTelaGameOver(titulo, motivo, vencedor) {
+            const screen = document.getElementById("screen-gameover");
+            const box = document.getElementById("modal-gameover-box");
+            const badge = document.getElementById("go-badge");
+            const titleEl = document.getElementById("go-titulo");
+            const motivoEl = document.getElementById("go-motivo");
+
+            titleEl.innerText = titulo;
+            motivoEl.innerText = motivo;
+
+            if (vencedor === "hacker") {
+                badge.className = "inline-block px-4 py-1 rounded-full font-cyber text-xs font-black uppercase mb-4 tracking-widest bg-red-950 text-red-400 border border-red-500/40";
+                box.className = "w-full max-w-md bg-zinc-950 border-2 border-red-500 p-6 rounded-2xl text-center shadow-2xl shadow-red-900/30 transition-all transform scale-100";
+                titleEl.className = "text-3xl font-cyber font-black tracking-tight uppercase mb-3 text-red-500";
+            } else {
+                badge.className = "inline-block px-4 py-1 rounded-full font-cyber text-xs font-black uppercase mb-4 tracking-widest bg-blue-950 text-blue-400 border border-blue-500/40";
+                box.className = "w-full max-w-md bg-zinc-950 border-2 border-blue-500 p-6 rounded-2xl text-center shadow-2xl shadow-blue-900/30 transition-all transform scale-100";
+                titleEl.className = "text-3xl font-cyber font-black tracking-tight uppercase mb-3 text-blue-400";
+            }
+
+            screen.classList.remove("hidden");
+        }
+
+        function reiniciarPartida() {
+            document.getElementById("screen-gameover").classList.add("hidden");
             game = { is: 50, dc: 0, ng: 0, rodada: 1, fase: 1, turno: "invasor", hAcoes: 4, hCreditos: 5, cAcoes: 0, cCreditos: 5, gelo1: { nome: "Gestão de Acessos RBAC", instalado: false, ativo: false, custo: 4 }, gelo2: { nome: "Roteamento NAT Restrito", instalado: false, ativo: false, custo: 5 }, programaInstalado: false, abaAtiva: "invasor" };
             log("--- Novo Incidente Iniciado ---");
             mudarAba("invasor");
@@ -377,7 +414,6 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        // Setup inicial imediato
         mudarAba("invasor");
         atualizarPaineis();
     </script>
