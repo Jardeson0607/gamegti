@@ -3,464 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo Brecha: O Incidente (Edição Avançada)</title>
+    <title>Protocolo Brecha: O Incidente</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0b0f19; color: #dbdfeb; font-family: 'Courier New', Courier, monospace; }
-        .glow-green { box-shadow: 0 0 15px rgba(34, 197, 94, 0.2); border-color: rgba(34, 197, 94, 0.4); }
-        .glow-blue { box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.4); }
-        .glow-purple { box-shadow: 0 0 15px rgba(168, 85, 247, 0.3); border-color: rgba(168, 85, 247, 0.5); }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #080a10;
+            background-image: radial-gradient(circle at 50% 50%, #101525 0%, #080a10 100%);
+        }
+        .font-cyber { font-family: 'Orbitron', sans-serif; }
+        .card-shadow-hacker { box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2); }
+        .card-shadow-corp { box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2); }
+        /* Esconder scrollbars mas manter funcionalidade */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="p-3 md:p-6">
+<body class="text-slate-200 min-h-screen flex flex-col justify-between select-none">
 
-    <!-- HEADER COGNITIVO -->
-    <header class="text-center mb-6 border-b border-zinc-800 pb-3">
-        <h1 class="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-purple-400 to-blue-400 tracking-widest uppercase">
-            PROTOCOLOS BRECHA: O INCIDENTE
-        </h1>
-        <p class="text-[11px] text-zinc-400 tracking-normal mt-1">Mapeamento de Frameworks COBIT / ITIL vs Vetores de Exploração Avançados</p>
+    <header class="w-full bg-slate-900/80 border-b border-slate-800 backdrop-blur-md p-3 sticky top-0 z-50">
+        <div class="max-w-md mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <span class="text-xs bg-purple-900/50 text-purple-400 border border-purple-500/30 px-2 py-0.5 rounded-full font-cyber font-bold">
+                    RODADA <span id="txt-rodada">1</span>/15
+                </span>
+            </div>
+            <div class="text-center">
+                <h1 id="txt-fase-titulo" class="text-sm font-cyber font-black tracking-wider text-purple-400 uppercase">Fase 1: Reconhecimento</h1>
+                <p id="txt-fase-efeito" class="text-[10px] text-slate-400 truncate max-w-[180px]">Engenharia Social custa -1 Ação</p>
+            </div>
+            <button onclick="passarTurnoSistemico()" class="bg-purple-600 hover:bg-purple-500 text-white font-cyber font-bold text-[10px] px-3 py-1.5 rounded uppercase tracking-wider transition-all">
+                Passar Turno
+            </button>
+        </div>
     </header>
 
-    <!-- RELÓGIO DO INCIDENTE & PROGRESSÃO GLOBAL -->
-    <div class="mb-6 p-4 bg-zinc-900/90 rounded border glow-purple">
-        <div class="flex justify-between items-center mb-1">
-            <span class="text-purple-400 font-bold uppercase tracking-widest text-xs">🕒 Linha do Tempo do Incidente</span>
-            <span class="text-xs text-zinc-500 font-bold">Rodada Atual: <span id="rodada-txt" class="text-white">1</span>/15</span>
-        </div>
-        <h2 id="fase-titulo" class="text-lg font-black text-purple-300">Fase 1: Reconhecimento</h2>
-        <p id="fase-efeito" class="text-xs text-zinc-400 mt-0.5">Efeito Global: Cartas de Engenharia Social custam 1 Ação a menos.</p>
-    </div>
-
-    <!-- MEDIDORES TÁTICOS DE INFRAESTRUTURA -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div class="p-3 bg-zinc-900 rounded border border-red-500/30 text-center">
-            <span class="text-[10px] text-red-400 uppercase font-bold block">Integridade do Sistema (IS)</span>
-            <div id="medidor-is" class="text-3xl font-black text-red-500 my-0.5">50</div>
-            <span class="text-[9px] text-zinc-500">Se atingir 0: Hacker vence por destruição</span>
-        </div>
-        <div class="p-3 bg-zinc-900 rounded border border-yellow-500/30 text-center">
-            <span class="text-[10px] text-yellow-400 uppercase font-bold block">Dados Comprometidos (DC)</span>
-            <div id="medidor-dc" class="text-3xl font-black text-yellow-400 my-0.5">0 / 20</div>
-            <span class="text-[9px] text-zinc-500">Se atingir 20: Hacker vence por exfiltração</span>
-        </div>
-        <div class="p-3 bg-zinc-900 rounded border border-blue-500/30 text-center">
-            <span class="text-[10px] text-blue-400 uppercase font-bold block">Nível de Governança (NG)</span>
-            <div id="medidor-ng" class="text-3xl font-black text-blue-400 my-0.5">0 / 20</div>
-            <span class="text-[9px] text-zinc-500">Se atingir 20: Defesa vence por contenção</span>
-        </div>
-    </div>
-
-    <!-- PAINEL DE CONTROLE DE ENERGIA E INFRAESTRUTURA ECONÔMICA -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-sm">
-        <!-- ECONOMIA HACKER -->
-        <div class="p-3 bg-green-950/20 rounded border border-green-500/30 flex justify-between items-center">
-            <div>
-                <span class="text-xs font-bold text-green-400 uppercase block">💻 Recursos do Invasor</span>
-                <span class="text-[11px] text-zinc-400">Ações Restantes: <strong id="hacker-actions" class="text-white">4</strong> | Créditos: <strong id="hacker-credits" class="text-green-300">$0</strong></span>
+    <section class="w-full max-w-md mx-auto p-3 space-y-2.5">
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2">
+            <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-red-400 flex items-center gap-1">❤️ INTEGRIDADE DO SISTEMA (IS)</span>
+                <span id="num-is" class="text-red-500 font-cyber">50</span>
             </div>
-            <div id="hacker-status-badge" class="px-2 py-1 bg-green-900/30 border border-green-500 text-green-400 text-xs uppercase font-bold rounded">Aguardando</div>
-        </div>
-        <!-- ECONOMIA CORPORATIVA -->
-        <div class="p-3 bg-blue-950/20 rounded border border-blue-500/30 flex justify-between items-center">
-            <div>
-                <span class="text-xs font-bold text-blue-400 uppercase block">🏢 Recursos da Defesa</span>
-                <span class="text-[11px] text-zinc-400">Ações Restantes: <strong id="corp-actions" class="text-white">0</strong> | Créditos: <strong id="corp-credits" class="text-blue-300">$0</strong></span>
+            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                <div id="bar-is" class="bg-gradient-to-r from-red-600 to-rose-500 h-full transition-all duration-500" style="width: 100%"></div>
             </div>
-            <div id="corp-status-badge" class="px-2 py-1 bg-zinc-800 border border-zinc-700 text-zinc-500 text-xs uppercase font-bold rounded">Aguardando Turno</div>
         </div>
-    </div>
 
-    <!-- CENTRAL DE OPERAÇÕES DO INFRAESTRUTURA (O MAPA DO SERVIDOR) -->
-    <div class="mb-6 p-4 bg-zinc-950 rounded-lg border border-zinc-800">
-        <h3 class="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-3">🖧 Topologia de Rede & Perímetro Crítico</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2">
+            <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-amber-400 flex items-center gap-1">☣️ DADOS COMPROMETIDOS (DC)</span>
+                <span id="num-dc" class="text-amber-500 font-cyber">0 / 20</span>
+            </div>
+            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                <div id="bar-dc" class="bg-gradient-to-r from-amber-500 to-yellow-400 h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div class="bg-slate-950/60 border border-slate-800/80 rounded-lg p-2">
+            <div class="flex justify-between text-xs font-bold mb-1">
+                <span class="text-blue-400 flex items-center gap-1">🛡️ NÍVEL DE GOVERNANÇA (NG)</span>
+                <span id="num-ng" class="text-blue-500 font-cyber">0 / 20</span>
+            </div>
+            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
+                <div id="bar-ng" class="bg-gradient-to-r from-blue-600 to-cyan-500 h-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full max-w-md mx-auto px-3 my-1">
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-slate-800 rounded-xl p-3">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-1.5 mb-2.5">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Ambiente de Rede: Riot Server</span>
+                <span id="badge-turno" class="text-[10px] font-cyber px-2 py-0.5 rounded uppercase bg-green-500/20 text-green-400 border border-green-500/30">Turno do Invasor</span>
+            </div>
             
-            <!-- SERVIDOR DE BANCO DE DADOS CENTRAL -->
-            <div class="p-3 bg-zinc-900 rounded border border-zinc-700 relative overflow-hidden">
-                <div class="text-xs font-bold text-purple-400 border-b border-zinc-800 pb-1 mb-2">🛢️ Banco de Dados (Código-Fonte)</div>
-                <div class="space-y-1.5 text-[11px]">
-                    <div class="flex justify-between"><span>Status Gelo 1:</span> <span id="gelo1-status" class="text-zinc-500 font-bold">DESATIVADO (FACEDOWN)</span></div>
-                    <div class="flex justify-between"><span>Status Gelo 2:</span> <span id="gelo2-status" class="text-zinc-500 font-bold">DESATIVADO (FACEDOWN)</span></div>
-                    <div class="flex justify-between"><span>Conteúdo Interno:</span> <span id="srv-agenda" class="text-yellow-500 font-bold">Agenda Oculta (2 Unidades)</span></div>
+            <div class="space-y-2">
+                <div id="slot-gelo1" class="flex justify-between items-center p-2 bg-slate-900/50 rounded-lg border border-dashed border-slate-700 transition-all">
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase font-bold">Perímetro Externo (Gelo 1)</div>
+                        <div id="gelo1-nome" class="text-xs font-bold text-slate-400">Nenhum Firewall Configurado</div>
+                    </div>
+                    <button onclick="interagirGelo(1)" id="btn-gelo1" class="text-[10px] bg-blue-600/20 text-blue-400 border border-blue-500/30 px-2 py-1 rounded font-bold uppercase hidden">Ativar (Rez)</button>
                 </div>
-                <div class="mt-3 flex gap-2">
-                    <button onclick="realizarInvasorRun()" id="btn-run" class="flex-1 bg-red-950 text-red-400 hover:bg-red-900 border border-red-700 text-[10px] uppercase font-bold py-1 rounded transition-all">Iniciar Invasão (Run)</button>
-                    <button onclick="administrarDefesaGelo()" id="btn-rez" class="flex-1 bg-blue-950 text-blue-400 hover:bg-blue-900 border border-blue-700 text-[10px] uppercase font-bold py-1 rounded transition-all hidden">Ativar Gelo (Rez)</button>
+
+                <div id="slot-gelo2" class="flex justify-between items-center p-2 bg-slate-900/50 rounded-lg border border-dashed border-slate-700 transition-all">
+                    <div>
+                        <div class="text-[10px] text-slate-500 uppercase font-bold">Banco de Dados (Gelo 2)</div>
+                        <div id="gelo2-nome" class="text-xs font-bold text-slate-400">Nenhum Firewall Configurado</div>
+                    </div>
+                    <button onclick="interagirGelo(2)" id="btn-gelo2" class="text-[10px] bg-blue-600/20 text-blue-400 border border-blue-500/30 px-2 py-1 rounded font-bold uppercase hidden">Ativar (Rez)</button>
                 </div>
             </div>
 
-            <!-- INFRAESTRUTURA DE COMPUTAÇÃO PARALELA (HACKER) -->
-            <div class="p-3 bg-zinc-900 rounded border border-zinc-700">
-                <div class="text-xs font-bold text-green-400 border-b border-zinc-800 pb-1 mb-2">🖥️ Rig de Terminais & Ferramentas</div>
-                <div id="hacker-rig-lista" class="text-[10px] text-zinc-500 space-y-1">
-                    <div>Nenhum hardware ou programa acoplado à memória física.</div>
-                </div>
-            </div>
-
-            <!-- CONSOLE LOG EM TEMPO REAL -->
-            <div class="p-3 bg-black rounded border border-zinc-800 flex flex-col justify-between">
-                <div class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest border-b border-zinc-900 pb-1 mb-1">📟 Monitoramento de Rede</div>
-                <div id="console-logs" class="text-[10px] text-emerald-400 font-mono h-20 overflow-y-auto space-y-0.5">
-                    <div>> Inicializando simulação...</div>
-                </div>
-            </div>
-
+            <button onclick="executarInvasaoRun()" id="btn-atacar-servidor" class="w-full mt-3 bg-gradient-to-r from-red-600 to-rose-600 text-white font-cyber font-bold text-xs uppercase py-2 rounded-lg shadow-lg tracking-widest transition-all active:scale-95">
+                ⚡ INICIAR INVASÃO (THE RUN) ⚡
+            </button>
         </div>
-    </div>
+    </section>
 
-    <!-- ABAS E CARTAS DO TURNO ATIVO -->
-    <main class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <section class="w-full max-w-md mx-auto px-3 py-1 grid grid-cols-2 gap-3">
+        <div class="bg-zinc-950/80 p-2 rounded-lg border border-green-500/20 flex justify-between items-center">
+            <div>
+                <span class="text-[10px] uppercase font-bold text-green-400 block">💻 Hacker</span>
+                <span class="text-xs font-cyber font-bold text-white"><span id="lbl-h-act">4</span> Ações | $<span id="lbl-h-cred">5</span></span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <button onclick="ganharRecursoRapido('h-cred')" class="bg-zinc-900 hover:bg-zinc-800 text-[9px] px-1 py-0.5 rounded text-white border border-zinc-700 font-bold">+$1</button>
+            </div>
+        </div>
+        <div class="bg-zinc-950/80 p-2 rounded-lg border border-blue-500/20 flex justify-between items-center">
+            <div>
+                <span class="text-[10px] uppercase font-bold text-blue-400 block">🏢 Empresa</span>
+                <span class="text-xs font-cyber font-bold text-white"><span id="lbl-c-act">0</span> Ações | $<span id="lbl-c-cred">5</span></span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <button onclick="ganharRecursoRapido('c-cred')" class="bg-zinc-900 hover:bg-zinc-800 text-[9px] px-1 py-0.5 rounded text-white border border-zinc-700 font-bold">+$1</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-full max-w-md mx-auto px-3">
+        <div id="caixa-logs" class="bg-black/80 border border-slate-900 rounded-lg p-2 text-[10px] font-mono h-14 overflow-y-auto text-emerald-400/80 space-y-0.5 no-scrollbar">
+            <div>> Sistema inicializado. Pronto para a rodada.</div>
+        </div>
+    </section>
+
+    <section class="w-full max-w-md mx-auto p-3 bg-slate-950/90 border-t border-slate-800 backdrop-blur-md rounded-t-2xl">
+        <div class="flex justify-between items-center mb-2 px-1">
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Sua Mão de Cartas</span>
+            <div class="flex gap-1">
+                <button id="tab-hacker" onclick="mudarAba('invasor')" class="text-[10px] font-cyber px-2 py-0.5 rounded bg-green-600 text-black font-bold">HACKER</button>
+                <button id="tab-corp" onclick="mudarAba('corp')" class="text-[10px] font-cyber px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-bold">TI (RIOT)</button>
+            </div>
+        </div>
         
-        <!-- FLUXO DO INVASOR -->
-        <section id="aba-invasor" class="p-4 bg-zinc-900/60 rounded-xl border border-green-500/30 glow-green">
-            <div class="flex justify-between items-center border-b border-green-500/20 pb-2 mb-4">
-                <h2 class="text-sm font-black text-green-400 uppercase tracking-widest">⚡ Painel Estratégico do Hacker</h2>
-                <div class="flex gap-2">
-                    <button onclick="acaoMecanica('click-credito-hacker')" class="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold text-white rounded border border-zinc-600">+1 Crédito</button>
-                    <button onclick="acaoMecanica('click-carta-hacker')" class="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold text-white rounded border border-zinc-600">Comprar Carta</button>
-                </div>
+        <div id="deck-carrossel" class="flex gap-3 overflow-x-auto pb-2 pt-1 px-1 no-scrollbar snap-x snap-mandatory">
             </div>
-            <div id="grid-cartas-hacker" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-        </section>
+    </section>
 
-        <!-- FLUXO DA CORPORAÇÃO -->
-        <section id="aba-corp" class="p-4 bg-zinc-900/20 rounded-xl border border-zinc-800 opacity-30 pointer-events-none">
-            <div class="flex justify-between items-center border-b border-blue-500/20 pb-2 mb-4">
-                <h2 class="text-sm font-black text-blue-400 uppercase tracking-widest">⚙️ Painel Operacional da TI</h2>
-                <div class="flex gap-2">
-                    <button onclick="acaoMecanica('click-credito-corp')" class="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold text-white rounded border border-zinc-600">+1 Crédito</button>
-                    <button onclick="acaoMecanica('click-carta-corp')" class="px-2 py-0.5 bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold text-white rounded border border-zinc-600">Comprar Carta</button>
-                </div>
-            </div>
-            <div id="grid-cartas-corp" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-        </section>
-
-    </main>
-
-    <!-- FOOTER COM CONTROLE DE PASSAGEM DE TURNO SISTÊMICO -->
-    <footer class="mt-6 p-4 bg-zinc-900 border border-zinc-800 rounded-lg flex flex-col sm:flex-row justify-between items-center gap-3">
-        <div class="text-xs text-zinc-400 text-center sm:text-left">
-            <span class="font-bold text-purple-400">Instruções para a Apresentação:</span> Use as ações táticas para gerenciar a crise. Ao esgotar as ações do seu lado, finalize o processamento para transferir o fluxo.
-        </div>
-        <button onclick="passarTurnoSistemico()" class="w-full sm:w-auto px-6 py-2 bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white font-black text-xs uppercase tracking-widest rounded shadow transition-all">
-            Finalizar Turno Atual ➡️
-        </button>
-    </footer>
-
-    <!-- SISTEMA DE REGRAS E SIMULAÇÃO LÓGICA -->
     <script>
-        // ESTADO GLOBAL DO PROTÓTIPO ACADÊMICO
         let game = {
-            is: 50, dc: 0, ng: 0,
-            rodada: 1, fase: 1,
-            turno: "invasor", // "invasor" ou "corp"
-            hackerAcoes: 4, hackerCreditos: 5,
-            corpAcoes: 0, corpCreditos: 5,
+            is: 50, dc: 0, ng: 0, rodada: 1, fase: 1, turno: "invasor",
+            hAcoes: 4, hCreditos: 5, cAcoes: 0, cCreditos: 5,
+            gelo1: { nome: "Gestão de Acessos RBAC", instalado: false, ativo: false, custo: 4, tipo: "Barreira" },
+            gelo2: { nome: "Roteamento NAT Restrito", instalado: false, ativo: false, custo: 5, tipo: "Sentinela" },
+            programaInstalado: false, abaAtiva: "invasor"
+        };
+
+        const fases = {
+            1: { t: "Fase 1: Reconhecimento", e: "Engenharia Social custa -1 Ação" },
+            2: { t: "Fase 2: Intrusão", e: "Hacker pode monitorar defesas" },
+            3: { t: "Fase 3: Exfiltração", e: "Ataques de Hacker ganham +1 DC" },
+            4: { t: "Fase 4: Contenção", e: "TI ganha +2 Ações por Turno" },
+            5: { t: "Fase 5: Recuperação", e: "TI ganha +2 NG Automático" }
+        };
+
+        const cartasHacker = [
+            { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", custo: 2, desc: "Burlas humanas. Adiciona +2 DC diretamente ao placar.", cor: "from-green-950 to-emerald-900", bcor: "border-green-500", exec: () => { game.dc += 2; log("Hacker executou Phishing via SMS: +2 DC."); } },
+            { id: "h2", nome: "Zero-Day Exploit", sub: "Cibermeameaça", custo: 5, desc: "Ataque massivo e destrutivo. Causa -5 IS e adiciona +5 DC.", cor: "from-red-950 to-red-900", bcor: "border-red-500", exec: () => { game.is -= 5; game.dc += 5; log("💥 CRÍTICO: Zero-Day disparado! -5 IS e +5 DC."); } },
+            { id: "h3", nome: "Privilege Escalation", sub: "Programa / Icebreaker", custo: 3, desc: "Instala um payload para quebrar firewalls do tipo Barreira.", cor: "from-zinc-900 to-zinc-800", bcor: "border-emerald-400", exec: () => { game.programaInstalado = true; log("Programa Privilege Escalation (SQLi) carregado na memória."); } },
+            { id: "h4", nome: "Extorsão via E-mail", sub: "Chantagem", custo: 3, desc: "Ataque direto por ransomware na rede. Gera +3 DC.", cor: "from-amber-950 to-amber-900", bcor: "border-amber-500", exec: () => { game.dc += 3; log("Ransomware ativo via e-mail de chantagem: +3 DC."); } }
+        ];
+
+        const cartasCorp = [
+            { id: "c1", nome: "Controle RBAC", sub: "Gelo / Barreira", custo: 1, desc: "Instala uma barreira defensiva oculta (Gelo 1) no perímetro.", cor: "from-blue-950 to-slate-900", bcor: "border-blue-500", exec: () => { game.gelo1.instalado = true; log("TI instalou firewall RBAC no Perímetro Oculto."); } },
+            { id: "c2", nome: "Roteamento NAT", sub: "Gelo / Sentinela", custo: 1, desc: "Instala uma sentinela oculta (Gelo 2) na camada interna.", cor: "from-cyan-950 to-slate-900", bcor: "border-cyan-500", exec: () => { game.gelo2.instalado = true; log("TI instalou proteção NAT na camada interna."); } },
+            { id: "c3", nome: "Patch de Emergência", sub: "Framework ITIL", custo: 1, desc: "Correção de vulnerabilidade ativa. Restaura +4 IS à empresa.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", exec: () => { game.is = Math.min(50, game.is + 4); log("Framework ITIL aplicado: Patch de Emergência restaurou +4 IS."); } },
+            { id: "c4", nome: "Auditoria COBIT", sub: "Framework COBIT", custo: 3, desc: "Governança profunda de processos. Adiciona +4 de NG estável.", cor: "from-indigo-950 to-zinc-900", bcor: "border-indigo-500", exec: () => { game.ng += 4; log("Framework COBIT aplicado: Auditoria de Controles gerou +4 NG."); } }
+        ];
+
+        function renderizarMao() {
+            const carrossel = document.getElementById("deck-carrossel");
+            carrossel.innerHTML = "";
+            const lista = game.abaAtiva === "invasor" ? cartasHacker : cartasCorp;
+
+            lista.forEach(c => {
+                carrossel.innerHTML += `
+                    <div class="snap-center shrink-0 w-[140px] h-[210px] bg-gradient-to-b ${c.cor} border-2 ${c.bcor} rounded-xl p-2.5 flex flex-col justify-between text-left relative overflow-hidden transition-all active:scale-95">
+                        <div class="absolute top-1 right-2 font-cyber text-[10px] font-black text-white/40">$${c.custo}</div>
+                        <div>
+                            <div class="text-[8px] uppercase tracking-widest text-white/60 font-cyber font-bold mb-0.5">${c.sub}</div>
+                            <h3 class="text-xs font-cyber font-bold text-white tracking-wide leading-tight">${c.nome}</h3>
+                            <p class="text-[9px] text-slate-300/90 leading-tight mt-1.5 font-sans border-t border-white/10 pt-1.5">${c.desc}</p>
+                        </div>
+                        <button onclick="jogarCarta('${c.id}')" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[9px] font-cyber font-bold py-1 rounded-md uppercase tracking-wider transition-colors">
+                            Disparar
+                        </button>
+                    </div>`;
+            });
+        }
+
+        function atualizarPaineis() {
+            // Números e Barras de Progresso
+            document.getElementById("num-is").innerText = game.is;
+            document.getElementById("bar-is").style.width = `${(game.is / 50) * 100}%`;
+            document.getElementById("num-dc").innerText = `${game.dc} / 20`;
+            document.getElementById("bar-dc").style.width = `${(game.dc / 20) * 100}%`;
+            document.getElementById("num-ng").innerText = `${game.ng} / 20`;
+            document.getElementById("bar-ng").style.width = `${(game.ng / 20) * 100}%`;
             
-            // Infraestrutura de Rede (Netrunner Core)
-            gelo1: { nome: "Gestão de Acessos RBAC", ativo: false, forca: 4, rezCusto: 4, tipo: "Barreira" },
-            gelo2: { nome: "Roteamento NAT Restrito", ativo: false, forca: 3, rezCusto: 5, tipo: "Sentinela" },
-            programasInstalados: [],
-            memoriaLivre: 4,
-            faseInvasaoAtiva: false
-        };
+            document.getElementById("txt-rodada").innerText = game.rodada;
+            document.getElementById("lbl-h-act").innerText = game.hAcoes;
+            document.getElementById("lbl-h-cred").innerText = game.hCreditos;
+            document.getElementById("lbl-c-act").innerText = game.cAcoes;
+            document.getElementById("lbl-c-cred").innerText = game.cCreditos;
 
-        const fasesRef = {
-            1: { t: "Fase 1: Reconhecimento", e: "Mecânicas de Engenharia Social custam 1 Ação a menos." },
-            2: { t: "Fase 2: Intrusão", e: "Ameaças ganham persistência na camada de rede externa." },
-            3: { t: "Fase 3: Exfiltração", e: "Ataques de roubo de dados causam +1 de Dados Comprometidos (DC)." },
-            4: { t: "Fase 4: Contenção", e: "A Defesa ganha +2 Ações por ciclo de processamento." },
-            5: { t: "Fase 5: Recuperação", e: "A governança gera automaticamente +2 NG no início do ciclo." }
-        };
-
-        // ENGENHARIA DE CARTAS DOS DOIS JOGADORES (CONFORME DOCUMENTAÇÃO DO SEU GRUPO)
-        const baralhoHacker = [
-            { id: "h1", nome: "Privilege Escalation", sub: "Programa - Icebreaker", custo: 3, desc: "Força Base: 1. Pague $1 para quebrar subrotina de Barreira.", exec: () => instalarPrograma("Privilege Escalation (SQLi)", 1) },
-            { id: "h2", nome: "Daemon.go", sub: "Programa - Vírus", custo: 4, desc: "Sempre que uma invasão for bem-sucedida, reduz as defesas corporativas permanentemente.", exec: () => instalarPrograma("Daemon.go (Requisições Concorrentes)", 2) },
-            { id: "h3", nome: "Phishing via SMS", sub: "Evento - Engenharia Social", custo: 2, desc: "Ignora o primeiro Gelo do tipo Barreira ativo na próxima invasão.", exec: () => { game.dc += 2; log("Hacker aplicou Phishing via SMS. Camada humana fraudada: +2 DC."); } },
-            { id: "h4", nome: "Extração de Esquema SQL", sub: "Evento - Script", custo: 1, desc: "Força o mapeamento da infraestrutura do banco de dados.", exec: () => log("Script disparado: Estrutura do Banco mapeada com sucesso.") },
-            { id: "h5", nome: "Fórum Exploits-R-Us", sub: "Recurso - Dark Web", custo: 2, desc: "Garante suporte financeiro extra nas rodadas escuras.", exec: () => { game.hackerCreditos += 3; log("Financiamento obtido na Dark Web: +$3 créditos."); } },
-            { id: "h6", nome: "Contato na 'TechMax'", sub: "Recurso - Conexão", custo: 1, desc: "Permite comprar recursos de hardware burlando o fisco.", exec: () => { game.hackerCreditos += 2; log("Equipamento limpo adquirido via fachada: +$2."); } },
-            { id: "h7", nome: "Cluster de Máquinas Virtuais", sub: "Hardware - Computação", custo: 3, desc: "Aumenta a capacidade de processamento concorrente do Hacker.", exec: () => log("Cluster ativado. Poder computacional escalado em nuvem.") },
-            { id: "h8", nome: "Rig de Terminais Múltiplos", sub: "Hardware - Console", custo: 5, desc: "Console mestre do hacker. Automação completa das invasões.", exec: () => log("Estação de trabalho de alta performance ativada.") }
-        ];
-
-        const baralhoCorp = [
-            { id: "c1", nome: "Instalar Controle RBAC", sub: "Gelo - Barreira", custo: 1, desc: "Implementa Gelo 'Gestão de Acessos RBAC' no Banco de Dados Central.", exec: () => prepararGelo(1) },
-            { id: "c2", nome: "Instalar Roteamento NAT", sub: "Gelo - Sentinela", custo: 1, desc: "Implementa Gelo 'Roteamento NAT Restrito' no Perímetro.", exec: () => prepararGelo(2) },
-            { id: "c3", nome: "Matchmaking Refatorado", sub: "Agenda - Entrega", custo: 3, desc: "Conclui projeto crítico de software. Gera +2 Pontos de Governança (NG).", exec: () => { game.ng += 2; game.corpCreditos += 2; log("Projeto concluído! Sistema de Matchmaking refatorado com sucesso: +2 NG, +$2."); } },
-            { id: "c4", nome: "Migração Smart Contracts", sub: "Agenda - Segurança", custo: 3, desc: "Modernização arquitetural. Adiciona +3 de Governança (NG) estável.", exec: () => { game.ng += 3; log("Migração de segurança concluída. Integridade corporativa reforçada: +3 NG."); } },
-            { id: "c5", nome: "Auditoria de Logs (NOC)", sub: "Operação - COBIT", custo: 2, desc: "Rastreia assinaturas digitais do invasor. Pune sua economia em $3.", exec: () => { game.hackerCreditos = Math.max(0, game.hackerCreditos - 3); log("NOC detectou anomalias através de Logs. Ativos do hacker congelados!"); } },
-            { id: "c6", nome: "Alocação de Orçamento", sub: "Operação - CAPEX", custo: 0, desc: "Injeção emergencial de capital para a TI. Ganhe $5 créditos.", exec: () => { game.corpCreditos += 5; log("Aprovação orçamentária realizada: +$5 créditos injetados."); } },
-            { id: "c7", nome: "Servidor de Banco Central", sub: "Ativo - Infraestrutura", custo: 2, desc: "Gera valor operacional de TI contínuo a cada ciclo estável.", exec: () => log("Servidor de banco provisionado no ambiente de produção.") },
-            { id: "c8", nome: "Coletor de Lixo em Tempo Real", sub: "Melhoria - ITIL", custo: 2, desc: "Otimização contínua de memória e tratamento de buffers.", exec: () => log("Mecanismo de melhoria contínua de serviço acoplado ao runtime.") }
-        ];
-
-        // LÓGICA E ENGENHARIA DE INTERRUPÇÕES / BOTÕES
-        function renderizarInterface() {
-            // Atualizar contadores em tempo real
-            document.getElementById("medidor-is").innerText = game.is;
-            document.getElementById("medidor-dc").innerText = `${game.dc} / 20`;
-            document.getElementById("medidor-ng").innerText = `${game.ng} / 20`;
-            document.getElementById("rodada-txt").innerText = game.rodada;
-
-            document.getElementById("hacker-actions").innerText = game.hackerAcoes;
-            document.getElementById("hacker-credits").innerText = `$${game.hackerCreditos}`;
-            document.getElementById("corp-actions").innerText = game.corpAcoes;
-            document.getElementById("corp-credits").innerText = `$${game.corpCreditos}`;
-
-            // Atualização do status do relógio
-            document.getElementById("fase-titulo").innerText = fasesRef[game.fase].t;
-            document.getElementById("fase-efeito").innerText = `Efeito Global: ${fasesRef[game.fase].e}`;
-
-            // Atualização visual do ambiente de servidores
-            document.getElementById("gelo1-status").innerText = game.gelo1.ativo ? "ATIVADO (REZZED - FORÇA 4)" : "DESATIVADO (FACEDOWN)";
-            document.getElementById("gelo1-status").className = game.gelo1.ativo ? "text-red-400 font-bold" : "text-zinc-500 font-bold";
-            document.getElementById("gelo2-status").innerText = game.gelo2.ativo ? "ATIVADO (REZZED - FORÇA 3)" : "DESATIVADO (FACEDOWN)";
-            document.getElementById("gelo2-status").className = game.gelo2.ativo ? "text-red-400 font-bold" : "text-zinc-500 font-bold";
-
-            // Troca de layout assíncrono baseado no controle de turnos
-            const abaHacker = document.getElementById("aba-invasor");
-            const abaCorp = document.getElementById("aba-corp");
-            const badgeHacker = document.getElementById("hacker-status-badge");
-            const badgeCorp = document.getElementById("corp-status-badge");
-            const btnRez = document.getElementById("btn-rez");
-
-            if (game.turno === "invasor") {
-                abaHacker.className = "p-4 bg-zinc-900/60 rounded-xl border border-green-500/30 glow-green";
-                abaHacker.style.pointerEvents = "auto";
-                abaCorp.className = "p-4 bg-zinc-900/10 rounded-xl border border-zinc-800 opacity-20 pointer-events-none";
-                badgeHacker.className = "px-2 py-1 bg-green-950 border border-green-500 text-green-400 text-xs uppercase font-bold rounded animate-pulse";
-                badgeHacker.innerText = "Executando Ataques";
-                badgeCorp.className = "px-2 py-1 bg-zinc-800 text-zinc-500 text-xs uppercase font-bold rounded";
-                badgeCorp.innerText = "Aguardando";
-                btnRez.classList.add("hidden");
+            // Atualização dos Slots de Gelo da Arena
+            const g1 = document.getElementById("slot-gelo1");
+            const btnG1 = document.getElementById("btn-gelo1");
+            if (game.gelo1.instalado) {
+                g1.className = "flex justify-between items-center p-2 bg-blue-950/20 border border-blue-500/40 rounded-lg";
+                document.getElementById("gelo1-nome").innerText = game.gelo1.ativo ? "RBAC ONLINE (FORÇA 4)" : "GELO INSTALADO (RESTRITO)";
+                btnG1.classList.toggle("hidden", game.turno !== "corp" || game.gelo1.ativo);
             } else {
-                abaCorp.className = "p-4 bg-zinc-900/60 rounded-xl border border-blue-500/30 glow-blue";
-                abaCorp.style.pointerEvents = "auto";
-                abaHacker.className = "p-4 bg-zinc-900/10 rounded-xl border border-zinc-800 opacity-20 pointer-events-none";
-                badgeCorp.className = "px-2 py-1 bg-blue-950 border border-blue-500 text-blue-400 text-xs uppercase font-bold rounded animate-pulse";
-                badgeCorp.innerText = "Aplicando Controles";
-                badgeHacker.className = "px-2 py-1 bg-zinc-800 text-zinc-500 text-xs uppercase font-bold rounded";
-                badgeHacker.innerText = "Aguardando";
-                btnRez.classList.remove("hidden");
+                g1.className = "flex justify-between items-center p-2 bg-slate-900/50 border border-dashed border-slate-700 rounded-lg";
+                document.getElementById("gelo1-nome").innerText = "Nenhum Firewall Configurado";
+                btnG1.classList.add("hidden");
+            }
+
+            const g2 = document.getElementById("slot-gelo2");
+            const btnG2 = document.getElementById("btn-gelo2");
+            if (game.gelo2.instalado) {
+                g2.className = "flex justify-between items-center p-2 bg-blue-950/20 border border-cyan-500/40 rounded-lg";
+                document.getElementById("gelo2-nome").innerText = game.gelo2.ativo ? "NAT ONLINE (FORÇA 3)" : "GELO INSTALADO (RESTRITO)";
+                btnG2.classList.toggle("hidden", game.turno !== "corp" || game.gelo2.ativo);
+            } else {
+                g2.className = "flex justify-between items-center p-2 bg-slate-900/50 border border-dashed border-slate-700 rounded-lg";
+                document.getElementById("gelo2-nome").innerText = "Nenhum Firewall Configurado";
+                btnG2.classList.add("hidden");
+            }
+
+            // Exibição e controle dos botões e badges de turno
+            const badge = document.getElementById("badge-turno");
+            const btnAtacar = document.getElementById("btn-atacar-servidor");
+            if (game.turno === "invasor") {
+                badge.innerText = "Turno do Invasor";
+                badge.className = "text-[10px] font-cyber px-2 py-0.5 rounded uppercase bg-green-500/20 text-green-400 border border-green-500/30";
+                btnAtacar.classList.remove("hidden");
+            } else {
+                badge.innerText = "Turno da Empresa TI";
+                badge.className = "text-[10px] font-cyber px-2 py-0.5 rounded uppercase bg-blue-500/20 text-blue-400 border border-blue-500/30";
+                btnAtacar.classList.add("hidden");
             }
 
             validarFimDeJogo();
         }
 
-        function construirDecks() {
-            const gridHacker = document.getElementById("grid-cartas-hacker");
-            gridHacker.innerHTML = "";
-            baralhoHacker.forEach(c => {
-                gridHacker.innerHTML += `
-                    <div class="p-3 bg-zinc-950 border border-zinc-800 rounded flex flex-col justify-between hover:border-green-500/40 transition-all">
-                        <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-[10px] font-bold text-green-400 bg-green-950/60 border border-green-800 px-1.5 py-0.5 rounded">$${c.custo}</span>
-                                <span class="text-[8px] uppercase font-black tracking-widest text-zinc-500">${c.sub}</span>
-                            </div>
-                            <h4 class="text-xs font-bold text-zinc-200">${c.nome}</h4>
-                            <p class="text-[10px] text-zinc-400 mt-1 leading-normal">${c.desc}</p>
-                        </div>
-                        <button onclick="jogarCartaAvançada('${c.id}', 'invasor')" class="w-full mt-3 bg-zinc-900 hover:bg-green-500 hover:text-black border border-zinc-800 hover:border-green-400 text-zinc-400 text-[10px] font-bold py-1 rounded transition-all uppercase">Disparar Ação</button>
-                    </div>`;
-            });
+        function jogarCarta(id) {
+            let list = game.abaAtiva === "invasor" ? cartasHacker : cartasCorp;
+            let c = list.find(item => item.id === id);
 
-            const gridCorp = document.getElementById("grid-cartas-corp");
-            gridCorp.innerHTML = "";
-            baralhoCorp.forEach(c => {
-                gridCorp.innerHTML += `
-                    <div class="p-3 bg-zinc-950 border border-zinc-800 rounded flex flex-col justify-between hover:border-blue-500/40 transition-all">
-                        <div>
-                            <div class="flex justify-between items-center mb-1">
-                                <span class="text-[10px] font-bold text-blue-400 bg-blue-950/60 border border-blue-800 px-1.5 py-0.5 rounded">$${c.custo}</span>
-                                <span class="text-[8px] uppercase font-black tracking-widest text-zinc-500">${c.sub}</span>
-                            </div>
-                            <h4 class="text-xs font-bold text-zinc-200">${c.nome}</h4>
-                            <p class="text-[10px] text-zinc-400 mt-1 leading-normal">${c.desc}</p>
-                        </div>
-                        <button onclick="jogarCartaAvançada('${c.id}', 'corp')" class="w-full mt-3 bg-zinc-900 hover:bg-blue-500 hover:text-black border border-zinc-800 hover:border-blue-400 text-zinc-400 text-[10px] font-bold py-1 rounded transition-all uppercase">Disparar Ação</button>
-                    </div>`;
-            });
-        }
-
-        function jogarCartaAvançada(id, tipo) {
-            if (game.turno !== tipo) return;
-
-            let carta = tipo === "invasor" ? baralhoHacker.find(c => c.id === id) : baralhoCorp.find(c => c.id === id);
-            let acoesAtuais = tipo === "invasor" ? game.hackerAcoes : game.corpAcoes;
-            let creditosAtuais = tipo === "invasor" ? game.hackerCreditos : game.corpCreditos;
-
-            if (acoesAtuais < 1) {
-                alert("Você não possui mais ciclos de ações disponíveis neste turno!");
-                return;
-            }
-            if (creditosAtuais < carta.custo) {
-                alert("Orçamento/Créditos insuficientes para processar esta instrução!");
+            if (game.turno !== game.abaAtiva) {
+                alert("Você não pode jogar cartas no turno do oponente!");
                 return;
             }
 
-            // Subtração de custos
-            if (tipo === "invasor") {
-                game.hackerAcoes -= 1;
-                game.hackerCreditos -= carta.custo;
-            } else {
-                game.corpAcoes -= 1;
-                game.corpCreditos -= carta.custo;
-            }
-
-            carta.exec();
-            renderizarInterface();
-        }
-
-        function acaoMecanica(tipo) {
             if (game.turno === "invasor") {
-                if (game.hackerAcoes < 1) return;
-                if (tipo === "click-credito-hacker") { game.hackerCreditos += 1; game.hackerAcoes -= 1; log("Hacker gastou 1 ação para minerar $1 crédito."); }
-                if (tipo === "click-carta-hacker") { game.hackerAcoes -= 1; log("Hacker gastou 1 ação para varrer repositórios (Comprou 1 carta)."); }
+                if (game.hAcoes < 1) return alert("Ações esgotadas!");
+                if (game.hCreditos < c.custo) return alert("Créditos insuficientes!");
+                game.hAcoes -= 1;
+                game.hCreditos -= c.custo;
             } else {
-                if (game.corpAcoes < 1) return;
-                if (tipo === "click-credito-corp") { game.corpCreditos += 1; game.corpAcoes -= 1; log("TI alocou 1 ação para liberar $1 crédito emergencial."); }
-                if (tipo === "click-carta-corp") { game.corpAcoes -= 1; log("TI gastou 1 ação revisando frameworks (Comprou 1 carta)."); }
+                if (game.cAcoes < 1) return alert("Ações esgotadas!");
+                if (game.cCreditos < c.custo) return alert("Créditos insuficientes!");
+                game.cAcoes -= 1;
+                game.cCreditos -= c.custo;
             }
-            renderizarInterface();
+
+            c.exec();
+            atualizarPaineis();
+            renderizarMao();
         }
 
-        // ENGINE DO CONFRONTO E TOPOLOGIA DE REDE (THE RUN)
-        function realizarInvasorRun() {
-            if (game.turno !== "invasor") return;
-            if (game.hackerAcoes < 1) {
-                alert("Ações insuficientes para iniciar uma incursão!");
-                return;
+        function ganharRecursoRapido(tipo) {
+            if (game.turno === "invasor" && tipo === "h-cred" && game.hAcoes > 0) {
+                game.hAcoes -= 1; game.hCreditos += 1; log("Hacker gastou 1 ação para ganhar $1.");
+            } else if (game.turno === "corp" && tipo === "c-cred" && game.cAcoes > 0) {
+                game.cAcoes -= 1; game.cCreditos += 1; log("TI gastou 1 ação para ganhar $1.");
             }
-
-            game.hackerAcoes -= 1;
-            log("🚨 DETECÇÃO DE INTRUSÃO: O Invasor iniciou um ataque ao Banco de Dados Central!");
-
-            // Confronto com as barreiras ativas
-            if (game.gelo1.ativo) {
-                log("↳ Bloqueado pelo Perímetro: Gestão de Acessos RBAC está ativa.");
-                let possuiQuebra = game.programasInstalados.includes("Privilege Escalation (SQLi)");
-                if (possuiQuebra && game.hackerCreditos >= 2) {
-                    game.hackerCreditos -= 2;
-                    log("↳ Hacker utilizou Privilege Escalation e gastou $2 para quebrar as rotinas.");
-                } else {
-                    game.is -= 5;
-                    log("💥 FALHA NA EXPLORAÇÃO: Subrotinas executadas! Firewalls causaram -5 de dano à integridade do Hacker.");
-                    renderizarInterface();
-                    return;
-                }
-            }
-
-            if (game.gelo2.ativo) {
-                log("↳ Bloqueado pela Camada Interna: Roteamento NAT Restrito ativo.");
-                if (game.hackerCreditos >= 3) {
-                    game.hackerCreditos -= 3;
-                    log("↳ Hacker utilizou payloads customizados para contornar o NAT (-$3 créditos).");
-                } else {
-                    game.is -= 5;
-                    log("💥 BLOQUEADO NO NAT: Conexão dropada. -5 de Integridade do Sistema.");
-                    renderizarInterface();
-                    return;
-                }
-            }
-
-            // Se passar pelas defesas instaladas, acessa a raiz e rouba os dados
-            game.dc += 4;
-            game.is -= 2;
-            log("🏆 INVASÃO BEM SUCEDIDA: Hacker violou a criptografia e acessou os dados. +4 DC, -2 Integridade.");
-            renderizarInterface();
+            atualizarPaineis();
         }
 
-        function prepararGelo(slot) {
-            log(`TI provisionou um Gelo de proteção oculta no slot ${slot} da topologia.`);
-        }
-
-        function administrarDefesaGelo() {
+        function interagirGelo(slot) {
             if (game.turno !== "corp") return;
-            if (game.corpCreditos >= 4 && !game.gelo1.ativo) {
-                game.corpCreditos -= 4;
-                game.gelo1.ativo = true;
-                log("🛡️ FIREWALL ATIVO: TI ativou (Rez) o sistema de Gestão de Acessos RBAC!");
-            } else if (game.corpCreditos >= 5 && !game.gelo2.ativo) {
-                game.corpCreditos -= 5;
-                game.gelo2.ativo = true;
-                log("🛡️ NETWORKING ATIVO: TI ativou (Rez) o Roteamento NAT Restrito!");
-            } else {
-                alert("Créditos insuficientes ou todas as barreiras já estão online!");
+            if (slot === 1 && game.cCreditos >= game.gelo1.custo) {
+                game.cCreditos -= game.gelo1.custo; game.gelo1.ativo = true; log("🛡️ TI ATIVOU (Rez): Gestão de Acessos RBAC online!");
+            } else if (slot === 2 && game.cCreditos >= game.gelo2.custo) {
+                game.cCreditos -= game.gelo2.custo; game.gelo2.ativo = true; log("🛡️ TI ATIVOU (Rez): Roteamento NAT Restrito online!");
             }
-            renderizarInterface();
+            atualizarPaineis();
         }
 
-        function instalarPrograma(nome, memoria) {
-            if (game.memoriaLivre >= memoria) {
-                game.memoriaLivre -= memoria;
-                game.programasInstalados.push(nome);
-                log(`[Memory] instalado: ${nome} no sistema local.`);
-                
-                // Atualizar exibição gráfica do Rig do Hacker
-                const rigBox = document.getElementById("hacker-rig-lista");
-                rigBox.innerHTML = game.programasInstalados.map(p => `<div class="text-green-400 font-bold">✔ ${p}</div>`).join("");
-            } else {
-                alert("Memória esgotada no Rig do Invasor!");
+        function executarInvasaoRun() {
+            if (game.turno !== "invasor" || game.hAcoes < 1) return alert("Sem ações para invadir!");
+            game.hAcoes -= 1;
+            log("🚨 OPERAÇÃO DE INVASÃO iniciada nos servidores centrais!");
+
+            // Confronto de Camadas (Mecânica Netrunner Simplificada)
+            if (game.gelo1.instalado && game.gelo1.ativo) {
+                if (game.programaInstalado && game.hCreditos >= 2) {
+                    game.hCreditos -= 2; log("↳ Hacker usou Privilege Escalation para burlar o Gelo 1.");
+                } else {
+                    game.is -= 6; log("💥 RETALIAÇÃO: Hacker travou no controle RBAC. Tomou -6 de dano de rede.");
+                    atualizarPaineis(); return;
+                }
             }
+            if (game.gelo2.instalado && game.gelo2.ativo) {
+                if (game.hCreditos >= 3) {
+                    game.hCreditos -= 3; log("↳ Hacker injetou scripts alternativos para passar pelo NAT.");
+                } else {
+                    game.is -= 6; log("💥 RETALIAÇÃO: NAT descartou pacotes do Hacker. Tomou -6 de dano.");
+                    atualizarPaineis(); return;
+                }
+            }
+
+            // Sucesso do ataque
+            let bonusDC = game.fase === 3 ? 5 : 4;
+            game.dc += bonusDC;
+            log(`🏆 SUCESSO: Servidor violado! Extração de dados: +${bonusDC} DC.`);
+            atualizarPaineis();
         }
 
-        // MÁQUINA DE ESTADOS DO FLUXO DE TURNOS
         function passarTurnoSistemico() {
             if (game.turno === "invasor") {
                 game.turno = "corp";
-                game.corpAcoes = (game.fase === 4) ? 5 : 3; // Regra da Fase 4 do Relógio
-                log("🔄 Ciclo alterado. Turno da Corporação iniciado. Comprando carta automática e gerando ações...");
+                game.cAcoes = game.fase === 4 ? 5 : 3;
+                game.abaAtiva = "corp";
+                log("🔄 Turno da TI (Empresa). Comprando carta automática e gerando ações.");
             } else {
                 game.turno = "invasor";
-                game.hackerAcoes = 4;
+                game.hAcoes = 4;
                 game.rodada += 1;
-
-                // Processamento e evolução das fases do Relógio (A cada 3 rodadas)
-                let faseCalculada = Math.min(5, Math.floor((game.rodada - 1) / 3) + 1);
-                if (faseCalculada !== game.fase) {
-                    game.fase = faseCalculada;
-                    log(`⚠️ RELÓGIO DE EVENTOS AVANÇOU: O Incidente escalou para a ${fasesRef[game.fase].t}!`);
-                }
-
-                // Regra de Governança Passiva da Fase 5
-                if (game.fase === 5) {
-                    game.ng += 2;
-                    log("🛡️ Resiliência Ativa (Fase 5): Governança estrutural gerou +2 NG automaticamente.");
-                }
-
-                log("🔄 Ciclo alterado. Turno do Invasor iniciado. 4 novas ações carregadas.");
+                game.abaAtiva = "invasor";
+                
+                // Evolução automática das 5 Fases do Relógio
+                game.fase = Math.min(5, Math.floor((game.rodada - 1) / 3) + 1);
+                document.getElementById("txt-fase-titulo").innerText = fases[game.fase].t;
+                document.getElementById("txt-fase-efeito").innerText = fases[game.fase].e;
+                
+                if (game.fase === 5) { game.ng += 2; log("🛡️ Fase 5 Ativa: +2 NG passivo para a TI."); }
+                log("🔄 Turno do Invasor. Conexões de rede reestabelecidas.");
             }
-            renderizarInterface();
+            mudarAba(game.abaAtiva);
+            atualizarPaineis();
+        }
+
+        function mudarAba(lado) {
+            game.abaAtiva = lado;
+            document.getElementById("tab-hacker").className = lado === "invasor" ? "text-[10px] font-cyber px-2 py-0.5 rounded bg-green-500 text-black font-bold" : "text-[10px] font-cyber px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-bold";
+            document.getElementById("tab-corp").className = lado === "corp" ? "text-[10px] font-cyber px-2 py-0.5 rounded bg-blue-500 text-white font-bold" : "text-[10px] font-cyber px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-bold";
+            renderizarMao();
         }
 
         function validarFimDeJogo() {
-            if (game.is <= 0) encerarPartida("HACKER VENCEU", "A infraestrutura de TI sofreu colapso completo (Integridade chegou a 0).");
-            if (game.dc >= 20) encerarPartida("HACKER VENCEU", "Vazamento em massa concluído! 20 pacotes de código exfiltrados.");
-            if (game.ng >= 20) encerarPartida("DEFESA VENCEU", "Framework COBIT/ITIL estável. O incidente foi mitigado e contido!");
-            if (game.rodada > 15) encerarPartida("DEFESA VENCEU", "Tempo esgotado. A equipe forense isolou os sockets e rastreou o atacante.");
+            if (game.is <= 0) alertFim("O Hacker Venceu!", "A integridade da rede corporativa chegou a zero. Queda completa de sistema!");
+            if (game.dc >= 20) alertFim("O Hacker Venceu!", "O código-fonte foi completamente exfiltrado e vazado!");
+            if (game.ng >= 20) alertFim("A Defesa da TI Venceu!", "Controles baseados em COBIT/ITIL aplicados. Incidente contido!");
+            if (game.rodada > 15) alertFim("A Defesa da TI Venceu!", "Tempo limite estourado. A equipe forense rastreou o IP do hacker!");
         }
 
-        function encerarPartida(vencedor, motivo) {
-            alert(`🛑 CRIME CIBERNÉTICO RESOLVIDO 🛑\n\nResultado: ${vencedor}\nMotivo: ${motivo}`);
-            game = { is: 50, dc: 0, ng: 0, rodada: 1, fase: 1, turno: "invasor", hackerAcoes: 4, hackerCreditos: 5, corpAcoes: 0, corpCreditos: 5, gelo1: { nome: "Gestão de Acessos RBAC", ativo: false, forca: 4, rezCusto: 4, tipo: "Barreira" }, gelo2: { nome: "Roteamento NAT Restrito", ativo: false, forca: 3, rezCusto: 5, tipo: "Sentinela" }, programasInstalados: [], memoriaLivre: 4, faseInvasaoAtiva: false };
-            document.getElementById("hacker-rig-lista").innerHTML = `<div>Nenhum hardware acoplado.</div>`;
-            log("--- Nova simulação de incidente reiniciada ---");
-            renderizarInterface();
+        function alertFim(titulo, motivo) {
+            alert(`🏆 ${titulo}\n\nMotivo: ${motivo}`);
+            game = { is: 50, dc: 0, ng: 0, rodada: 1, fase: 1, turno: "invasor", hAcoes: 4, hCreditos: 5, cAcoes: 0, cCreditos: 5, gelo1: { nome: "Gestão de Acessos RBAC", instalado: false, ativo: false, custo: 4 }, gelo2: { nome: "Roteamento NAT Restrito", instalado: false, ativo: false, custo: 5 }, programaInstalado: false, abaAtiva: "invasor" };
+            log("--- Novo Incidente Iniciado ---");
+            mudarAba("invasor");
+            atualizarPaineis();
         }
 
-        function log(msg) {
-            const cLog = document.getElementById("console-logs");
-            cLog.innerHTML += `<div>> ${msg}</div>`;
-            cLog.scrollTop = cLog.scrollHeight;
+        function log(texto) {
+            const box = document.getElementById("caixa-logs");
+            box.innerHTML += `<div>> ${texto}</div>`;
+            box.scrollTop = box.scrollHeight;
         }
 
-        // COMPILAÇÃO E EXECUÇÃO
-        construirDecks();
-        renderizarInterface();
+        // Setup inicial imediato
+        mudarAba("invasor");
+        atualizarPaineis();
     </script>
 </body>
 </html>
