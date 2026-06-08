@@ -19,6 +19,7 @@
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between select-none relative">
 
+    <!-- TELA DE GAME OVER (MODAL) -->
     <div id="screen-gameover" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-center items-center p-6">
         <div id="modal-gameover-box" class="w-full max-w-sm bg-slate-900 border-2 p-6 rounded-2xl text-center shadow-2xl">
             <div id="go-badge" class="inline-block px-3 py-0.5 rounded-full font-cyber text-[10px] font-black uppercase mb-3 tracking-widest bg-blue-950 text-blue-400 border border-blue-500/30">
@@ -34,6 +35,7 @@
         </div>
     </div>
 
+    <!-- HEADER / STATUS -->
     <header class="w-full bg-slate-900/90 border-b border-slate-800 p-3 sticky top-0 z-40 backdrop-blur-md">
         <div class="max-w-md mx-auto flex justify-between items-center text-xs font-bold">
             <div class="flex items-center gap-1.5 text-red-400">
@@ -48,6 +50,7 @@
         </div>
     </header>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="w-full max-w-md mx-auto px-3 flex-1 flex flex-col justify-center gap-4 py-4">
         
         <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center shadow-lg">
@@ -63,6 +66,7 @@
 
     </main>
 
+    <!-- ÁREA DAS CARTAS -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-800 rounded-t-2xl">
         <div class="flex justify-between items-center mb-3 px-1">
             <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Cartas Disponíveis</span>
@@ -73,18 +77,78 @@
         </div>
         
         <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]">
-            </div>
+            <!-- Via JS -->
+        </div>
     </section>
 
+    <!-- SEÇÃO ADICIONADA: COMO JOGAR (MANUAL EXPANSÍVEL) -->
+    <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
+        <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">
+            <span>📖 MANUAL DE OPERAÇÕES CRÍTICAS</span>
+            <span id="manual-icone" class="font-mono text-indigo-400">[+] EXPANDIR</span>
+        </button>
+        
+        <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/40 border border-slate-900 rounded-xl p-3 text-xs space-y-3 font-sans leading-relaxed text-slate-300">
+            <div>
+                <strong class="text-white block font-cyber text-[10px] text-indigo-400">🎯 O OBJETIVO DO JOGO</strong>
+                Este é um jogo estratégico de turnos para <span class="text-white font-bold">2 jogadores</span> em um mesmo dispositivo. Um assume o papel do <strong>Invasor (Hacker)</strong> e o outro da equipe de <strong>TI da Empresa</strong>.
+            </div>
+            
+            <div class="border-t border-slate-800/60 pt-2">
+                <strong class="text-white block font-cyber text-[10px] text-green-400">💻 COMO JOGAR DE HACKER</strong>
+                Seu objetivo é o colapso da infraestrutura ou o roubo de patentes. Você vence imediatamente se:
+                <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-400">
+                    <li>Reduzir a Integridade do Servidor (<span class="text-red-400 font-bold">❤️ IS</span>) para <span class="text-white font-bold">0</span>.</li>
+                    <li>Elevar os Dados Comprometidos (<span class="text-amber-400 font-bold">☣️ DC</span>) para <span class="text-white font-bold">20</span>.</li>
+                </ul>
+            </div>
+
+            <div class="border-t border-slate-800/60 pt-2">
+                <strong class="text-white block font-cyber text-[10px] text-blue-400">🏢 COMO JOGAR DE DEFENSOR (TI)</strong>
+                Seu objetivo é aplicar controles de governança corporativa e conter a ameaça. Você vence imediatamente se:
+                <ul class="list-disc pl-4 mt-1 space-y-0.5 text-slate-400">
+                    <li>Elevar o Nível de Governança (<span class="text-blue-400 font-bold">🛡️ NG</span>) para <span class="text-white font-bold">20</span> por meio de frameworks como COBIT e ITIL.</li>
+                </ul>
+            </div>
+
+            <div class="border-t border-slate-800/60 pt-2 text-[11px] font-mono bg-black/30 p-2 rounded-lg text-slate-400">
+                <span class="text-white font-bold block mb-1">🔄 Fluxo de Jogo:</span>
+                Veja de quem é o turno no painel central. O jogador ativo deve selecionar sua respectiva aba de cartas, escolher 1 ação para disparar o efeito e o turno passará automaticamente para o adversário.
+            </div>
+        </div>
+    </section>
+
+    <!-- HISTÓRICO / RANKING DE INCIDENTES -->
+    <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
+        <div class="flex justify-between items-center mb-2 px-1">
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">📊 HISTÓRICO DE AUDITORIA</span>
+            <button onclick="limparRanking()" class="text-[9px] text-red-400 hover:text-red-300 font-mono uppercase underline">Limpar Logs</button>
+        </div>
+        <div class="bg-black/40 border border-slate-900 rounded-xl p-2 max-h-[120px] overflow-y-auto no-scrollbar">
+            <table class="w-full text-left text-[11px] font-mono">
+                <thead>
+                    <tr class="border-b border-slate-800 text-slate-500 uppercase text-[9px]">
+                        <th class="py-1">Vencedor</th>
+                        <th class="py-1">Resultados</th>
+                        <th class="py-1 text-right">Rodadas</th>
+                    </tr>
+                </thead>
+                <tbody id="lista-ranking">
+                    <!-- Inserido dinamicamente via JS -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- LOGICA DO JOGO -->
     <script>
-        // ESTADO SIMPLIFICADO DO PROTÓTIPO
         let game = {
             is: 50, dc: 0, ng: 0,
             turno: "invasor", 
-            abaAtiva: "invasor"
+            abaAtiva: "invasor",
+            turnosJogados: 0 
         };
 
-        // BARALHOS
         const baralhoHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Causa +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-emerald-900", bcor: "border-green-500", acao: () => { game.dc += 4; log("Hacker usou SMS Phishing e roubou credenciais humanas (+4 DC)."); } },
             { id: "h2", nome: "Zero-Day Exploit", sub: "Cibermeameaça", desc: "Ataque severo ao servidor. Reduz a Integridade (IS) em 8 pontos.", cor: "from-red-950 to-red-900", bcor: "border-red-500", acao: () => { game.is -= 8; log("💥 Hacker disparou um Zero-Day no servidor da Riot (-8 IS)."); } },
@@ -98,6 +162,18 @@
             { id: "c3", nome: "Transparência Pública", sub: "Efeito / Resposta", desc: "Pronunciamento oficial. Recupera +4 de IS e ganha +2 de NG.", cor: "from-teal-950 to-slate-900", bcor: "border-teal-500", acao: () => { game.is = Math.min(50, game.is + 4); game.ng += 2; log("TI foi transparente com a comunidade. Estabilidade recuperada (+4 IS, +2 NG)."); } },
             { id: "c4", nome: "Isolamento de Backup", sub: "Recuperação ITIL", desc: "Restaura o sistema para um ponto limpo. Reduz Dados Comprometidos (DC) em 4.", cor: "from-cyan-950 to-slate-900", bcor: "border-cyan-500", acao: () => { game.dc = Math.max(0, game.dc - 4); log("Backups restaurados de forma segura! Dados limpos (-4 DC)."); } }
         ];
+
+        function toggleManual() {
+            const conteudo = document.getElementById("manual-conteudo");
+            const icone = document.getElementById("manual-icone");
+            if (conteudo.classList.contains("hidden")) {
+                conteudo.classList.remove("hidden");
+                icone.innerText = "[-] RECOLHER";
+            } else {
+                conteudo.classList.add("hidden");
+                icone.innerText = "[+] EXPANDIR";
+            }
+        }
 
         function renderizarMao() {
             const carrossel = document.getElementById("carrossel-cartas");
@@ -131,7 +207,8 @@
             let carta = list.find(c => c.id === id);
             if (carta) carta.acao();
 
-            // Alternância de turnos
+            game.turnosJogados++; 
+
             if (game.turno === "invasor") {
                 game.turno = "corp";
                 game.abaAtiva = "corp";
@@ -157,7 +234,6 @@
                 txtTurno.className = "text-xl font-cyber font-black uppercase text-blue-400 tracking-wider";
             }
 
-            // Sincroniza os botões das abas
             const btnH = document.getElementById("btn-tab-hacker");
             const btnC = document.getElementById("btn-tab-corp");
 
@@ -194,9 +270,9 @@
         }
 
         function checarVitoria() {
-            if (game.is <= 0) mostrarModalFim("Hacker Venceu!", "A integridade da infraestrutura chegou a zero. O servidor foi derrubado!", "hacker");
-            else if (game.dc >= 20) mostrarModalFim("Hacker Venceu!", "O código-fonte secreto foi totalmente vazado na internet!", "hacker");
-            else if (game.ng >= 20) mostrarModalFim("A TI Venceu!", "Controles de Governança COBIT/ITIL aplicados. Ataque mitigado com sucesso!", "defesa");
+            if (game.is <= 0) mostrarModalFim("Hacker Venceu!", "Infraestrutura colapsou (IS=0)", "Hacker");
+            else if (game.dc >= 20) mostrarModalFim("Hacker Venceu!", "Vazamento crítico de dados (DC=20)", "Hacker");
+            else if (game.ng >= 20) mostrarModalFim("A TI Venceu!", "Controles COBIT/ITIL aplicados (NG=20)", "TI Riot");
         }
 
         function mostrarModalFim(titulo, motivo, vencedor) {
@@ -209,7 +285,11 @@
             titleEl.innerText = titulo;
             motivoEl.innerText = motivo;
 
-            if (vencedor === "hacker") {
+            if (screen.classList.contains("hidden")) {
+                salvarNoRanking(vencedor, motivo);
+            }
+
+            if (vencedor === "Hacker") {
                 badge.className = "inline-block px-3 py-0.5 rounded-full font-cyber text-[10px] font-black uppercase mb-3 tracking-widest bg-red-950 text-red-400 border border-red-500/30";
                 box.className = "w-full max-w-sm bg-zinc-950 border-2 border-red-500 p-6 rounded-2xl text-center shadow-2xl shadow-red-900/40";
                 titleEl.className = "text-2xl font-cyber font-black tracking-tight uppercase mb-2 text-red-500";
@@ -222,15 +302,62 @@
             screen.classList.remove("hidden");
         }
 
+        function salvarNoRanking(vencedor, motivo) {
+            let historico = JSON.parse(localStorage.getItem("protocolo_brecha_ranking")) || [];
+            
+            const novaPartida = {
+                vencedor: vencedor,
+                motivo: motivo,
+                turnos: game.turnosJogados,
+                data: new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            historico.unshift(novaPartida); 
+            localStorage.setItem("protocolo_brecha_ranking", JSON.stringify(historico));
+            renderizarRanking();
+        }
+
+        function renderizarRanking() {
+            const lista = document.getElementById("lista-ranking");
+            if (!lista) return;
+
+            let historico = JSON.parse(localStorage.getItem("protocolo_brecha_ranking")) || [];
+            lista.innerHTML = "";
+
+            if (historico.length === 0) {
+                lista.innerHTML = `<tr><td colspan="3" class="text-center text-slate-600 py-4 italic">Nenhum log de auditoria registrado.</td></tr>`;
+                return;
+            }
+
+            historico.forEach(p => {
+                const corVencedor = p.vencedor === "Hacker" ? "text-red-400" : "text-blue-400";
+                lista.innerHTML += `
+                    <tr class="border-b border-slate-900/60 hover:bg-white/5 transition-colors">
+                        <td class="py-1.5 font-bold ${corVencedor}">[${p.data}] ${p.vencedor}</td>
+                        <td class="py-1.5 text-slate-400 truncate max-w-[180px]">${p.motivo}</td>
+                        <td class="py-1.5 text-right font-cyber text-slate-300">${p.turnos}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function limparRanking() {
+            if (confirm("Deseja apagar os relatórios de auditoria antigos?")) {
+                localStorage.removeItem("protocolo_brecha_ranking");
+                renderizarRanking();
+            }
+        }
+
         function reiniciarPartida() {
             document.getElementById("screen-gameover").classList.add("hidden");
-            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor" };
+            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0 };
             log("Nova partida iniciada! Hacker começa.");
             atualizarTela();
         }
 
         // Execução inicial
         atualizarTela();
+        renderizarRanking(); 
     </script>
 </body>
 </html>
