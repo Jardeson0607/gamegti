@@ -72,19 +72,19 @@
             </div>
         </div>
         
-        <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory">
+        <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]">
             </div>
     </section>
 
     <script>
-        [span_0](start_span)[span_1](start_span)// ESTADO SIMPLIFICADO DO PROTÓTIPO[span_0](end_span)[span_1](end_span)
+        // ESTADO SIMPLIFICADO DO PROTÓTIPO
         let game = {
             is: 50, dc: 0, ng: 0,
-            [span_2](start_span)turno: "invasor", // "invasor" ou "corp"[span_2](end_span)
+            turno: "invasor", 
             abaAtiva: "invasor"
         };
 
-        [span_3](start_span)[span_4](start_span)[span_5](start_span)[span_6](start_span)// BARALHOS LINDOS E COMPLETAMENTE DIRETOS (SEM COMPLEXIDADE DE CP)[span_3](end_span)[span_4](end_span)[span_5](end_span)[span_6](end_span)
+        // BARALHOS
         const baralhoHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Causa +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-emerald-900", bcor: "border-green-500", acao: () => { game.dc += 4; log("Hacker usou SMS Phishing e roubou credenciais humanas (+4 DC)."); } },
             { id: "h2", nome: "Zero-Day Exploit", sub: "Cibermeameaça", desc: "Ataque severo ao servidor. Reduz a Integridade (IS) em 8 pontos.", cor: "from-red-950 to-red-900", bcor: "border-red-500", acao: () => { game.is -= 8; log("💥 Hacker disparou um Zero-Day no servidor da Riot (-8 IS)."); } },
@@ -101,6 +101,8 @@
 
         function renderizarMao() {
             const carrossel = document.getElementById("carrossel-cartas");
+            if (!carrossel) return;
+            
             carrossel.innerHTML = "";
             const cartasAtuais = game.abaAtiva === "invasor" ? baralhoHacker : baralhoCorp;
 
@@ -125,12 +127,11 @@
                 return;
             }
 
-            // Executa o efeito da carta clicada
             let list = game.turno === "invasor" ? baralhoHacker : baralhoCorp;
             let carta = list.find(c => c.id === id);
-            carta.acao();
+            if (carta) carta.acao();
 
-            [span_7](start_span)// Passa o turno automaticamente após jogar a carta[span_7](end_span)
+            // Alternância de turnos
             if (game.turno === "invasor") {
                 game.turno = "corp";
                 game.abaAtiva = "corp";
@@ -143,12 +144,10 @@
         }
 
         function atualizarTela() {
-            [span_8](start_span)[span_9](start_span)// Atualiza os contadores principais do topo[span_8](end_span)[span_9](end_span)
             document.getElementById("num-is").innerText = game.is;
             document.getElementById("num-dc").innerText = `${game.dc}/20`;
             document.getElementById("num-ng").innerText = `${game.ng}/20`;
 
-            [span_10](start_span)// Atualiza o painel central de turnos[span_10](end_span)
             const txtTurno = document.getElementById("txt-turno-ativo");
             if (game.turno === "invasor") {
                 txtTurno.innerText = "💻 INVASOR (HACKER)";
@@ -158,13 +157,26 @@
                 txtTurno.className = "text-xl font-cyber font-black uppercase text-blue-400 tracking-wider";
             }
 
-            // Sincroniza visualmente os botões das abas
-            alternarMao(game.abaAtiva);
+            // Sincroniza os botões das abas
+            const btnH = document.getElementById("btn-tab-hacker");
+            const btnC = document.getElementById("btn-tab-corp");
+
+            if (game.abaAtiva === "invasor") {
+                btnH.className = "text-[10px] font-cyber px-2 py-0.5 rounded bg-green-500 text-black font-bold";
+                btnC.className = "text-[10px] font-cyber px-2 py-0.5 rounded text-slate-400 font-bold";
+            } else {
+                btnC.className = "text-[10px] font-cyber px-2 py-0.5 rounded bg-blue-500 text-white font-bold";
+                btnH.className = "text-[10px] font-cyber px-2 py-0.5 rounded text-slate-400 font-bold";
+            }
+
+            renderizarMao();
             checarVitoria();
         }
 
         function alternarMao(lado) {
             game.abaAtiva = lado;
+            renderizarMao();
+            
             const btnH = document.getElementById("btn-tab-hacker");
             const btnC = document.getElementById("btn-tab-corp");
 
@@ -175,18 +187,16 @@
                 btnC.className = "text-[10px] font-cyber px-2 py-0.5 rounded bg-blue-500 text-white font-bold";
                 btnH.className = "text-[10px] font-cyber px-2 py-0.5 rounded text-slate-400 font-bold";
             }
-            renderizarMao();
         }
 
         function log(texto) {
             document.getElementById("txt-log").innerText = `> ${texto}`;
         }
 
-        // NOVO MONITOR DE TELA DE FIM DE JOGO CUSTOMIZADA (SUBSTITUTO DA image_491edb.png)
         function checarVitoria() {
-            [span_11](start_span)if (game.is <= 0) mostrarModalFim("Hacker Venceu!", "A integridade da infraestrutura chegou a zero. O servidor foi derrubado!", "hacker");[span_11](end_span)
-            [span_12](start_span)else if (game.dc >= 20) mostrarModalFim("Hacker Venceu!", "O código-fonte secreto da Riot foi totalmente vazado na internet!", "hacker");[span_12](end_span)
-            [span_13](start_span)else if (game.ng >= 20) mostrarModalFim("A TI Venceu!", "Controles de Governança COBIT/ITIL aplicados. Ataque mitigado com sucesso!", "defesa");[span_13](end_span)
+            if (game.is <= 0) mostrarModalFim("Hacker Venceu!", "A integridade da infraestrutura chegou a zero. O servidor foi derrubado!", "hacker");
+            else if (game.dc >= 20) mostrarModalFim("Hacker Venceu!", "O código-fonte secreto foi totalmente vazado na internet!", "hacker");
+            else if (game.ng >= 20) mostrarModalFim("A TI Venceu!", "Controles de Governança COBIT/ITIL aplicados. Ataque mitigado com sucesso!", "defesa");
         }
 
         function mostrarModalFim(titulo, motivo, vencedor) {
@@ -214,7 +224,7 @@
 
         function reiniciarPartida() {
             document.getElementById("screen-gameover").classList.add("hidden");
-            [span_14](start_span)[span_15](start_span)game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor" };[span_14](end_span)[span_15](end_span)
+            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor" };
             log("Nova partida iniciada! Hacker começa.");
             atualizarTela();
         }
