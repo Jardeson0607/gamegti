@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protocolo Brecha: O Incidente</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Rajdhani', sans-serif;
@@ -19,7 +19,6 @@
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between select-none relative">
 
-    <!-- TELA DE LOGIN -->
     <div id="screen-auth" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-lg flex flex-col justify-center items-center p-6">
         <div class="w-full max-w-sm bg-slate-900 border border-indigo-500/40 p-6 rounded-2xl shadow-2xl">
             <div class="text-center mb-6">
@@ -47,7 +46,6 @@
         </div>
     </div>
 
-    <!-- TELA DE GAME OVER -->
     <div id="screen-gameover" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-center items-center p-6">
         <div id="modal-gameover-box" class="w-full max-w-sm bg-slate-900 border-2 p-6 rounded-2xl text-center shadow-2xl">
             <div id="go-badge" class="inline-block px-3 py-0.5 rounded-full font-cyber text-[10px] font-black uppercase mb-3 tracking-widest bg-blue-950 text-blue-400 border border-blue-500/30">
@@ -63,22 +61,18 @@
         </div>
     </div>
 
-    <!-- HEADER DE STATUS EXPLICATIVO -->
     <header class="w-full bg-slate-900/90 border-b border-slate-800 p-2.5 sticky top-0 z-40 backdrop-blur-md">
         <div class="max-w-md mx-auto grid grid-cols-3 gap-1 text-center text-[10px] font-bold uppercase tracking-wider">
-            <!-- Vida do Servidor -->
             <div class="bg-red-950/40 border border-red-900/50 p-1.5 rounded-lg">
                 <span class="text-red-400 block mb-0.5">❤️ Servidor (IS)</span>
                 <span id="num-is" class="font-cyber text-sm text-red-400">50</span>
                 <span class="text-[8px] text-slate-500 block font-normal">Se chegar a 0, Hacker vence</span>
             </div>
-            <!-- Dados Vazados -->
             <div class="bg-amber-950/40 border border-amber-900/50 p-1.5 rounded-lg">
                 <span class="text-amber-400 block mb-0.5">☣️ Vazado (DC)</span>
                 <span id="num-dc" class="font-cyber text-sm text-amber-400">0/20</span>
                 <span class="text-[8px] text-slate-500 block font-normal">Se chegar a 20, Hacker vence</span>
             </div>
-            <!-- Governança TI -->
             <div class="bg-blue-950/40 border border-blue-900/50 p-1.5 rounded-lg">
                 <span class="text-blue-400 block mb-0.5">🛡️ Defesa (NG)</span>
                 <span id="num-ng" class="font-cyber text-sm text-blue-400">0/20</span>
@@ -87,14 +81,10 @@
         </div>
     </header>
 
-    <!-- PAINEL CENTRAL DE TURNOS -->
     <main class="w-full max-w-md mx-auto px-3 flex-1 flex flex-col justify-center gap-3 py-2">
-        
         <div id="painel-turno" class="border rounded-xl p-4 text-center shadow-lg transition-colors duration-300">
             <div class="text-[10px] text-slate-400 uppercase tracking-widest font-cyber mb-1">VEZ DO OPERADOR ATIVO</div>
             <div id="txt-turno-ativo" class="text-xl font-cyber font-black uppercase tracking-wider"></div>
-            
-            <!-- ALERTA DE MUDANÇA DE TURNO (MUITO IMPORTANTE PARA NÃO CONFUNDIR) -->
             <div id="alerta-passar-vez" class="mt-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 px-2 py-1 rounded text-[10px] font-bold uppercase animate-pulse">
                 ⚠️ PASSE O CELULAR/DISPOSITIVO PARA O OUTRO OPERADOR!
             </div>
@@ -104,40 +94,52 @@
             <div class="text-[9px] font-cyber text-slate-500 uppercase tracking-wider mb-0.5">Console de Eventos:</div>
             <div id="txt-log" class="text-xs text-emerald-400 font-mono italic">> Inicializando componentes...</div>
         </div>
-
     </main>
 
-    <!-- CARTAS DISPONÍVEIS -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-800 rounded-t-2xl">
         <div class="flex justify-between items-center mb-3 px-1">
             <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">Escolha uma ação abaixo:</span>
             <div class="flex gap-1 bg-slate-900 p-0.5 rounded-md border border-slate-800 invisible">
-                <!-- Mantido invisível apenas para controle de fluxo estrutural das abas internas -->
                 <button id="btn-tab-hacker" onclick="alternarMao('invasor')">H</button>
                 <button id="btn-tab-corp" onclick="alternarMao('corp')">C</button>
             </div>
         </div>
         
         <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]">
-            <!-- Injetado via JS -->
-        </div>
+            </div>
     </section>
 
-    <!-- COMO JOGAR EXPANSÍVEL -->
-    <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
-        <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">
-            <span>📖 DÚVIDAS? VEJA COMO JOGAR</span>
-            <span id="manual-icone" class="font-mono text-indigo-400">[+] MANUAL</span>
+    <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-t-slate-900">
+        <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 py-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber bg-slate-900/40 rounded-lg border border-slate-800/60 px-2">
+            <span>📖 COMO JOGAR? (MANUAL DO SISTEMA)</span>
+            <span id="manual-icone" class="font-mono text-indigo-400 text-[10px]">[+] ABRIR GUIA</span>
         </button>
         
-        <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/40 border border-slate-900 rounded-xl p-3 text-xs space-y-2.5 text-slate-300">
-            <p><strong>Regra Básica:</strong> Este é um jogo local. Você escolhe uma carta da sua mão, o efeito acontece na hora e os controles passam automaticamente para o seu adversário.</p>
-            <p><span class="text-green-400 font-bold">Vitória do Hacker:</span> Derrubar o servidor (deixar o <span class="text-red-400 font-bold">Servidor</span> em 0) OU vazar dados (deixar o <span class="text-amber-400 font-bold">Vazado</span> em 20).</p>
-            <p><span class="text-blue-400 font-bold">Vitória da TI:</span> Blindar os processos corporativos (levar a barra de <span class="text-blue-400 font-bold">Defesa</span> até 20).</p>
+        <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 text-xs space-y-4 text-slate-300 font-sans leading-relaxed">
+            <div class="bg-indigo-950/20 border border-indigo-500/30 p-2.5 rounded-lg">
+                <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA DA PARTIDA</strong>
+                Este é um jogo de estratégia em turnos para <span class="text-white font-bold">2 pessoas no mesmo dispositivo</span>. O jogador ativo escolhe uma carta, o efeito altera o topo e o sistema passa a vez. <span class="text-purple-400 font-bold">As cartas são sorteadas aleatoriamente do banco de dados a cada nova partida!</span>
+            </div>
+
+            <div class="border-l-2 border-green-500 pl-3 space-y-1">
+                <strong class="text-green-400 font-cyber text-[10px] block uppercase tracking-wider">💻 SE VOCÊ FOR O HACKER:</strong>
+                Seu objetivo é atacar a empresa e comprometer a rede. Você vence se:
+                <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-400 text-[11px]">
+                    <li>Deixar a vida do <span class="text-slate-200 font-bold">Servidor (IS)</span> em <span class="text-red-400 font-bold">0</span>.</li>
+                    <li>Fazer a barra de <span class="text-slate-200 font-bold">Vazado (DC)</span> chegar a <span class="text-amber-400 font-bold">20/20</span>.</li>
+                </ul>
+            </div>
+
+            <div class="border-l-2 border-blue-500 pl-3 space-y-1">
+                <strong class="text-blue-400 font-cyber text-[10px] block uppercase tracking-wider">🏢 SE VOCÊ FOR A TI (DEFESA):</strong>
+                Seu objetivo é aplicar segurança da informação para conter os ataques. Você vence se:
+                <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-400 text-[11px]">
+                    <li>Fazer o contador de <span class="text-slate-200 font-bold">Defesa (NG)</span> chegar a <span class="text-blue-400 font-bold">20/20</span> por meio de governança corporativa.</li>
+                </ul>
+            </div>
         </div>
     </section>
 
-    <!-- HISTÓRICO DE AUDITORIA -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
         <div class="flex justify-between items-center mb-2 px-1">
             <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">📊 HISTÓRICO DE AUDITORIA (RANKING)</span>
@@ -153,42 +155,60 @@
                     </tr>
                 </thead>
                 <tbody id="lista-ranking">
-                    <!-- Via JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </section>
 
     <script>
+        // CONFIGURAÇÕES E ESTADO GLOBAL DO JOGO
         let game = {
             is: 50, dc: 0, ng: 0,
             turno: "invasor", 
             abaAtiva: "invasor",
             turnosJogados: 0,
             nomeHacker: "Invasor",
-            nomeCorp: "TI Riot"
+            nomeCorp: "TI Riot",
+            maoHacker: [], // Cartas sorteadas para esta partida
+            maoCorp: []    // Cartas sorteadas para esta partida
         };
 
-        const baralhoHacker = [
+        // REPOSITÓRIO AMPLIADO DE CARTAS (BANCO DE DADOS DO JOGO)
+        const repositorioHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
-            { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida no sistema. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
+            { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
             { id: "h3", nome: "Movimentação Lateral", sub: "Infraestrutura", desc: "Infiltração silenciosa por redes internas. Causa -4 de Servidor e +2 de Vazado.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-500", acao: () => { game.is -= 4; game.dc += 2; log(`${game.nomeHacker} expandiu o ataque lateralmente.`); } },
-            { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Sequestra arquivos criptografando o HD da empresa. Garante +5 de Vazado.", cor: "from-amber-950 to-zinc-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} bloqueou servidores corporativos (+5 Vazado).`); } }
+            { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Sequestra arquivos criptografando o HD da empresa. Garante +5 de Vazado.", cor: "from-amber-950 to-zinc-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} criptografou os dados (+5 Vazado).`); } },
+            { id: "h5", nome: "Ataque DDoS", sub: "Negação de Serviço", desc: "Inunda as portas de rede com tráfego fantasma. Reduz a integridade do Servidor em -6.", cor: "from-purple-950 to-zinc-900", bcor: "border-purple-500", acao: () => { game.is -= 6; log(`⚠️ Derrubada! ${game.nomeHacker} iniciou ataque massivo DDoS (-6 Servidor).`); } },
+            { id: "h6", nome: "Injeção SQL", sub: "Quebra de Aplicação", desc: "Injeta scripts maliciosos nos inputs da aplicação. Causa -3 de Servidor e +3 de Vazado.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is -= 3; game.dc += 3; log(`${game.nomeHacker} burlou o formulário via Injeção SQL.`); } }
         ];
 
-        const baralhoCorp = [
+        const repositorioCorp = [
             { id: "c1", nome: "Patch de Emergência", sub: "Mitigação ITIL", desc: "Fecha vulnerabilidade aberta. Restaura +8 de integridade na Vida do Servidor.", cor: "from-blue-950 to-zinc-900", bcor: "border-blue-500", acao: () => { game.is = Math.min(50, game.is + 8); log(`${game.nomeCorp} aplicou remendo urgente de código (+8 Servidor).`); } },
-            { id: "c2", nome: "Auditoria COBIT", sub: "Governança TI", desc: "Valida compliance e politicas rígidas de rede. Adiciona +5 de Defesa (NG).", cor: "from-indigo-950 to-zinc-900", bcor: "border-indigo-400", acao: () => { game.ng += 5; log(`${game.nomeCorp} realizou auditoria baseada em COBIT (+5 Defesa).`); } },
-            { id: "c3", nome: "Transparência Pública", sub: "Resposta a Crise", desc: "Comunicação aberta reduz pânico institucional. Recupera +4 Servidor e +2 Defesa.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is = Math.min(50, game.is + 4); game.ng += 2; log(`${game.nomeCorp} reduziu o impacto reputacional do ataque.`); } },
-            { id: "c4", nome: "Isolamento de Backup", sub: "Recuperação ITIL", desc: "Restaura os arquivos usando cópias frias e seguras. Reduz -4 de Dados Vazados.", cor: "from-cyan-950 to-zinc-900", bcor: "border-cyan-500", acao: () => { game.dc = Math.max(0, game.dc - 4); log(`${game.nomeCorp} restaurou backups isolados da rede (-4 Vazado).`); } }
+            { id: "c2", nome: "Auditoria COBIT", sub: "Governança TI", desc: "Valida compliance e políticas rígidas de rede. Adiciona +5 de Defesa (NG).", cor: "from-indigo-950 to-zinc-900", bcor: "border-indigo-400", acao: () => { game.ng += 5; log(`${game.nomeCorp} realizou auditoria baseada em COBIT (+5 Defesa).`); } },
+            { id: "c3", nome: "Transparência Pública", sub: "Resposta a Crise", desc: "Comunicação aberta reduz pânico reputacional. Recupera +4 Servidor e +2 Defesa.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is = Math.min(50, game.is + 4); game.ng += 2; log(`${game.nomeCorp} reduziu o impacto de imagem da empresa.`); } },
+            { id: "c4", nome: "Isolamento de Backup", sub: "Recuperação ITIL", desc: "Restaura os arquivos usando cópias frias e seguras. Reduz -4 de Dados Vazados.", cor: "from-cyan-950 to-zinc-900", bcor: "border-cyan-500", acao: () => { game.dc = Math.max(0, game.dc - 4); log(`${game.nomeCorp} restaurou backups isolados da rede (-4 Vazado).`); } },
+            { id: "c5", nome: "Web Application Firewall", sub: "Defesa Ativa", desc: "Filtra acessos HTTP suspeitos de robôs. Bloqueia ações inimigas garantindo +4 de Defesa.", cor: "from-slate-900 to-zinc-900", bcor: "border-slate-400", acao: () => { game.ng += 4; log(`${game.nomeCorp} ativou regras de proteção no WAF (+4 Defesa).`); } },
+            { id: "c6", nome: "Treinamento LGPD", sub: "Conscientização", desc: "Treina funcionários contra Phishing. Reduz -3 de Dados Vazados e dá +2 de Defesa.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-600", acao: () => { game.dc = Math.max(0, game.dc - 3); game.ng += 2; log(`Cultura interna: ${game.nomeCorp} aplicou boas práticas de privacidade.`); } }
         ];
+
+        // LOGICA ALGORÍTMICA DE EMBARALHAMENTO (FISHER-YATES SHUFFLE)
+        function sortearMaos() {
+            // Embaralha o repositório do Hacker e pega as 4 primeiras
+            let embaralhadoHacker = [...repositorioHacker].sort(() => Math.random() - 0.5);
+            game.maoHacker = embaralhadoHacker.slice(0, 4);
+
+            // Embaralha o repositório da TI e pega as 4 primeiras
+            let embaralhadoCorp = [...repositorioCorp].sort(() => Math.random() - 0.5);
+            game.maoCorp = embaralhadoCorp.slice(0, 4);
+        }
 
         function iniciarJogoComNomes() {
             const hInput = document.getElementById("input-hacker").value.trim();
             const cInput = document.getElementById("input-corp").value.trim();
 
             if (!hInput || !cInput) {
-                alert("Insira os codenomes dos dois lados para prosseguir!");
+                alert("Insira os codenomes dos dois operadores para prosseguir!");
                 return;
             }
 
@@ -196,7 +216,11 @@
             game.nomeCorp = cInput;
 
             document.getElementById("screen-auth").classList.add("hidden");
-            log(`Conexão segura estabelecida. Boa sorte!`);
+            
+            // Sorteia o baralho aleatório da rodada antes de renderizar a tela
+            sortearMaos(); 
+
+            log(`Cartas geradas aleatoriamente para os sistemas. Conexão segura estabelecida.`);
             atualizarTela();
         }
 
@@ -217,7 +241,8 @@
             if (!carrossel) return;
             
             carrossel.innerHTML = "";
-            const cartasAtuais = game.abaAtiva === "invasor" ? baralhoHacker : baralhoCorp;
+            // Agora lê da mão sorteada dinamicamente, não mais do array estático antigo
+            const cartasAtuais = game.abaAtiva === "invasor" ? game.maoHacker : game.maoCorp;
 
             cartasAtuais.forEach(c => {
                 carrossel.innerHTML += `
@@ -240,7 +265,7 @@
                 return;
             }
 
-            let list = game.turno === "invasor" ? baralhoHacker : baralhoCorp;
+            let list = game.turno === "invasor" ? game.maoHacker : game.maoCorp;
             let carta = list.find(c => c.id === id);
             if (carta) carta.acao();
 
@@ -286,7 +311,7 @@
         }
 
         function checarVitoria() {
-            if (game.is <= 0) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Derrubou o servidor limpando a infraestrutura da Riot.", game.nomeHacker);
+            if (game.is <= 0) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Derrubou o servidor limpando a infraestrutura da empresa.", game.nomeHacker);
             else if (game.dc >= 20) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazou completamente o banco de dados confidenciais.", game.nomeHacker);
             else if (game.ng >= 20) mostrarModalFim(`${game.nomeCorp} Venceu!`, "Gerenciou e mitigou os riscos via governança COBIT/ITIL com sucesso.", game.nomeCorp);
         }
@@ -370,7 +395,7 @@
         function reiniciarPartida() {
             document.getElementById("screen-gameover").classList.add("hidden");
             document.getElementById("screen-auth").classList.remove("hidden");
-            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot" };
+            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot", maoHacker: [], maoCorp: [] };
         }
 
         renderizarRanking(); 
