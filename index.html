@@ -19,178 +19,184 @@
 </head>
 <body class="text-slate-200 min-h-screen flex flex-col justify-between select-none relative">
 
+    <!-- TELA DE LOGIN -->
     <div id="screen-auth" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-lg flex flex-col justify-center items-center p-6">
-        <div class="w-full max-w-sm bg-slate-900 border border-indigo-500/40 p-6 rounded-2xl shadow-2xl shadow-indigo-500/10">
+        <div class="w-full max-w-sm bg-slate-900 border border-indigo-500/40 p-6 rounded-2xl shadow-2xl">
             <div class="text-center mb-6">
                 <div class="inline-block px-3 py-0.5 rounded-full font-cyber text-[9px] font-black uppercase mb-2 tracking-widest bg-indigo-950 text-indigo-400 border border-indigo-500/30">
                     SISTEMA DE AUTENTICAÇÃO
                 </div>
                 <h1 class="text-2xl font-cyber font-black tracking-tight uppercase text-white">PROTOCOLO BRECHA</h1>
-                <p class="text-xs text-slate-400 mt-1">Identifique os operadores para iniciar a simulação.</p>
+                <p class="text-xs text-slate-400 mt-1">Insira os nomes para iniciar a simulação 1v1.</p>
             </div>
 
             <div class="space-y-4 mb-6">
                 <div>
-                    <label class="block text-[10px] font-cyber uppercase tracking-wider text-green-400 mb-1">💻 Codenome do Invasor (Hacker)</label>
-                    <input type="text" id="input-hacker" value="Ghost_Hacker" class="w-full bg-black/50 border border-slate-800 rounded-xl px-3 py-2 text-sm text-green-400 font-mono focus:outline-none focus:border-green-500 transition-colors">
+                    <label class="block text-[10px] font-cyber uppercase tracking-wider text-green-400 mb-1">💻 Jogador 1: Codenome Hacker</label>
+                    <input type="text" id="input-hacker" value="Ghost_Hacker" class="w-full bg-black/50 border border-slate-800 rounded-xl px-3 py-2 text-sm text-green-400 font-mono focus:outline-none focus:border-green-500">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-cyber uppercase tracking-wider text-blue-400 mb-1">🏢 Operador de Defesa (TI Riot)</label>
-                    <input type="text" id="input-corp" value="Admin_Riot" class="w-full bg-black/50 border border-slate-800 rounded-xl px-3 py-2 text-sm text-blue-400 font-mono focus:outline-none focus:border-blue-500 transition-colors">
+                    <label class="block text-[10px] font-cyber uppercase tracking-wider text-blue-400 mb-1">🏢 Jogador 2: Operador de Defesa (TI)</label>
+                    <input type="text" id="input-corp" value="Admin_Riot" class="w-full bg-black/50 border border-slate-800 rounded-xl px-3 py-2 text-sm text-blue-400 font-mono focus:outline-none focus:border-blue-500">
                 </div>
             </div>
 
-            <button onclick="iniciarJogoComNomes()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-cyber font-bold text-xs uppercase py-3 rounded-xl tracking-wider transition-all shadow-lg shadow-indigo-600/20">
-                ⚡ AUTENTICAR E INICIAR
+            <button onclick="iniciarJogoComNomes()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-cyber font-bold text-xs uppercase py-3 rounded-xl tracking-wider transition-all shadow-lg">
+                ⚡ ENTRAR NO SISTEMA
             </button>
         </div>
     </div>
 
+    <!-- TELA DE GAME OVER -->
     <div id="screen-gameover" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex flex-col justify-center items-center p-6">
         <div id="modal-gameover-box" class="w-full max-w-sm bg-slate-900 border-2 p-6 rounded-2xl text-center shadow-2xl">
             <div id="go-badge" class="inline-block px-3 py-0.5 rounded-full font-cyber text-[10px] font-black uppercase mb-3 tracking-widest bg-blue-950 text-blue-400 border border-blue-500/30">
-                STATUS DA REDE
+                FIM DA SIMULAÇÃO
             </div>
             <h2 id="go-titulo" class="text-2xl font-cyber font-black tracking-tight uppercase mb-2 text-white">Fim de Jogo</h2>
             <div class="p-3 bg-black/40 border border-slate-800 rounded-xl mb-5">
-                <p id="go-motivo" class="text-xs text-slate-300 font-mono leading-relaxed">Incidente resolvido.</p>
+                <p id="go-motivo" class="text-xs text-slate-300 font-mono leading-relaxed"></p>
             </div>
-            <button onclick="reiniciarPartida()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-cyber font-bold text-xs uppercase py-2.5 rounded-xl tracking-wider transition-all shadow-lg">
+            <button onclick="reiniciarPartida()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-cyber font-bold text-xs py-2.5 rounded-xl tracking-wider">
                 🔄 JOGAR NOVAMENTE
             </button>
         </div>
     </div>
 
-    <header class="w-full bg-slate-900/90 border-b border-slate-800 p-3 sticky top-0 z-40 backdrop-blur-md">
-        <div class="max-w-md mx-auto flex justify-between items-center text-xs font-bold">
-            <div class="flex items-center gap-1.5 text-red-400">
-                <span>❤️ IS:</span> <span id="num-is" class="font-cyber text-sm">50</span>
+    <!-- HEADER DE STATUS EXPLICATIVO -->
+    <header class="w-full bg-slate-900/90 border-b border-slate-800 p-2.5 sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-md mx-auto grid grid-cols-3 gap-1 text-center text-[10px] font-bold uppercase tracking-wider">
+            <!-- Vida do Servidor -->
+            <div class="bg-red-950/40 border border-red-900/50 p-1.5 rounded-lg">
+                <span class="text-red-400 block mb-0.5">❤️ Servidor (IS)</span>
+                <span id="num-is" class="font-cyber text-sm text-red-400">50</span>
+                <span class="text-[8px] text-slate-500 block font-normal">Se chegar a 0, Hacker vence</span>
             </div>
-            <div class="flex items-center gap-1.5 text-amber-400">
-                <span>☣️ DC:</span> <span id="num-dc" class="font-cyber text-sm">0/20</span>
+            <!-- Dados Vazados -->
+            <div class="bg-amber-950/40 border border-amber-900/50 p-1.5 rounded-lg">
+                <span class="text-amber-400 block mb-0.5">☣️ Vazado (DC)</span>
+                <span id="num-dc" class="font-cyber text-sm text-amber-400">0/20</span>
+                <span class="text-[8px] text-slate-500 block font-normal">Se chegar a 20, Hacker vence</span>
             </div>
-            <div class="flex items-center gap-1.5 text-blue-400">
-                <span>🛡️ NG:</span> <span id="num-ng" class="font-cyber text-sm">0/20</span>
+            <!-- Governança TI -->
+            <div class="bg-blue-950/40 border border-blue-900/50 p-1.5 rounded-lg">
+                <span class="text-blue-400 block mb-0.5">🛡️ Defesa (NG)</span>
+                <span id="num-ng" class="font-cyber text-sm text-blue-400">0/20</span>
+                <span class="text-[8px] text-slate-500 block font-normal">Se chegar a 20, TI vence</span>
             </div>
         </div>
     </header>
 
-    <main class="w-full max-w-md mx-auto px-3 flex-1 flex flex-col justify-center gap-4 py-4">
+    <!-- PAINEL CENTRAL DE TURNOS -->
+    <main class="w-full max-w-md mx-auto px-3 flex-1 flex flex-col justify-center gap-3 py-2">
         
-        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center shadow-lg">
-            <div class="text-[11px] text-slate-400 uppercase tracking-widest mb-1 font-cyber">VEZ DO JOGADOR</div>
-            <div id="txt-turno-ativo" class="text-xl font-cyber font-black uppercase text-green-400 tracking-wider">💻 INVASOR</div>
-            <p class="text-[11px] text-slate-500 mt-1">Escolha 1 carta da sua mão abaixo para disparar o efeito imediatamente.</p>
+        <div id="painel-turno" class="border rounded-xl p-4 text-center shadow-lg transition-colors duration-300">
+            <div class="text-[10px] text-slate-400 uppercase tracking-widest font-cyber mb-1">VEZ DO OPERADOR ATIVO</div>
+            <div id="txt-turno-ativo" class="text-xl font-cyber font-black uppercase tracking-wider"></div>
+            
+            <!-- ALERTA DE MUDANÇA DE TURNO (MUITO IMPORTANTE PARA NÃO CONFUNDIR) -->
+            <div id="alerta-passar-vez" class="mt-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 px-2 py-1 rounded text-[10px] font-bold uppercase animate-pulse">
+                ⚠️ PASSE O CELULAR/DISPOSITIVO PARA O OUTRO OPERADOR!
+            </div>
         </div>
 
-        <div class="bg-black/60 border border-slate-900 rounded-xl p-3">
-            <div class="text-[9px] font-cyber text-slate-500 uppercase tracking-wider mb-1">Último Acontecimento:</div>
-            <div id="txt-log" class="text-xs text-emerald-400 font-mono italic">> Partida iniciada!</div>
+        <div class="bg-black/60 border border-slate-900 rounded-xl p-2.5">
+            <div class="text-[9px] font-cyber text-slate-500 uppercase tracking-wider mb-0.5">Console de Eventos:</div>
+            <div id="txt-log" class="text-xs text-emerald-400 font-mono italic">> Inicializando componentes...</div>
         </div>
 
     </main>
 
+    <!-- CARTAS DISPONÍVEIS -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-800 rounded-t-2xl">
         <div class="flex justify-between items-center mb-3 px-1">
-            <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Cartas Disponíveis</span>
-            <div class="flex gap-1 bg-slate-900 p-0.5 rounded-md border border-slate-800">
-                <button id="btn-tab-hacker" onclick="alternarMao('invasor')" class="text-[10px] font-cyber px-2 py-0.5 rounded bg-green-500 text-black font-bold text-ellipsis overflow-hidden max-w-[80px]">HACKER</button>
-                <button id="btn-tab-corp" onclick="alternarMao('corp')" class="text-[10px] font-cyber px-2 py-0.5 rounded text-slate-400 font-bold text-ellipsis overflow-hidden max-w-[80px]">TI</button>
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">Escolha uma ação abaixo:</span>
+            <div class="flex gap-1 bg-slate-900 p-0.5 rounded-md border border-slate-800 invisible">
+                <!-- Mantido invisível apenas para controle de fluxo estrutural das abas internas -->
+                <button id="btn-tab-hacker" onclick="alternarMao('invasor')">H</button>
+                <button id="btn-tab-corp" onclick="alternarMao('corp')">C</button>
             </div>
         </div>
         
         <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]">
-            </div>
+            <!-- Injetado via JS -->
+        </div>
     </section>
 
+    <!-- COMO JOGAR EXPANSÍVEL -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
         <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">
-            <span>📖 MANUAL DE OPERAÇÕES CRÍTICAS</span>
-            <span id="manual-icone" class="font-mono text-indigo-400">[+] EXPANDIR</span>
+            <span>📖 DÚVIDAS? VEJA COMO JOGAR</span>
+            <span id="manual-icone" class="font-mono text-indigo-400">[+] MANUAL</span>
         </button>
         
-        <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/40 border border-slate-900 rounded-xl p-3 text-xs space-y-3 font-sans leading-relaxed text-slate-300">
-            <div>
-                <strong class="text-white block font-cyber text-[10px] text-indigo-400">🎯 O OBJETIVO DO JOGO</strong>
-                Este é um jogo estratégico de turnos para 2 jogadores. Um assume o papel do Invasor e o outro da equipe de TI.
-            </div>
-            <div class="border-t border-slate-800/60 pt-2">
-                <strong class="text-white block font-cyber text-[10px] text-green-400">💻 VITÓRIA DO HACKER</strong>
-                Reduzir a Integridade (<span class="text-red-400 font-bold">❤️ IS</span>) para 0 ou elevar os Dados Comprometidos (<span class="text-amber-400 font-bold">☣️ DC</span>) para 20.
-            </div>
-            <div class="border-t border-slate-800/60 pt-2">
-                <strong class="text-white block font-cyber text-[10px] text-blue-400">🏢 VITÓRIA DA TI</strong>
-                Elevar o Nível de Governança (<span class="text-blue-400 font-bold">🛡️ NG</span>) para 20 aplicando boas práticas do COBIT/ITIL.
-            </div>
+        <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/40 border border-slate-900 rounded-xl p-3 text-xs space-y-2.5 text-slate-300">
+            <p><strong>Regra Básica:</strong> Este é um jogo local. Você escolhe uma carta da sua mão, o efeito acontece na hora e os controles passam automaticamente para o seu adversário.</p>
+            <p><span class="text-green-400 font-bold">Vitória do Hacker:</span> Derrubar o servidor (deixar o <span class="text-red-400 font-bold">Servidor</span> em 0) OU vazar dados (deixar o <span class="text-amber-400 font-bold">Vazado</span> em 20).</p>
+            <p><span class="text-blue-400 font-bold">Vitória da TI:</span> Blindar os processos corporativos (levar a barra de <span class="text-blue-400 font-bold">Defesa</span> até 20).</p>
         </div>
     </section>
 
+    <!-- HISTÓRICO DE AUDITORIA -->
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
         <div class="flex justify-between items-center mb-2 px-1">
-            <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">📊 LOGS DE INCIDENTES (RANKING)</span>
-            <button onclick="limparRanking()" class="text-[9px] text-red-400 hover:text-red-300 font-mono uppercase underline">Limpar Logs</button>
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">📊 HISTÓRICO DE AUDITORIA (RANKING)</span>
+            <button onclick="limparRanking()" class="text-[9px] text-red-400 hover:text-red-300 font-mono uppercase underline">Limpar Histórico</button>
         </div>
-        <div class="bg-black/40 border border-slate-900 rounded-xl p-2 max-h-[140px] overflow-y-auto no-scrollbar">
+        <div class="bg-black/40 border border-slate-900 rounded-xl p-2 max-h-[120px] overflow-y-auto no-scrollbar">
             <table class="w-full text-left text-[11px] font-mono">
                 <thead>
                     <tr class="border-b border-slate-800 text-slate-500 uppercase text-[9px]">
-                        <th class="py-1">Partida (Hacker vs TI)</th>
+                        <th class="py-1">Partida</th>
                         <th class="py-1 text-center">Vencedor</th>
                         <th class="py-1 text-right">Rodadas</th>
                     </tr>
                 </thead>
                 <tbody id="lista-ranking">
-                    </tbody>
+                    <!-- Via JS -->
+                </tbody>
             </table>
         </div>
     </section>
 
     <script>
-        // CONFIGURAÇÕES E ESTADO GLOBAL DO JOGO
         let game = {
             is: 50, dc: 0, ng: 0,
             turno: "invasor", 
             abaAtiva: "invasor",
             turnosJogados: 0,
-            nomeHacker: "Invasor", // Armazenará o nome customizado
-            nomeCorp: "TI Riot"    // Armazenará o nome customizado
+            nomeHacker: "Invasor",
+            nomeCorp: "TI Riot"
         };
 
         const baralhoHacker = [
-            { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Causa +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-emerald-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} usou SMS Phishing (+4 DC).`); } },
-            { id: "h2", nome: "Zero-Day Exploit", sub: "Cibermeameaça", desc: "Ataque severo ao servidor. Reduz a Integridade (IS) em 8 pontos.", cor: "from-red-950 to-red-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day (-8 IS).`); } },
-            { id: "h3", nome: "Movimentação Lateral", sub: "Infraestrutura", desc: "Varredura interna na rede. Causa -4 IS e garante +2 DC.", cor: "from-zinc-900 to-zinc-800", bcor: "border-emerald-400", acao: () => { game.is -= 4; game.dc += 2; log(`${game.nomeHacker} infiltrou-se lateralmente (-4 IS, +2 DC).`); } },
-            { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Criptografa arquivos sensíveis da empresa. Causa +5 DC instantaneamente.", cor: "from-amber-950 to-amber-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} bloqueou dados por chantagem (+5 DC).`); } }
+            { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
+            { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida no sistema. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
+            { id: "h3", nome: "Movimentação Lateral", sub: "Infraestrutura", desc: "Infiltração silenciosa por redes internas. Causa -4 de Servidor e +2 de Vazado.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-500", acao: () => { game.is -= 4; game.dc += 2; log(`${game.nomeHacker} expandiu o ataque lateralmente.`); } },
+            { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Sequestra arquivos criptografando o HD da empresa. Garante +5 de Vazado.", cor: "from-amber-950 to-zinc-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} bloqueou servidores corporativos (+5 Vazado).`); } }
         ];
 
         const baralhoCorp = [
-            { id: "c1", nome: "Patch de Emergência", sub: "Mitigação ITIL", desc: "Correção rápida de vulnerabilidade. Restaura +8 pontos de IS.", cor: "from-blue-950 to-slate-900", bcor: "border-blue-500", acao: () => { game.is = Math.min(50, game.is + 8); log(`${game.nomeCorp} aplicou um Patch de Emergência (+8 IS).`); } },
-            { id: "c2", nome: "Auditoria COBIT", sub: "Governança COBIT", desc: "Processos e políticas de segurança. Garante +5 de Governança (NG).", cor: "from-indigo-950 to-slate-900", bcor: "border-indigo-400", acao: () => { game.ng += 5; log(`Auditoria realizada! ${game.nomeCorp} alinhou processos ao COBIT (+5 NG).`); } },
-            { id: "c3", nome: "Transparência Pública", sub: "Efeito / Resposta", desc: "Pronunciamento oficial. Recupera +4 de IS e ganha +2 de NG.", cor: "from-teal-950 to-slate-900", bcor: "border-teal-500", acao: () => { game.is = Math.min(50, game.is + 4); game.ng += 2; log(`${game.nomeCorp} agiu com transparência corporativa (+4 IS, +2 NG).`); } },
-            { id: "c4", nome: "Isolamento de Backup", sub: "Recuperação ITIL", desc: "Restaura o sistema para um ponto limpo. Reduz Dados Comprometidos (DC) em 4.", cor: "from-cyan-950 to-slate-900", bcor: "border-cyan-500", acao: () => { game.dc = Math.max(0, game.dc - 4); log(`Backups limpos restaurados por ${game.nomeCorp} (-4 DC).`); } }
+            { id: "c1", nome: "Patch de Emergência", sub: "Mitigação ITIL", desc: "Fecha vulnerabilidade aberta. Restaura +8 de integridade na Vida do Servidor.", cor: "from-blue-950 to-zinc-900", bcor: "border-blue-500", acao: () => { game.is = Math.min(50, game.is + 8); log(`${game.nomeCorp} aplicou remendo urgente de código (+8 Servidor).`); } },
+            { id: "c2", nome: "Auditoria COBIT", sub: "Governança TI", desc: "Valida compliance e politicas rígidas de rede. Adiciona +5 de Defesa (NG).", cor: "from-indigo-950 to-zinc-900", bcor: "border-indigo-400", acao: () => { game.ng += 5; log(`${game.nomeCorp} realizou auditoria baseada em COBIT (+5 Defesa).`); } },
+            { id: "c3", nome: "Transparência Pública", sub: "Resposta a Crise", desc: "Comunicação aberta reduz pânico institucional. Recupera +4 Servidor e +2 Defesa.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is = Math.min(50, game.is + 4); game.ng += 2; log(`${game.nomeCorp} reduziu o impacto reputacional do ataque.`); } },
+            { id: "c4", nome: "Isolamento de Backup", sub: "Recuperação ITIL", desc: "Restaura os arquivos usando cópias frias e seguras. Reduz -4 de Dados Vazados.", cor: "from-cyan-950 to-zinc-900", bcor: "border-cyan-500", acao: () => { game.dc = Math.max(0, game.dc - 4); log(`${game.nomeCorp} restaurou backups isolados da rede (-4 Vazado).`); } }
         ];
 
-        // FUNÇÃO DE LOGIN INICIAL
         function iniciarJogoComNomes() {
             const hInput = document.getElementById("input-hacker").value.trim();
             const cInput = document.getElementById("input-corp").value.trim();
 
             if (!hInput || !cInput) {
-                alert("Por favor, preencha os codenomes dos dois operadores!");
+                alert("Insira os codenomes dos dois lados para prosseguir!");
                 return;
             }
 
             game.nomeHacker = hInput;
             game.nomeCorp = cInput;
 
-            // Atualiza o texto dos botões de abas com os nomes customizados
-            document.getElementById("btn-tab-hacker").innerText = game.nomeHacker.toUpperCase();
-            document.getElementById("btn-tab-corp").innerText = game.nomeCorp.toUpperCase();
-
-            // Esconde a tela de login
             document.getElementById("screen-auth").classList.add("hidden");
-
-            log(`Partida iniciada! Sistema pronto.`);
+            log(`Conexão segura estabelecida. Boa sorte!`);
             atualizarTela();
         }
 
@@ -199,10 +205,10 @@
             const icone = document.getElementById("manual-icone");
             if (conteudo.classList.contains("hidden")) {
                 conteudo.classList.remove("hidden");
-                icone.innerText = "[-] RECOLHER";
+                icone.innerText = "[-] MANUAL";
             } else {
                 conteudo.classList.add("hidden");
-                icone.innerText = "[+] EXPANDIR";
+                icone.innerText = "[+] MANUAL";
             }
         }
 
@@ -215,14 +221,14 @@
 
             cartasAtuais.forEach(c => {
                 carrossel.innerHTML += `
-                    <div class="snap-center shrink-0 w-[140px] h-[210px] bg-gradient-to-b ${c.cor} border-2 ${c.bcor} rounded-xl p-3 flex flex-col justify-between text-left relative transition-all active:scale-95">
+                    <div class="snap-center shrink-0 w-[145px] h-[215px] bg-gradient-to-b ${c.cor} border-2 ${c.bcor} rounded-xl p-3 flex flex-col justify-between text-left relative transition-all active:scale-95 shadow-md">
                         <div>
                             <div class="text-[8px] uppercase tracking-widest text-white/50 font-cyber font-bold mb-0.5">${c.sub}</div>
                             <h3 class="text-xs font-cyber font-bold text-white tracking-wide leading-tight">${c.nome}</h3>
                             <p class="text-[10px] text-slate-300 leading-tight mt-2 border-t border-white/10 pt-2 font-sans">${c.desc}</p>
                         </div>
-                        <button onclick="usarCarta('${c.id}')" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[9px] font-cyber font-bold py-1 rounded-md uppercase tracking-wider transition-colors">
-                            JOGAR CARTA
+                        <button onclick="usarCarta('${c.id}')" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[9px] font-cyber font-bold py-1.5 rounded-md uppercase tracking-wider transition-colors">
+                            Executar Ação
                         </button>
                     </div>`;
             });
@@ -230,7 +236,7 @@
 
         function usarCarta(id) {
             if (game.turno !== game.abaAtiva) {
-                alert(`Não é o seu turno! Aguarde a rodada do operador ativo.`);
+                alert(`Não altere a aba! É a vez de ${game.turno === "invasor" ? game.nomeHacker : game.nomeCorp}.`);
                 return;
             }
 
@@ -256,34 +262,23 @@
             document.getElementById("num-dc").innerText = `${game.dc}/20`;
             document.getElementById("num-ng").innerText = `${game.ng}/20`;
 
+            const painel = document.getElementById("painel-turno");
             const txtTurno = document.getElementById("txt-turno-ativo");
+
             if (game.turno === "invasor") {
                 txtTurno.innerText = `💻 ${game.nomeHacker.toUpperCase()}`;
-                txtTurno.className = "text-xl font-cyber font-black uppercase text-green-400 tracking-wider truncate max-w-xs mx-auto";
+                painel.className = "bg-green-950/20 border border-green-500/40 rounded-xl p-4 text-center shadow-lg transition-colors duration-300";
+                txtTurno.className = "text-xl font-cyber font-black uppercase text-green-400 tracking-wider truncate";
+                game.abaAtiva = "invasor";
             } else {
                 txtTurno.innerText = `🏢 ${game.nomeCorp.toUpperCase()}`;
-                txtTurno.className = "text-xl font-cyber font-black uppercase text-blue-400 tracking-wider truncate max-w-xs mx-auto";
-            }
-
-            const btnH = document.getElementById("btn-tab-hacker");
-            const btnC = document.getElementById("btn-tab-corp");
-
-            if (game.abaAtiva === "invasor") {
-                btnH.className = "text-[10px] font-cyber px-2 py-0.5 rounded bg-green-500 text-black font-bold truncate max-w-[90px]";
-                btnC.className = "text-[10px] font-cyber px-2 py-0.5 rounded text-slate-400 font-bold truncate max-w-[90px]";
-            } else {
-                btnC.className = "text-[10px] font-cyber px-2 py-0.5 rounded bg-blue-500 text-white font-bold truncate max-w-[90px]";
-                btnH.className = "text-[10px] font-cyber px-2 py-0.5 rounded text-slate-400 font-bold truncate max-w-[90px]";
+                painel.className = "bg-blue-950/20 border border-blue-500/40 rounded-xl p-4 text-center shadow-lg transition-colors duration-300";
+                txtTurno.className = "text-xl font-cyber font-black uppercase text-blue-400 tracking-wider truncate";
+                game.abaAtiva = "corp";
             }
 
             renderizarMao();
             checarVitoria();
-        }
-
-        function alternarMao(lado) {
-            game.abaAtiva = lado;
-            renderizarMao();
-            atualizarTela();
         }
 
         function log(texto) {
@@ -291,10 +286,9 @@
         }
 
         function checarVitoria() {
-            if (game.is <= 0) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Infraestrutura colapsou completamente (IS=0)", game.nomeHacker);
-            // Multiplicador interno para validar quem pontuou
-            else if (game.dc >= 20) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazamento crítico de arquivos corporativos (DC=20)", game.nomeHacker);
-            else if (game.ng >= 20) mostrarModalFim(`${game.nomeCorp} Venceu!`, "Controles de governança e mitigação concluídos (NG=20)", game.nomeCorp);
+            if (game.is <= 0) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Derrubou o servidor limpando a infraestrutura da Riot.", game.nomeHacker);
+            else if (game.dc >= 20) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazou completamente o banco de dados confidenciais.", game.nomeHacker);
+            else if (game.ng >= 20) mostrarModalFim(`${game.nomeCorp} Venceu!`, "Gerenciou e mitigou os riscos via governança COBIT/ITIL com sucesso.", game.nomeCorp);
         }
 
         function mostrarModalFim(titulo, motivo, nomeVencedor) {
@@ -313,11 +307,11 @@
 
             if (nomeVencedor === game.nomeHacker) {
                 badge.className = "inline-block px-3 py-0.5 rounded-full font-cyber text-[10px] font-black uppercase mb-3 tracking-widest bg-red-950 text-red-400 border border-red-500/30";
-                box.className = "w-full max-w-sm bg-zinc-950 border-2 border-red-500 p-6 rounded-2xl text-center shadow-2xl shadow-red-900/40";
+                box.className = "w-full max-w-sm bg-zinc-950 border-2 border-red-500 p-6 rounded-2xl text-center shadow-2xl";
                 titleEl.className = "text-2xl font-cyber font-black tracking-tight uppercase mb-2 text-red-500";
             } else {
                 badge.className = "inline-block px-3 py-0.5 rounded-full font-cyber text-[10px] font-black uppercase mb-3 tracking-widest bg-blue-950 text-blue-400 border border-blue-500/30";
-                box.className = "w-full max-w-sm bg-zinc-950 border-2 border-blue-500 p-6 rounded-2xl text-center shadow-2xl shadow-blue-900/40";
+                box.className = "w-full max-w-sm bg-zinc-950 border-2 border-blue-500 p-6 rounded-2xl text-center shadow-2xl";
                 titleEl.className = "text-2xl font-cyber font-black tracking-tight uppercase mb-2 text-blue-400";
             }
 
@@ -348,7 +342,7 @@
             lista.innerHTML = "";
 
             if (historico.length === 0) {
-                lista.innerHTML = `<tr><td colspan="3" class="text-center text-slate-600 py-4 italic">Nenhum log de auditoria registrado.</td></tr>`;
+                lista.innerHTML = `<tr><td colspan="3" class="text-center text-slate-600 py-3 italic">Nenhum registro de auditoria em cache.</td></tr>`;
                 return;
             }
 
@@ -356,7 +350,7 @@
                 const corVencedor = p.vencedor === p.hacker ? "text-red-400" : "text-blue-400";
                 lista.innerHTML += `
                     <tr class="border-b border-slate-900/60 hover:bg-white/5 transition-colors">
-                        <td class="py-2 text-slate-400 text-[10px] truncate max-w-[150px]">
+                        <td class="py-2 text-slate-400 text-[10px] truncate max-w-[140px]">
                             <span class="text-green-500">${p.hacker}</span> <span class="text-slate-600">vs</span> <span class="text-blue-400">${p.corp}</span>
                         </td>
                         <td class="py-2 text-center font-bold text-[11px] ${corVencedor}">${p.vencedor}</td>
@@ -367,7 +361,7 @@
         }
 
         function limparRanking() {
-            if (confirm("Deseja apagar os relatórios de auditoria antigos?")) {
+            if (confirm("Limpar os logs salvos no navegador?")) {
                 localStorage.removeItem("protocolo_brecha_ranking");
                 renderizarRanking();
             }
@@ -375,13 +369,10 @@
 
         function reiniciarPartida() {
             document.getElementById("screen-gameover").classList.add("hidden");
-            // Volta para a tela de login para uma nova dupla autenticar se quiser
             document.getElementById("screen-auth").classList.remove("hidden");
-            
             game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot" };
         }
 
-        // Execução inicial básica para histórico persistente
         renderizarRanking(); 
     </script>
 </body>
