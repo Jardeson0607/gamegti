@@ -53,7 +53,7 @@
             </div>
             <h2 id="go-titulo" class="text-2xl font-cyber font-black tracking-tight uppercase mb-2 text-white">Fim de Jogo</h2>
             <div class="p-3 bg-black/40 border border-slate-800 rounded-xl mb-5">
-                <p id="go-motivo" class="text-xs text-slate-300 font-mono leading-relaxed"></p>
+                <div id="go-motivo" class="text-xs text-slate-300 font-mono leading-relaxed"></div>
             </div>
             <button onclick="reiniciarPartida()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-cyber font-bold text-xs py-2.5 rounded-xl tracking-wider transition-all active:scale-95 shadow-lg">
                 🔄 JOGAR NOVAMENTE
@@ -111,22 +111,22 @@
 
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
         <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 py-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber bg-slate-900/40 rounded-lg border border-slate-800/60 px-2">
-            <span>Core: Manual do Sistema</span>
+            <span>📖 COMO JOGAR? (MANUAL DO SISTEMA)</span>
             <span id="manual-icone" class="font-mono text-indigo-400 text-[10px]">[+] ABRIR GUIA</span>
         </button>
         
         <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 text-xs space-y-4 text-slate-300 font-sans leading-relaxed">
             <div class="bg-indigo-950/20 border border-indigo-500/30 p-2.5 rounded-lg">
                 <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA ASSIMÉTRICA</strong>
-                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 operadores no mesmo dispositivo</span> A cada rodada, o baralho é gerado de forma aleatória a partir de nosso banco de dados. Cada jogador executa exatamente 1 ação e passa o controle.
+                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 operadores no mesmo dispositivo</span>. A cada rodada, o baralho é gerado de forma aleatória a partir de nosso banco de dados. Cada jogador executa exatamente 1 ação e passa o controle.
             </div>
 
             <div class="bg-slate-950/40 p-2.5 border border-slate-850 rounded-lg space-y-2">
                 <strong class="text-purple-400 font-cyber text-[10px] block uppercase tracking-wider">📊 ENTENDENDO OS INDICADORES GLOBAIS</strong>
                 <ul class="space-y-1.5 text-[11px] text-slate-400 list-none pl-0">
-                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde e a disponibilidade da infraestrutura de produção[cite: 88]. Se zerar, a TI entra em colapso total.</li>
-                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de código-fonte exfiltrado pelo atacante[cite: 89]. Chegar a 20 significa vazamento irreversível de propriedade intelectual.</li>
-                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade e conformidade regulatória atingido pela governança da empresa[cite: 90, 91]. Atingir 20 significa conter o incidente.</li>
+                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde e a disponibilidade da infraestrutura de produção. Se zerar, a TI entra em colapso total.</li>
+                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de código-fonte exfiltrado pelo atacante. Chegar a 20 significa vazamento irreversível de propriedade intelectual.</li>
+                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade e conformidade regulatória atingido pela governança da empresa. Atingir 20 significa conter o incidente.</li>
                 </ul>
             </div>
 
@@ -185,8 +185,8 @@
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
             { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
             { id: "h3", nome: "Movimentação Lateral", sub: "Infraestrutura", desc: "Infiltração silenciosa por redes internas. Causa -4 de Servidor e +2 de Vazado.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-500", acao: () => { game.is -= 4; game.dc += 2; log(`${game.nomeHacker} expandiu o ataque lateralmente.`); } },
-            { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Sequestra arquivos criptografando o HD da empresa. Garante +5 de Vazado.", cor: "from-amber-950 to-zinc-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} criptografou os dados (+5 Vazado).`); } },
-            { id: "h5", nome: "Ataque DDoS", sub: "Negação de Serviço", desc: "Inunda as portas de rede com tráfego fantasma. Reduz a integridade do Servidor em -6.", cor: "from-purple-950 to-zinc-900", bcor: "border-purple-500", acao: () => { game.is -= 6; log(`⚠️ Derrubada! ${game.nomeHacker} iniciou ataque massivo DDoS (-6 Servidor).`); } },
+            { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Sequestra arquivos criptografando o HD da empresa. Garante +5 de Vazado.", color: "from-amber-950 to-zinc-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} criptografou os dados (+5 Vazado).`); } },
+            { id: "h5", nome: "Ataque DDoS", sub: "Negação de Serviço", desc: "Inunda as portas de rede com tráfego fantasma. Reduz a integridade do Servidor em -6.", cor: "from-purple-950 to-zinc-900", bcor: "border-purple-500", acao: () => { game.is -= 6; log(`⚠️ "Derrubada! ${game.nomeHacker} iniciou ataque massivo DDoS (-6 Servidor).`); } },
             { id: "h6", nome: "Injeção SQL", sub: "Quebra de Aplicação", desc: "Injeta scripts maliciosos nos inputs da aplicação. Causa -3 de Servidor e +3 de Vazado.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is -= 3; game.dc += 3; log(`${game.nomeHacker} burlou o formulário via Injeção SQL.`); } }
         ];
 
@@ -225,7 +225,7 @@
             atualizarTela();
         }
 
-        // CORREÇÃO DO BUG DO MANUAL QUE NÃO ABRIA
+        // CORREÇÃO DO BUG DE INTERAÇÃO DO MANUAL
         function toggleManual() {
             const conteudo = document.getElementById("manual-conteudo");
             const icone = document.getElementById("manual-icone");
@@ -337,7 +337,7 @@
             renderizarMao();
         }
 
-        // LÓGICA DE CORREÇÃO PEDAGÓGICA INTEGRADA AO FINAL DO INCIDENTE
+        // RELÓGIO E ANÁLISE DE FALHAS DOCENTES INTEGRADA
         function checarVitoria() {
             if (game.is <= 0) {
                 let analise = `Análise de Falha: O ${game.nomeCorp} negligenciou a Resposta a Incidentes (ITIL). Permitir que a Integridade do Servidor (IS) zere significa que não houve monitoramento preventivo e os Patches de Emergência demoraram a ser aplicados, priorizando processos burocráticos em vez da sustentabilidade do runtime.`;
@@ -429,9 +429,11 @@
             });
         }
 
-        function limpiarRanking() {
+        // CORREÇÃO DO BUG DO BOTÃO DE LIMPAR RANKING/HISTÓRICO
+        function limparRanking() {
             if (confirm("Limpar os logs salvos no navegador?")) {
                 localStorage.removeItem("protocolo_brecha_ranking");
+                // Força a remontagem imediata da interface da tabela
                 renderizarRanking();
             }
         }
@@ -440,8 +442,10 @@
             document.getElementById("screen-gameover").classList.add("hidden");
             document.getElementById("screen-auth").classList.remove("hidden");
             game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot", maoHacker: [], maoCorp: [], ocultarMao: false };
+            log("Nova sessão iniciada. Aguardando autenticação de credenciais.");
         }
 
+        // Carrega o ranking persistido do cache local logo na abertura
         renderizarRanking(); 
     </script>
 </body>
