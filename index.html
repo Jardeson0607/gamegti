@@ -86,7 +86,7 @@
             <div class="text-[10px] text-slate-400 uppercase tracking-widest font-cyber mb-1">VEZ DO OPERADOR ATIVO</div>
             <div id="txt-turno-ativo" class="text-xl font-cyber font-black uppercase tracking-wider"></div>
             <div id="alerta-passar-vez" class="mt-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 px-2 py-1 rounded text-[10px] font-bold uppercase animate-pulse">
-                ⚠️ PASSE O CONTROLE DO NOTEBOOK PARA O OUTRO OPERADOR!
+                ⚠️ TRANSMITA O CONTROLE DO AMBIENTE PARA O OUTRO JOGADOR!
             </div>
         </div>
 
@@ -98,7 +98,7 @@
 
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-800 rounded-t-2xl">
         <div class="flex justify-between items-center mb-3 px-1">
-            <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">Escolha uma ação abaixo:</span>
+            <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">Ações de Perímetro Disponíveis:</span>
         </div>
         
         <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]">
@@ -114,7 +114,7 @@
         <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 text-xs space-y-4 text-slate-300 font-sans leading-relaxed">
             <div class="bg-indigo-950/20 border border-indigo-500/30 p-2.5 rounded-lg">
                 <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA ASSIMÉTRICA</strong>
-                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 operadores no mesmo dispositivo</span>. A cada rodada, o baralho é gerado de forma aleatória a partir de nosso banco de dados. Cada jogador executa exatamente 1 ação e passa o controle.
+                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 operadores no mesmo dispositivo</span>. A cada rodada, as cartas jogadas são limpas e novas são sorteadas de forma estocástica da base de dados. Cada jogador executa exatamente 1 ação e passa o controle.
             </div>
 
             <div class="bg-slate-950/40 p-2.5 border border-slate-850 rounded-lg space-y-2">
@@ -128,7 +128,7 @@
 
             <div class="border-l-2 border-green-500 pl-3 space-y-1">
                 <strong class="text-green-400 font-cyber text-[10px] block uppercase tracking-wider">💻 VETOR DE ATAQUE (HACKER)</strong>
-                Seu objetivo é explorar vulnerabilidades arquiteturais e comportamentais para sabotar a infraestrutura (reduzir IS para 0) ou roubar dados confidenciais (subir DC para 20).
+                Seu objetivo é explorar vulnerabilidades arquiteturais e comportamentais para causar indisponibilidade física (reduzir IS para 0) ou vazar dados de patentes (subir DC para 20).
             </div>
 
             <div class="border-l-2 border-blue-500 pl-3 space-y-1">
@@ -147,8 +147,8 @@
                 </p>
                 <ul class="list-disc pl-4 space-y-1 text-[11px] text-slate-400">
                     <li><strong class="text-slate-300">Falha por Queda de IS (ITIL):</strong> Indica que a gestão de incidentes priorizou barreiras burocráticas enquanto a sustentabilidade do ambiente de produção e patches táticos de segurança falharam.</li>
-                    <li><strong class="text-slate-300">Falha por Vazamento de Dados (COBIT):</strong> Demonstra brechas no domínio DSS05 (Gerenciar Segurança). Houve falha na gestão de privilégios e falta de ferramentas ativas como firewalls de aplicação.</li>
-                    <li><strong class="text-slate-300">Resiliência e Vitória da TI:</strong> Alcançada ao estruturar processos contínuos de governança corporativa, auditoria e maturidade de compliance, tornando inviável a persistência de ameaças externas.</li>
+                    <li><strong class="text-slate-300">Falha por Vazamento de Dados (COBIT):</strong> Demonstra brechas no domínio DSS05 (Gerenciar Segurança). Houve falha na gestão de privilégios e falta de ferramentas de inspeção ativas.</li>
+                    <li><strong class="text-slate-300">Resiliência e Vitória da TI:</strong> Alcançada ao estruturar processos contínuos de governança corporativa, auditoria e maturidade de compliance, tornando inviável a persistência de ameaças externas devido ao alto custo de invasão.</li>
                 </ul>
             </div>
         </div>
@@ -188,7 +188,7 @@
             ocultarMao: false 
         };
 
-        // REPOSITÓRIO DO BANCO DE DADOS DE CARTAS
+        // BANCO DE DADOS DE CARTAS COMPLETO
         const repositorioHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
             { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
@@ -269,15 +269,20 @@
 
             cartasAtuais.forEach(c => {
                 carrossel.innerHTML += `
-                    <div class="snap-center shrink-0 w-[145px] h-[215px] bg-gradient-to-b ${c.cor} border-2 ${c.bcor} rounded-xl p-3 flex flex-col justify-between text-left relative transition-all active:scale-95 shadow-md">
+                    <div class="snap-center shrink-0 w-[145px] h-[215px] bg-gradient-to-b ${c.cor} border-2 ${c.bcor} rounded-xl p-3 flex flex-col justify-between text-left relative transition-all shadow-md">
                         <div>
                             <div class="text-[8px] uppercase tracking-widest text-white/50 font-cyber font-bold mb-0.5">${c.sub}</div>
                             <h3 class="text-xs font-cyber font-bold text-white tracking-wide leading-tight">${c.nome}</h3>
                             <p class="text-[10px] text-slate-300 leading-tight mt-2 border-t border-white/10 pt-2 font-sans">${c.desc}</p>
                         </div>
-                        <button onclick="usarCarta('${c.id}')" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[9px] font-cyber font-bold py-1.5 rounded-md uppercase tracking-wider transition-colors">
-                            Executar Ação
-                        </button>
+                        <div class="flex flex-col gap-1 mt-2">
+                            <button onclick="usarCarta('${c.id}')" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[9px] font-cyber font-bold py-1 rounded-md uppercase tracking-wider transition-colors">
+                                Executar Ação
+                            </button>
+                            <button onclick="reciclarCarta('${c.id}')" class="w-full bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 text-[8px] py-0.5 rounded uppercase tracking-wider transition-colors">
+                                🔄 Trocar Carta
+                            </button>
+                        </div>
                     </div>`;
             });
         }
@@ -287,18 +292,52 @@
             renderizarMao();
         }
 
+        // MECÂNICA CORRIGIDA: CARTA É RENOVAÇÃO DA MÃO LOGO APÓS O USO
         function usarCarta(id) {
             if (game.turno !== game.abaAtiva) {
-                alert(`Não altere a aba! É a vez de ${game.turno === "invasor" ? game.nomeHacker : game.nomeCorp}.`);
+                alert(`Ação ilegal! É a vez de ${game.turno === "invasor" ? game.nomeHacker : game.nomeCorp}.`);
                 return;
             }
 
             let list = game.turno === "invasor" ? game.maoHacker : game.maoCorp;
-            let carta = list.find(c => c.id === id);
-            if (carta) carta.acao();
+            let repo = game.turno === "invasor" ? repositorioHacker : repositorioCorp;
+            
+            let index = list.findIndex(c => c.id === id);
+            if (index !== -1) {
+                // Executa o efeito
+                list[index].acao();
+                
+                // Remove e repõe imediatamente com uma nova carta aleatória diferente
+                let cartasFiltradas = repo.filter(rc => !list.some(mc => mc.id === rc.id));
+                let novaReposicao = cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
+                list[index] = novaReposicao;
+            }
 
             game.turnosJogados++; 
+            rotacionarTurno();
+        }
 
+        // SOLUÇÃO ANTIFORÇAR: DISPARAR RECONEXÃO DE RECURSOS (MULLIGAN) PASSANDO O TURNO
+        function reciclarCarta(id) {
+            if (game.turno !== game.abaAtiva) return;
+
+            let list = game.turno === "invasor" ? game.maoHacker : game.maoCorp;
+            let repo = game.turno === "invasor" ? repositorioHacker : repositorioCorp;
+            
+            let index = list.findIndex(c => c.id === id);
+            if (index !== -1) {
+                let cartasFiltradas = repo.filter(rc => !list.some(mc => mc.id === rc.id));
+                let novaCarta = cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
+                list[index] = novaCarta;
+                
+                log(`${game.turno === "invasor" ? game.nomeHacker : game.nomeCorp} descartou uma estratégia para reciclar o perímetro.`);
+            }
+
+            game.turnosJogados++;
+            rotacionarTurno();
+        }
+
+        function rotacionarTurno() {
             if (game.turno === "invasor") {
                 game.turno = "corp";
                 game.abaAtiva = "corp";
@@ -306,7 +345,6 @@
                 game.turno = "invasor";
                 game.abaAtiva = "invasor";
             }
-
             game.ocultarMao = true; 
             atualizarTela();
         }
@@ -346,13 +384,13 @@
 
         function checarVitoria() {
             if (game.is <= 0) {
-                mostrarModalFim(`${game.nomeHacker} Venceu!`, "Infraestrutura comprometida. O servidor caiu por falta de mitigação ativa.", game.nomeHacker);
+                mostrarModalFim(`${game.nomeHacker} Venceu!`, "Infraestrutura comprometida. O servidor caiu por falta de mitigação ativa baseada em ITIL.", game.nomeHacker);
             } 
             else if (game.dc >= 20) {
-                mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazamento em massa detectado. Ativos sensíveis foram exfiltrados da rede.", game.nomeHacker);
+                mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazamento em massa detectado. Ativos sensíveis foram violados por falta de controles COBIT.", game.nomeHacker);
             } 
             else if (game.ng >= 20) {
-                mostrarModalFim(`${game.nomeCorp} Venceu!`, "Simulação concluída. Controles baseados nos frameworks de TI contiveram o incidente.", game.nomeCorp);
+                mostrarModalFim(`${game.nomeCorp} Venceu!`, "Simulação concluída. Controles baseados nos frameworks de TI atingiram nível ótimo de maturidade.", game.nomeCorp);
             }
         }
 
@@ -440,7 +478,6 @@
             log("Nova sessão iniciada. Aguardando autenticação de credenciais.");
         }
 
-        // Execução primária do ranking
         renderizarRanking(); 
     </script>
 </body>
