@@ -99,6 +99,7 @@
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-800 rounded-t-2xl">
         <div class="flex justify-between items-center mb-3 px-1">
             <span class="text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber">Ações de Perímetro Disponíveis:</span>
+            <span id="txt-chances-troca" class="text-[10px] bg-zinc-900 border border-slate-800 px-2 py-0.5 rounded text-amber-400 font-cyber font-bold uppercase"></span>
         </div>
         
         <div id="carrossel-cartas" class="flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]">
@@ -114,29 +115,29 @@
         <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 text-xs space-y-4 text-slate-300 font-sans leading-relaxed">
             <div class="bg-indigo-950/20 border border-indigo-500/30 p-2.5 rounded-lg">
                 <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA ASSIMÉTRICA</strong>
-                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 operadores no mesmo dispositivo</span>. A cada rodada, as cartas jogadas são limpas e novas são sorteadas de forma estocástica da base de dados. Cada jogador executa exatamente 1 ação e passa o controle.
+                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 pessoas no mesmo dispositivo</span>. Cada operador possui <span class="text-amber-400 font-bold">3 chances por jogo</span> para trocar cartas sem perder a vez. A cada rodada, as cartas jogadas são descartadas e novas são sorteadas da base de dados. Cada jogador executa exatamente 1 ação e passa o controle.
             </div>
 
             <div class="bg-slate-950/40 p-2.5 border border-slate-850 rounded-lg space-y-2">
                 <strong class="text-purple-400 font-cyber text-[10px] block uppercase tracking-wider">📊 ENTENDENDO OS INDICADORES GLOBAIS</strong>
                 <ul class="space-y-1.5 text-[11px] text-slate-400 list-none pl-0">
-                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde e a disponibilidade da infraestrutura de produção. Se zerar, a TI entra em colapso total.</li>
-                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de código-fonte exfiltrado pelo atacante. Chegar a 20 significa vazamento irreversível de propriedade intelectual.</li>
-                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade e conformidade regulatória atingido pela governança da empresa. Atingir 20 significa conter o incidente.</li>
+                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde e a disponibilidade da infraestrutura. Se chegar a 0, o Invasor vence por colapso.</li>
+                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de código-fonte exfiltrado. Chegar a 20 garante a vitória do Hacker por vazamento.</li>
+                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade e conformidade atingido pela governança da empresa. Atingir 20 significa conter o incidente.</li>
                 </ul>
             </div>
 
             <div class="border-l-2 border-green-500 pl-3 space-y-1">
                 <strong class="text-green-400 font-cyber text-[10px] block uppercase tracking-wider">💻 VETOR DE ATAQUE (HACKER)</strong>
-                Seu objetivo é explorar vulnerabilidades arquiteturais e comportamentais para causar indisponibilidade física (reduzir IS para 0) ou vazar dados de patentes (subir DC para 20).
+                Seu objetivo é explorar vulnerabilidades arquiteturais para causar indisponibilidade física ou exfiltrar dados sensíveis.
             </div>
 
             <div class="border-l-2 border-blue-500 pl-3 space-y-1">
                 <strong class="text-blue-400 font-cyber text-[10px] block uppercase tracking-wider">🏢 POLÍTICAS E FRAMEWORKS (TI)</strong>
-                Seu objetivo é implantar segurança defensiva. Suas ações dividem-se em dois eixos fundamentais:
+                Seu objetivo é implantar segurança defensiva através de dois eixos fundamentais:
                 <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-400 text-[11px]">
-                    <li><span class="text-cyan-400 font-bold">ITIL (Otimização e Serviços):</span> Respostas rápidas e táticas de recuperação, como mitigação com patches emergenciais e restauração de backups frios.</li>
-                    <li><span class="text-indigo-400 font-bold">COBIT (Estratégia e Governança):</span> Implantação de auditoria, conformidade legal, treinamentos e barreiras arquiteturais de longo prazo.</li>
+                    <li><span class="text-cyan-400 font-bold">ITIL (Otimização e Serviços):</span> Respostas rápidas e táticas de recuperação, como patches emergenciais e restauração de backups.</li>
+                    <li><span class="text-indigo-400 font-bold">COBIT (Estratégia e Governança):</span> Implantação de auditoria, compliance legal e barreiras estruturais.</li>
                 </ul>
             </div>
 
@@ -146,9 +147,9 @@
                     Este ecossistema foi projetado para avaliar as tomadas de decisões baseadas em riscos sob os seguintes pilares conceituais:
                 </p>
                 <ul class="list-disc pl-4 space-y-1 text-[11px] text-slate-400">
-                    <li><strong class="text-slate-300">Falha por Queda de IS (ITIL):</strong> Indica que a gestão de incidentes priorizou barreiras burocráticas enquanto a sustentabilidade do ambiente de produção e patches táticos de segurança falharam.</li>
-                    <li><strong class="text-slate-300">Falha por Vazamento de Dados (COBIT):</strong> Demonstra brechas no domínio DSS05 (Gerenciar Segurança). Houve falha na gestão de privilégios e falta de ferramentas de inspeção ativas.</li>
-                    <li><strong class="text-slate-300">Resiliência e Vitória da TI:</strong> Alcançada ao estruturar processos contínuos de governança corporativa, auditoria e maturidade de compliance, tornando inviável a persistência de ameaças externas devido ao alto custo de invasão.</li>
+                    <li><strong class="text-slate-300">Falha por Queda de IS (ITIL):</strong> Indica que a gestão de incidentes falhou em aplicar remendos operacionais rápidos a tempo de conter a negação de serviço.</li>
+                    <li><strong class="text-slate-300">Falha por Vazamento de Dados (COBIT):</strong> Demonstra brechas no domínio DSS05 (Gerenciar Segurança). Houve falha na gestão de privilégios e conscientização de perímetro.</li>
+                    <li><strong class="text-slate-300">Resiliência e Vitória da TI:</strong> Alcançada ao estruturar processos contínuos de governança corporativa, auditoria e maturidade de compliance (NG).</li>
                 </ul>
             </div>
         </div>
@@ -185,10 +186,12 @@
             nomeCorp: "TI Riot",
             maoHacker: [], 
             maoCorp: [],
-            ocultarMao: false 
+            ocultarMao: false,
+            // CONTADORES INDIVIDUAIS DE CARGAS DE TROCA
+            trocasHacker: 3,
+            trocasCorp: 3
         };
 
-        // BANCO DE DADOS DE CARTAS COMPLETO
         const repositorioHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
             { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
@@ -266,8 +269,12 @@
 
             carrossel.className = "flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]";
             const cartasAtuais = game.abaAtiva === "invasor" ? game.maoHacker : game.maoCorp;
+            const chancesTroca = game.turno === "invasor" ? game.trocasHacker : game.trocasCorp;
 
             cartasAtuais.forEach(c => {
+                // DESATIVA O BOTÃO DE TROCA SE O OPERADOR NÃO TIVER MAIS CARGAS
+                const btnTrocaInativo = chancesTroca <= 0 ? "opacity-30 pointer-events-none" : "";
+                
                 carrossel.innerHTML += `
                     <div class="snap-center shrink-0 w-[145px] h-[215px] bg-gradient-to-b ${c.cor} border-2 ${c.bcor} rounded-xl p-3 flex flex-col justify-between text-left relative transition-all shadow-md">
                         <div>
@@ -279,7 +286,7 @@
                             <button onclick="usarCarta('${c.id}')" class="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 text-[9px] font-cyber font-bold py-1 rounded-md uppercase tracking-wider transition-colors">
                                 Executar Ação
                             </button>
-                            <button onclick="reciclarCarta('${c.id}')" class="w-full bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 text-[8px] py-0.5 rounded uppercase tracking-wider transition-colors">
+                            <button onclick="reciclarCarta('${c.id}')" class="w-full bg-red-950/20 hover:bg-red-900/40 text-red-400 border border-red-900/30 text-[8px] py-0.5 rounded uppercase tracking-wider transition-colors ${btnTrocaInativo}">
                                 🔄 Trocar Carta
                             </button>
                         </div>
@@ -292,7 +299,6 @@
             renderizarMao();
         }
 
-        // MECÂNICA CORRIGIDA: CARTA É RENOVAÇÃO DA MÃO LOGO APÓS O USO
         function usarCarta(id) {
             if (game.turno !== game.abaAtiva) {
                 alert(`Ação ilegal! É a vez de ${game.turno === "invasor" ? game.nomeHacker : game.nomeCorp}.`);
@@ -304,11 +310,11 @@
             
             let index = list.findIndex(c => c.id === id);
             if (index !== -1) {
-                // Executa o efeito
                 list[index].acao();
                 
-                // Remove e repõe imediatamente com uma nova carta aleatória diferente
                 let cartasFiltradas = repo.filter(rc => !list.some(mc => mc.id === rc.id));
+                if (cartasFiltradas.length === 0) cartasFiltradas = [...repo];
+                
                 let novaReposicao = cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
                 list[index] = novaReposicao;
             }
@@ -317,9 +323,12 @@
             rotacionarTurno();
         }
 
-        // SOLUÇÃO ANTIFORÇAR: DISPARAR RECONEXÃO DE RECURSOS (MULLIGAN) PASSANDO O TURNO
+        // RESTRUTURAÇÃO DO MULLIGAN COMPETITIVO: CONSOME CARGA E NÃO PULA O TURNO
         function reciclarCarta(id) {
             if (game.turno !== game.abaAtiva) return;
+
+            if (game.turno === "invasor" && game.trocasHacker <= 0) return;
+            if (game.turno === "corp" && game.trocasCorp <= 0) return;
 
             let list = game.turno === "invasor" ? game.maoHacker : game.maoCorp;
             let repo = game.turno === "invasor" ? repositorioHacker : repositorioCorp;
@@ -327,14 +336,24 @@
             let index = list.findIndex(c => c.id === id);
             if (index !== -1) {
                 let cartasFiltradas = repo.filter(rc => !list.some(mc => mc.id === rc.id));
+                if (cartasFiltradas.length === 0) cartasFiltradas = [...repo];
+                
                 let novaCarta = cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
                 list[index] = novaCarta;
                 
-                log(`${game.turno === "invasor" ? game.nomeHacker : game.nomeCorp} descartou uma estratégia para reciclar o perímetro.`);
+                // CONSOME A CARGA TÁTICA DO JOGADOR ATIVO
+                if (game.turno === "invasor") {
+                    game.trocasHacker--;
+                    log(`${game.nomeHacker} reciclou 1 carta de seu arsenal. Restam ${game.trocasHacker} trocas.`);
+                } else {
+                    game.trocasCorp--;
+                    log(`${game.nomeCorp} reconfigurou 1 controle de barreira. Restam ${game.trocasCorp} trocas.`);
+                }
             }
 
-            game.turnosJogados++;
-            rotacionarTurno();
+            // ATUALIZA A MÃO E O CONTADOR IMEDIATAMENTE SEM MUDAR O JOGADOR ATIVO
+            document.getElementById("txt-chances-troca").innerText = `Trocas: ${game.turno === "invasor" ? game.trocasHacker : game.trocasCorp}/3`;
+            renderizarMao();
         }
 
         function rotacionarTurno() {
@@ -356,16 +375,19 @@
 
             const painel = document.getElementById("painel-turno");
             const txtTurno = document.getElementById("txt-turno-ativo");
+            const txtTrocas = document.getElementById("txt-chances-troca");
 
             if (game.turno === "invasor") {
                 txtTurno.innerText = `💻 ${game.nomeHacker.toUpperCase()}`;
                 painel.className = "bg-green-950/20 border border-green-500/40 rounded-xl p-4 text-center shadow-lg transition-colors duration-300";
                 txtTurno.className = "text-xl font-cyber font-black uppercase text-green-400 tracking-wider truncate";
+                txtTrocas.innerText = `Trocas: ${game.trocasHacker}/3`;
                 game.abaAtiva = "invasor";
             } else {
                 txtTurno.innerText = `🏢 ${game.nomeCorp.toUpperCase()}`;
                 painel.className = "bg-blue-950/20 border border-blue-500/40 rounded-xl p-4 text-center shadow-lg transition-colors duration-300";
                 txtTurno.className = "text-xl font-cyber font-black uppercase text-blue-400 tracking-wider truncate";
+                txtTrocas.innerText = `Trocas: ${game.trocasCorp}/3`;
                 game.abaAtiva = "corp";
             }
 
@@ -474,8 +496,9 @@
         function reiniciarPartida() {
             document.getElementById("screen-gameover").classList.add("hidden");
             document.getElementById("screen-auth").classList.remove("hidden");
-            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot", maoHacker: [], maoCorp: [], ocultarMao: false };
+            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot", maoHacker: [], maoCorp: [], ocultarMao: false, trocasHacker: 3, trocasCorp: 3 };
             log("Nova sessão iniciada. Aguardando autenticação de credenciais.");
+            atualizarTela();
         }
 
         renderizarRanking(); 
