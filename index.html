@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protocolo Brecha: O Incidente</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=700;900&family=Rajdhani:wght=600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Rajdhani', sans-serif;
@@ -55,7 +55,7 @@
             <div class="p-3 bg-black/40 border border-slate-800 rounded-xl mb-5">
                 <p id="go-motivo" class="text-xs text-slate-300 font-mono leading-relaxed"></p>
             </div>
-            <button onclick="reiniciarPartida()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-cyber font-bold text-xs py-2.5 rounded-xl tracking-wider">
+            <button onclick="reiniciarPartida()" class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-cyber font-bold text-xs py-2.5 rounded-xl tracking-wider transition-all active:scale-95 shadow-lg">
                 🔄 JOGAR NOVAMENTE
             </button>
         </div>
@@ -86,7 +86,7 @@
             <div class="text-[10px] text-slate-400 uppercase tracking-widest font-cyber mb-1">VEZ DO OPERADOR ATIVO</div>
             <div id="txt-turno-ativo" class="text-xl font-cyber font-black uppercase tracking-wider"></div>
             <div id="alerta-passar-vez" class="mt-2 bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 px-2 py-1 rounded text-[10px] font-bold uppercase animate-pulse">
-                ⚠️ PASSE O CELULAR/DISPOSITIVO PARA O OUTRO OPERADOR!
+                ⚠️ PASSE O CONTROLE DO NOTEBOOK PARA O OUTRO OPERADOR!
             </div>
         </div>
 
@@ -155,7 +155,7 @@
                     </tr>
                 </thead>
                 <tbody id="lista-ranking">
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </section>
@@ -169,11 +169,12 @@
             turnosJogados: 0,
             nomeHacker: "Invasor",
             nomeCorp: "TI Riot",
-            maoHacker: [], // Cartas sorteadas para esta partida
-            maoCorp: []    // Cartas sorteadas para esta partida
+            maoHacker: [], 
+            maoCorp: [],
+            ocultarMao: false 
         };
 
-        // REPOSITÓRIO AMPLIADO DE CARTAS (BANCO DE DADOS DO JOGO)
+        // REPOSITÓRIO DO BANCO DE DADOS DE CARTAS
         const repositorioHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
             { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
@@ -192,13 +193,11 @@
             { id: "c6", nome: "Treinamento LGPD", sub: "Conscientização", desc: "Treina funcionários contra Phishing. Reduz -3 de Dados Vazados e dá +2 de Defesa.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-600", acao: () => { game.dc = Math.max(0, game.dc - 3); game.ng += 2; log(`Cultura interna: ${game.nomeCorp} aplicou boas práticas de privacidade.`); } }
         ];
 
-        // LOGICA ALGORÍTMICA DE EMBARALHAMENTO (FISHER-YATES SHUFFLE)
+        // LOGICA DE SORTEIO DINÂMICO
         function sortearMaos() {
-            // Embaralha o repositório do Hacker e pega as 4 primeiras
             let embaralhadoHacker = [...repositorioHacker].sort(() => Math.random() - 0.5);
             game.maoHacker = embaralhadoHacker.slice(0, 4);
 
-            // Embaralha o repositório da TI e pega as 4 primeiras
             let embaralhadoCorp = [...repositorioCorp].sort(() => Math.random() - 0.5);
             game.maoCorp = embaralhadoCorp.slice(0, 4);
         }
@@ -216,24 +215,9 @@
             game.nomeCorp = cInput;
 
             document.getElementById("screen-auth").classList.add("hidden");
-            
-            // Sorteia o baralho aleatório da rodada antes de renderizar a tela
             sortearMaos(); 
-
-            log(`Cartas geradas aleatoriamente para os sistemas. Conexão segura estabelecida.`);
+            log(`Sistemas carregados. Conexão criptografada estabelecida.`);
             atualizarTela();
-        }
-
-        function toggleManual() {
-            const conteudo = document.getElementById("manual-conteudo");
-            const icone = document.getElementById("manual-icone");
-            if (conteudo.classList.contains("hidden")) {
-                conteudo.classList.remove("hidden");
-                icone.innerText = "[-] MANUAL";
-            } else {
-                conteudo.classList.add("hidden");
-                icone.innerText = "[+] MANUAL";
-            }
         }
 
         function renderizarMao() {
@@ -241,7 +225,22 @@
             if (!carrossel) return;
             
             carrossel.innerHTML = "";
-            // Agora lê da mão sorteada dinamicamente, não mais do array estático antigo
+
+            // REVELAR/OCULTAR MÃO PARA BLOQUEAR VISÃO NO PROJETOR
+            if (game.ocultarMao) {
+                const nomeProximo = game.turno === "invasor" ? game.nomeHacker : game.nomeCorp;
+                carrossel.className = "flex justify-center items-center w-full min-h-[220px]";
+                carrossel.innerHTML = `
+                    <div class="text-center p-4 bg-slate-900/80 border border-yellow-500/30 rounded-xl max-w-xs shadow-lg animate-pulse">
+                        <p class="text-xs text-yellow-400 font-cyber font-bold uppercase mb-3">🔒 SISTEMA EM SIGILO OPERACIONAL</p>
+                        <button onclick="revelarMaoProjetor()" class="px-4 py-2 bg-gradient-to-r from-yellow-600 to-amber-500 text-black font-cyber font-black text-xs uppercase rounded-lg tracking-wider transition-all shadow-md">
+                            🔓 REVELAR CARTAS DE ${nomeProximo.toUpperCase()}
+                        </button>
+                    </div>`;
+                return;
+            }
+
+            carrossel.className = "flex gap-3 overflow-x-auto pb-2 px-1 no-scrollbar snap-x snap-mandatory min-h-[220px]";
             const cartasAtuais = game.abaAtiva === "invasor" ? game.maoHacker : game.maoCorp;
 
             cartasAtuais.forEach(c => {
@@ -257,6 +256,11 @@
                         </button>
                     </div>`;
             });
+        }
+
+        function revelarMaoProjetor() {
+            game.ocultarMao = false;
+            renderizarMao();
         }
 
         function usarCarta(id) {
@@ -279,6 +283,7 @@
                 game.abaAtiva = "invasor";
             }
 
+            game.ocultarMao = true; 
             atualizarTela();
         }
 
@@ -310,10 +315,25 @@
             document.getElementById("txt-log").innerText = `> ${texto}`;
         }
 
+        function alternarMao(lado) {
+            game.abaAtiva = lado;
+            renderizarMao();
+        }
+
+        // LÓGICA DE CHECAGEM COM TEXTO PEDAGÓGICO DE ERROS INTEGRADO
         function checarVitoria() {
-            if (game.is <= 0) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Derrubou o servidor limpando a infraestrutura da empresa.", game.nomeHacker);
-            else if (game.dc >= 20) mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazou completamente o banco de dados confidenciais.", game.nomeHacker);
-            else if (game.ng >= 20) mostrarModalFim(`${game.nomeCorp} Venceu!`, "Gerenciou e mitigou os riscos via governança COBIT/ITIL com sucesso.", game.nomeCorp);
+            if (game.is <= 0) {
+                let analise = `Análise de Falha: O ${game.nomeCorp} negligenciou a Resposta a Incidentes (ITIL). Permitir que a Integridade do Servidor (IS) zere significa que não houve monitoramento preventivo e os Patches de Emergência demoraram a ser aplicados, priorizando processos burocráticos em vez da sustentabilidade do runtime.`;
+                mostrarModalFim(`${game.nomeHacker} Venceu!`, analise, game.nomeHacker);
+            } 
+            else if (game.dc >= 20) {
+                let analise = `Análise de Falha: A Defesa falhou no controle de proteção de dados e vazamento de ativos. Sob a ótica do COBIT (DSS05), houve brecha na gestão de vulnerabilidades, permitindo exfiltração contínua sem o isolamento correto dos ambientes e falta de ferramentas como um WAF ativo.`;
+                mostrarModalFim(`${game.nomeHacker} Venceu!`, analise, game.nomeHacker);
+            } 
+            else if (game.ng >= 20) {
+                let analise = `Análise de Falha: O ${game.nomeHacker} focou em ataques espalhados e falhou em quebrar a resiliência da empresa a tempo. A TI conseguiu estruturar uma linha de Governança corporativa sólida (COBIT) e conscientização interna, tornando o custo de intrusão alto demais para o atacante persistir.`;
+                mostrarModalFim(`${game.nomeCorp} Venceu!`, analise, game.nomeCorp);
+            }
         }
 
         function mostrarModalFim(titulo, motivo, nomeVencedor) {
@@ -324,10 +344,17 @@
             const motivoEl = document.getElementById("go-motivo");
 
             titleEl.innerText = titulo;
-            motivoEl.innerText = motivo;
+            
+            motivoEl.innerHTML = `
+                <div class="text-left space-y-2">
+                    <div class="text-[10px] text-yellow-500 font-cyber font-bold uppercase tracking-wider">📊 RELATÓRIO DE AUDITORIA PEDAGÓGICA:</div>
+                    <p class="text-slate-300 font-sans text-xs leading-relaxed">${motivo}</p>
+                </div>
+            `;
 
             if (screen.classList.contains("hidden")) {
-                salvarNoRanking(nomeVencedor, motivo);
+                let rodadasFinais = Math.ceil(game.turnosJogados / 2);
+                salvarNoRanking(nomeVencedor, rodadasFinais);
             }
 
             if (nomeVencedor === game.nomeHacker) {
@@ -343,14 +370,14 @@
             screen.classList.remove("hidden");
         }
 
-        function salvarNoRanking(nomeVencedor, motivo) {
+        function salvarNoRanking(nomeVencedor, rodadas) {
             let historico = JSON.parse(localStorage.getItem("protocolo_brecha_ranking")) || [];
             
             const novaPartida = {
                 hacker: game.nomeHacker,
                 corp: game.nomeCorp,
                 vencedor: nomeVencedor,
-                turnos: game.turnosJogados,
+                turnos: rodadas,
                 data: new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})
             };
 
@@ -395,7 +422,7 @@
         function reiniciarPartida() {
             document.getElementById("screen-gameover").classList.add("hidden");
             document.getElementById("screen-auth").classList.remove("hidden");
-            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot", maoHacker: [], maoCorp: [] };
+            game = { is: 50, dc: 0, ng: 0, turno: "invasor", abaAtiva: "invasor", turnosJogados: 0, nomeHacker: "Invasor", nomeCorp: "TI Riot", maoHacker: [], maoCorp: [], ocultarMao: false };
         }
 
         renderizarRanking(); 
