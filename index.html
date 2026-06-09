@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo Brecha: O Incidente</title>
+    <title>GTI com Brenno Buarque</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght=700;900&family=Rajdhani:wght=600;700&display=swap" rel="stylesheet">
     <style>
@@ -108,48 +108,48 @@
 
     <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
         <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 py-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber bg-slate-900/40 rounded-lg border border-slate-800/60 px-2">
-            <span>📖 COMO JOGAR? (MANUAL DO SISTEMA)</span>
+            <span>📖 SOBRE O JOGO & CONCEITOS ACADÊMICOS</span>
             <span id="manual-icone" class="font-mono text-indigo-400 text-[10px]">[+] ABRIR GUIA</span>
         </button>
         
         <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 text-xs space-y-4 text-slate-300 font-sans leading-relaxed">
             <div class="bg-indigo-950/20 border border-indigo-500/30 p-2.5 rounded-lg">
-                <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA ASSIMÉTRICA</strong>
-                Este simulador replica um cenário real de resposta a incidentes críticos. A partida é jogada em turnos por <span class="text-white font-bold">2 pessoas no mesmo dispositivo</span>. Cada operador possui <span class="text-amber-400 font-bold">3 chances por jogo</span> para trocar cartas sem perder a vez. A cada rodada, as cartas jogadas são descartadas e novas são sorteadas da base de dados. Cada jogador executa exatamente 1 ação e passa o controle.
+                <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA ASSIMÉTRICA (1v1 NO NOTEBOOK)</strong>
+                Este simulador conceitual foi desenvolvido para a disciplina de **Gestão de TI (GTI)** do **Prof. Brenno Buarque**. Ele replica um cenário real de resposta a incidentes críticos de governança. A partida ocorre em turnos. Cada operador possui <span class="text-amber-400 font-bold">3 chances por jogo</span> para trocar cartas sem perder a vez. Cada jogador executa exatamente 1 ação e passa o controle.
             </div>
 
             <div class="bg-slate-950/40 p-2.5 border border-slate-850 rounded-lg space-y-2">
                 <strong class="text-purple-400 font-cyber text-[10px] block uppercase tracking-wider">📊 ENTENDENDO OS INDICADORES GLOBAIS</strong>
                 <ul class="space-y-1.5 text-[11px] text-slate-400 list-none pl-0">
-                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde e a disponibilidade da infraestrutura. Se chegar a 0, o Invasor vence por colapso.</li>
-                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de código-fonte exfiltrado. Chegar a 20 garante a vitória do Hacker por vazamento.</li>
-                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade e conformidade atingido pela governança da empresa. Atingir 20 significa conter o incidente.</li>
+                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde, resiliência e a alta disponibilidade da infraestrutura de produção. Se chegar a 0, ocorre um downtime crítico e o Invasor vence.</li>
+                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de ativos digitais e dados sigilosos exfiltrados. Chegar a 20 garante a vitória do Hacker por violação de propriedade intelectual.</li>
+                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade, alinhamento estratégico e conformidade regulatória atingido pela empresa. Atingir 20 significa conter o incidente com sucesso.</li>
                 </ul>
             </div>
 
             <div class="border-l-2 border-green-500 pl-3 space-y-1">
                 <strong class="text-green-400 font-cyber text-[10px] block uppercase tracking-wider">💻 VETOR DE ATAQUE (HACKER)</strong>
-                Seu objetivo é explorar vulnerabilidades arquiteturais para causar indisponibilidade física ou exfiltrar dados sensíveis.
+                Simula ameaças persistentes avançadas, explorando falhas humanas, de código ou de infraestrutura (DDoS, SQLi, Ransomware) para desestabilizar o negócio.
             </div>
 
             <div class="border-l-2 border-blue-500 pl-3 space-y-1">
-                <strong class="text-blue-400 font-cyber text-[10px] block uppercase tracking-wider">🏢 POLÍTICAS E FRAMEWORKS (TI)</strong>
-                Seu objetivo é implantar segurança defensiva através de dois eixos fundamentais:
+                <strong class="text-blue-400 font-cyber text-[10px] block uppercase tracking-wider">🏢 POLÍTICAS E FRAMEWORKS (DEFESA DA TI)</strong>
+                Suas ações em campo dividem-se de acordo com os dois maiores pilares de governança de TI do mercado:
                 <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-400 text-[11px]">
-                    <li><span class="text-cyan-400 font-bold">ITIL (Otimização e Serviços):</span> Respostas rápidas e táticas de recuperação, como patches emergenciais e restauração de backups.</li>
-                    <li><span class="text-indigo-400 font-bold">COBIT (Estratégia e Governança):</span> Implantação de auditoria, compliance legal e barreiras estruturais.</li>
+                    <li><span class="text-cyan-400 font-bold">ITIL (Gerenciamento de Serviços de TI):</span> Focado na operação imediata e na tática. Representado por ações rápidas de mitigação de danos e recuperação física (Patches de Emergência e Backups).</li>
+                    <li><span class="text-indigo-400 font-bold">COBIT (Governança e Alinhamento Estratégico):</span> Focado no longo prazo e na conformidade. Envolve auditorias, treinamento corporativo de privacidade (LGPD) e firewalls de aplicação para aumentar a maturidade de segurança.</li>
                 </ul>
             </div>
 
             <div class="bg-amber-950/20 border border-yellow-600/30 p-2.5 rounded-lg space-y-1.5">
-                <strong class="text-yellow-500 font-cyber text-[10px] block uppercase tracking-wider">📊 ANÁLISE DE AUDITORIA DOCENTE (CONTEÚDO DA DISCIPLINA)</strong>
+                <strong class="text-yellow-500 font-cyber text-[10px] block uppercase tracking-wider">📊 RELATÓRIO DE AUDITORIA PEDAGÓGICA (MECANISMO DE ERROS)</strong>
                 <p class="text-[11px] text-slate-400 leading-normal">
-                    Este ecossistema foi projetado para avaliar as tomadas de decisões baseadas em riscos sob os seguintes pilares conceituais:
+                    Ao término da partida, o sistema gera uma avaliação técnica sobre os erros do perdedor sob a ótica dos frameworks estudados:
                 </p>
                 <ul class="list-disc pl-4 space-y-1 text-[11px] text-slate-400">
-                    <li><strong class="text-slate-300">Falha por Queda de IS (ITIL):</strong> Indica que a gestão de incidentes falhou em aplicar remendos operacionais rápidos a tempo de conter a negação de serviço.</li>
-                    <li><strong class="text-slate-300">Falha por Vazamento de Dados (COBIT):</strong> Demonstra brechas no domínio DSS05 (Gerenciar Segurança). Houve falha na gestão de privilégios e conscientização de perímetro.</li>
-                    <li><strong class="text-slate-300">Resiliência e Vitória da TI:</strong> Alcançada ao estruturar processos contínuos de governança corporativa, auditoria e maturidade de compliance (NG).</li>
+                    <li><strong class="text-slate-300">Derrota por Queda de IS (Falha ITIL):</strong> Mostra que a TI falhou no gerenciamento de incidentes e continuidade de serviços, permitindo indisponibilidade total do ecossistema de produção.</li>
+                    <li><strong class="text-slate-300">Derrota por Vazamento de Dados (Falha COBIT):</strong> Evidencia falhas graves no domínio DSS05 (Gerenciar Segurança) do COBIT, indicando falta de conformidade regulatória, controle de privilégios e proteção de ativos.</li>
+                    <li><strong class="text-slate-300">Derrota do Hacker (Resiliência Corporativa):</strong> Demonstra que o atacante foi incapaz de contornar os investimentos estruturais em governança da empresa, tornando o custo de intrusão alto demais para persistir.</li>
                 </ul>
             </div>
         </div>
@@ -187,18 +187,19 @@
             maoHacker: [], 
             maoCorp: [],
             ocultarMao: false,
-            // CONTADORES INDIVIDUAIS DE CARGAS DE TROCA
             trocasHacker: 3,
             trocasCorp: 3
         };
 
+        // BANCO DE DADOS DE CARTAS ATUALIZADO COM OS TRUNFOS TRIDIMENSIONAIS
         const repositorioHacker = [
             { id: "h1", nome: "SMS Phishing", sub: "Engenharia Social", desc: "Ataque rápido de engenharia social. Garante +4 de Dados Comprometidos (DC).", cor: "from-green-950 to-zinc-900", bcor: "border-green-500", acao: () => { game.dc += 4; log(`${game.nomeHacker} aplicou golpe de SMS Phishing (+4 Vazado).`); } },
-            { id: "h2", nome: "Zero-Day Exploit", sub: "Ciberameaça", desc: "Explota falha crítica desconhecida. Destrói -8 da Vida do Servidor (IS).", cor: "from-red-950 to-zinc-900", bcor: "border-red-500", acao: () => { game.is -= 8; log(`💥 ${game.nomeHacker} disparou um Zero-Day Exploit (-8 Servidor).`); } },
+            { id: "h2", nome: "Ataque DDoS", sub: "Negação de Serviço", desc: "Inunda as portas de rede com tráfego fantasma. Reduz a integridade do Servidor em -6.", cor: "from-purple-950 to-zinc-900", bcor: "border-purple-500", acao: () => { game.is -= 6; log(`⚠️ Derrubada! ${game.nomeHacker} iniciou ataque massivo DDoS (-6 Servidor).`); } },
             { id: "h3", nome: "Movimentação Lateral", sub: "Infraestrutura", desc: "Infiltração silenciosa por redes internas. Causa -4 de Servidor e +2 de Vazado.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-500", acao: () => { game.is -= 4; game.dc += 2; log(`${game.nomeHacker} expandiu o ataque lateralmente.`); } },
             { id: "h4", nome: "Extorsão Ransomware", sub: "Chantagem", desc: "Sequestra arquivos criptografando o HD da empresa. Garante +5 de Vazado.", cor: "from-amber-950 to-zinc-900", bcor: "border-amber-500", acao: () => { game.dc += 5; log(`Ransomware ativo! ${game.nomeHacker} criptografou os dados (+5 Vazado).`); } },
-            { id: "h5", nome: "Ataque DDoS", sub: "Negação de Serviço", desc: "Inunda as portas de rede com tráfego fantasma. Reduz a integridade do Servidor em -6.", cor: "from-purple-950 to-zinc-900", bcor: "border-purple-500", acao: () => { game.is -= 6; log(`⚠️ Derrubada! ${game.nomeHacker} iniciou ataque massivo DDoS (-6 Servidor).`); } },
-            { id: "h6", nome: "Injeção SQL", sub: "Quebra de Aplicação", desc: "Injeta scripts maliciosos nos inputs da aplicação. Causa -3 de Servidor e +3 de Vazado.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is -= 3; game.dc += 3; log(`${game.nomeHacker} burlou o formulário via Injeção SQL.`); } }
+            { id: "h5", nome: "Injeção SQL", sub: "Quebra de Aplicação", desc: "Injeta scripts maliciosos nos inputs da aplicação. Causa -3 de Servidor e +3 de Vazado.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is -= 3; game.dc += 3; log(`${game.nomeHacker} burlou o formulário via Injeção SQL.`); } },
+            // CARTA TRUNFO / LENDÁRIA DO HACKER: APENAS 1 CHANCE LÓGICA DE APARECER
+            { id: "h6", nome: "💥 CRITICAL ZERO-DAY", sub: "Trunfo Cibernético", desc: "Explota falha crítica global oculta na arquitetura. Destrói -14 da Vida do Servidor (IS) de uma vez só!", cor: "from-red-950 via-red-900 to-zinc-950", bcor: "border-red-600 shadow-lg shadow-red-500/20", acao: () => { game.is -= 14; log(`🚨 ALERTA VERMELHO: ${game.nomeHacker} DISPAROU O TRUNFO CRITICAL ZERO-DAY! -14 SERVIDOR!`); } }
         ];
 
         const repositorioCorp = [
@@ -207,7 +208,9 @@
             { id: "c3", nome: "Transparência Pública", sub: "Resposta a Crise", desc: "Comunicação aberta reduz pânico reputacional. Recupera +4 Servidor e +2 Defesa.", cor: "from-teal-950 to-zinc-900", bcor: "border-teal-500", acao: () => { game.is = Math.min(50, game.is + 4); game.ng += 2; log(`${game.nomeCorp} reduziu o impacto de imagem da empresa.`); } },
             { id: "c4", nome: "Isolamento de Backup", sub: "Recuperação ITIL", desc: "Restaura os arquivos usando cópias frias e seguras. Reduz -4 de Dados Vazados.", cor: "from-cyan-950 to-zinc-900", bcor: "border-cyan-500", acao: () => { game.dc = Math.max(0, game.dc - 4); log(`${game.nomeCorp} restaurou backups isolados da rede (-4 Vazado).`); } },
             { id: "c5", nome: "Web Application Firewall", sub: "Defesa Ativa", desc: "Filtra acessos HTTP suspeitos de robôs. Bloqueia ações inimigas garantindo +4 de Defesa.", cor: "from-slate-900 to-zinc-900", bcor: "border-slate-400", acao: () => { game.ng += 4; log(`${game.nomeCorp} ativou regras de proteção no WAF (+4 Defesa).`); } },
-            { id: "c6", nome: "Treinamento LGPD", sub: "Conscientização", desc: "Treina funcionários contra Phishing. Reduz -3 de Dados Vazados e dá +2 de Defesa.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-600", acao: () => { game.dc = Math.max(0, game.dc - 3); game.ng += 2; log(`Cultura interna: ${game.nomeCorp} aplicou boas práticas de privacidade.`); } }
+            { id: "c6", nome: "Treinamento LGPD", sub: "Conscientização", desc: "Treina funcionários contra Phishing. Reduz -3 de Dados Vazados e dá +2 de Defesa.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-600", acao: () => { game.dc = Math.max(0, game.dc - 3); game.ng += 2; log(`Cultura interna: ${game.nomeCorp} aplicou boas práticas de privacidade.`); } },
+            // CARTA TRUNFO / LENDÁRIA DA CORPORAÇÃO: INTERVENÇÃO EXECUTIVA MESTRE
+            { id: "c7", nome: "🛡️ COMITÊ EXECUTIVO CISO", sub: "Trunfo de Governança", desc: "Ativa o plano mestre do CISO. Restaura +10 de integridade ao Servidor (IS) e reduz os Dados Vazados (DC) em -5 imediatamente!", cor: "from-blue-950 via-indigo-900 to-zinc-950", bcor: "border-indigo-500 shadow-lg shadow-blue-500/20", acao: () => { game.is = Math.min(50, game.is + 10); game.dc = Math.max(0, game.dc - 5); log(`🏢 PLANO MESTRE: ${game.nomeCorp} ACIONOU O COMITÊ DO CISO! +10 Servidor, -5 Vazado!`); } }
         ];
 
         function sortearMaos() {
@@ -272,7 +275,6 @@
             const chancesTroca = game.turno === "invasor" ? game.trocasHacker : game.trocasCorp;
 
             cartasAtuais.forEach(c => {
-                // DESATIVA O BOTÃO DE TROCA SE O OPERADOR NÃO TIVER MAIS CARGAS
                 const btnTrocaInativo = chancesTroca <= 0 ? "opacity-30 pointer-events-none" : "";
                 
                 carrossel.innerHTML += `
@@ -323,7 +325,6 @@
             rotacionarTurno();
         }
 
-        // RESTRUTURAÇÃO DO MULLIGAN COMPETITIVO: CONSOME CARGA E NÃO PULA O TURNO
         function reciclarCarta(id) {
             if (game.turno !== game.abaAtiva) return;
 
@@ -341,7 +342,6 @@
                 let novaCarta = cartasFiltradas[Math.floor(Math.random() * cartasFiltradas.length)];
                 list[index] = novaCarta;
                 
-                // CONSOME A CARGA TÁTICA DO JOGADOR ATIVO
                 if (game.turno === "invasor") {
                     game.trocasHacker--;
                     log(`${game.nomeHacker} reciclou 1 carta de seu arsenal. Restam ${game.trocasHacker} trocas.`);
@@ -351,7 +351,6 @@
                 }
             }
 
-            // ATUALIZA A MÃO E O CONTADOR IMEDIATAMENTE SEM MUDAR O JOGADOR ATIVO
             document.getElementById("txt-chances-troca").innerText = `Trocas: ${game.turno === "invasor" ? game.trocasHacker : game.trocasCorp}/3`;
             renderizarMao();
         }
@@ -406,13 +405,16 @@
 
         function checarVitoria() {
             if (game.is <= 0) {
-                mostrarModalFim(`${game.nomeHacker} Venceu!`, "Infraestrutura comprometida. O servidor caiu por falta de mitigação ativa baseada em ITIL.", game.nomeHacker);
+                let analise = `Análise de Falha: O ${game.nomeCorp} negligenciou a Resposta a Incidentes (ITIL). Permitir que a Integridade do Servidor (IS) zere significa que não houve monitoramento preventivo e os Patches de Emergência demoraram a ser aplicados, priorizando processos burocráticos em vez da sustentabilidade do runtime.`;
+                mostrarModalFim(`${game.nomeHacker} Venceu!`, analise, game.nomeHacker);
             } 
             else if (game.dc >= 20) {
-                mostrarModalFim(`${game.nomeHacker} Venceu!`, "Vazamento em massa detectado. Ativos sensíveis foram violados por falta de controles COBIT.", game.nomeHacker);
+                let analise = `Análise de Falha: A Defesa falhou no controle de proteção de dados e vazamento de ativos. Sob a ótica do COBIT (DSS05), houve brecha na gestão de vulnerabilidades, permitindo exfiltração contínua sem o isolamento correto dos ambientes e falta de ferramentas como um WAF ativo.`;
+                mostrarModalFim(`${game.nomeHacker} Venceu!`, analise, game.nomeHacker);
             } 
             else if (game.ng >= 20) {
-                mostrarModalFim(`${game.nomeCorp} Venceu!`, "Simulação concluída. Controles baseados nos frameworks de TI atingiram nível ótimo de maturidade.", game.nomeCorp);
+                let analise = `Análise de Falha: O ${game.nomeHacker} focou em ataques espalhados e falhou em quebrar a resiliência da empresa a tempo. A TI conseguiu estruturar uma linha de Governança corporativa sólida (COBIT) e conscientização interna, tornando o custo de intrusão alto demais para o atacante persistir.`;
+                mostrarModalFim(`${game.nomeCorp} Venceu!`, analise, game.nomeCorp);
             }
         }
 
@@ -424,7 +426,13 @@
             const motivoEl = document.getElementById("go-motivo");
 
             titleEl.innerText = titulo;
-            motivoEl.innerText = motivo;
+            
+            motivoEl.innerHTML = `
+                <div class="text-left space-y-2">
+                    <div class="text-[10px] text-yellow-500 font-cyber font-bold uppercase tracking-wider">📊 RELATÓRIO DE AUDITORIA PEDAGÓGICA:</div>
+                    <p class="text-slate-300 font-sans text-xs leading-relaxed">${motivo}</p>
+                </div>
+            `;
 
             if (screen.classList.contains("hidden")) {
                 let rodadasFinais = Math.ceil(game.turnosJogados / 2);
