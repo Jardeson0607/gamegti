@@ -109,32 +109,38 @@
             </div>
     </section>
 
-    <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-t-slate-900">
+    <section class="w-full max-w-md mx-auto p-3 bg-slate-950 border-t border-slate-900">
         <button onclick="toggleManual()" class="w-full flex justify-between items-center px-1 py-1 text-xs uppercase tracking-wider font-bold text-slate-400 font-cyber bg-slate-900/40 rounded-lg border border-slate-800/60 px-2">
-            <span>📖 COMO JOGAR? (MANUAL DO SISTEMA)</span>
+            <span>Core: Manual do Sistema</span>
             <span id="manual-icone" class="font-mono text-indigo-400 text-[10px]">[+] ABRIR GUIA</span>
         </button>
         
         <div id="manual-conteudo" class="hidden mt-3 bg-slate-900/60 border border-slate-800 rounded-xl p-3.5 text-xs space-y-4 text-slate-300 font-sans leading-relaxed">
             <div class="bg-indigo-950/20 border border-indigo-500/30 p-2.5 rounded-lg">
-                <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA DA PARTIDA</strong>
-                Este é um jogo de estratégia em turnos para <span class="text-white font-bold">2 pessoas no mesmo dispositivo</span>. O jogador ativo escolhe uma carta, o efeito altera o topo e o sistema passa a vez. <span class="text-purple-400 font-bold">As cartas são sorteadas aleatoriamente do banco de dados a cada nova partida!</span>
+                <strong class="text-indigo-400 font-cyber text-[10px] block mb-1">🎮 DINÂMICA ASSIMÉTRICA</strong>
+                Este simulador replica um cenário real de resposta a incidentes críticos[cite: 82, 135]. A partida é jogada em turnos por <span class="text-white font-bold">2 operadores no mesmo dispositivo</span>[cite: 84]. A cada rodada, o baralho é gerado de forma aleatória a partir de nosso banco de dados. Cada jogador executa exatamente 1 ação e passa o controle.
             </div>
 
-            <div class="border-l-2 border-green-500 pl-3 space-y-1">
-                <strong class="text-green-400 font-cyber text-[10px] block uppercase tracking-wider">💻 SE VOCÊ FOR O HACKER:</strong>
-                Seu objetivo é atacar a empresa e comprometer a rede. Você vence se:
-                <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-400 text-[11px]">
-                    <li>Deixar a vida do <span class="text-slate-200 font-bold">Servidor (IS)</span> em <span class="text-red-400 font-bold">0</span>.</li>
-                    <li>Fazer a barra de <span class="text-slate-200 font-bold">Vazado (DC)</span> chegar a <span class="text-amber-400 font-bold">20/20</span>.</li>
+            <div class="bg-slate-950/40 p-2.5 border border-slate-850 rounded-lg space-y-2">
+                <strong class="text-purple-400 font-cyber text-[10px] block uppercase tracking-wider">📊 ENTENDENDO OS INDICADORES GLOBAIS</strong>
+                <ul class="space-y-1.5 text-[11px] text-slate-400 list-none pl-0">
+                    <li><strong class="text-red-400">❤️ Servidor (IS):</strong> Representa a saúde e a disponibilidade da infraestrutura de produção[cite: 88]. Se zerar, a TI entra em colapso total[cite: 88].</li>
+                    <li><strong class="text-amber-400">☣️ Vazado (DC):</strong> Quantifica o volume de código-fonte exfiltrado pelo atacante[cite: 89]. Chegar a 20 significa vazamento irreversível de propriedade intelectual[cite: 90].</li>
+                    <li><strong class="text-blue-400">🛡️ Defesa (NG):</strong> Mede o nível de maturidade e conformidade regulatória atingido pela governança da empresa[cite: 90, 91]. Atingir 20 significa conter o incidente[cite: 91].</li>
                 </ul>
             </div>
 
+            <div class="border-l-2 border-green-500 pl-3 space-y-1">
+                <strong class="text-green-400 font-cyber text-[10px] block uppercase tracking-wider">💻 VETOR DE ATAQUE (HACKER)</strong>
+                Seu objetivo é explorar vulnerabilidades arquiteturais e comportamentais para sabotar a infraestrutura (reduzir IS para 0) ou roubar dados confidenciais (subir DC para 20)[cite: 88, 90].
+            </div>
+
             <div class="border-l-2 border-blue-500 pl-3 space-y-1">
-                <strong class="text-blue-400 font-cyber text-[10px] block uppercase tracking-wider">🏢 SE VOCÊ FOR A TI (DEFESA):</strong>
-                Seu objetivo é aplicar segurança da informação para conter os ataques. Você vence se:
+                <strong class="text-blue-400 font-cyber text-[10px] block uppercase tracking-wider">🏢 POLÍTICAS E FRAMEWORKS (TI)</strong>
+                Seu objetivo é implantar segurança defensiva[cite: 86]. Suas ações dividem-se em dois eixos fundamentais:
                 <ul class="list-disc pl-4 mt-1 space-y-1 text-slate-400 text-[11px]">
-                    <li>Fazer o contador de <span class="text-slate-200 font-bold">Defesa (NG)</span> chegar a <span class="text-blue-400 font-bold">20/20</span> por meio de governança corporativa.</li>
+                    <li><span class="text-cyan-400 font-bold">ITIL (Operação e Serviços):</span> Respostas rápidas e táticas de recuperação, como mitigação com patches emergenciais e restauração de backups frios[cite: 107, 108].</li>
+                    <li><span class="text-indigo-400 font-bold">COBIT (Estratégia e Governança):</span> Implantação de auditoria, conformidade legal, treinamentos e barreiras arquiteturais de longo prazo[cite: 107, 109].</li>
                 </ul>
             </div>
         </div>
@@ -193,7 +199,6 @@
             { id: "c6", nome: "Treinamento LGPD", sub: "Conscientização", desc: "Treina funcionários contra Phishing. Reduz -3 de Dados Vazados e dá +2 de Defesa.", cor: "from-emerald-950 to-zinc-900", bcor: "border-emerald-600", acao: () => { game.dc = Math.max(0, game.dc - 3); game.ng += 2; log(`Cultura interna: ${game.nomeCorp} aplicou boas práticas de privacidade.`); } }
         ];
 
-        // LOGICA DE SORTEIO DINÂMICO
         function sortearMaos() {
             let embaralhadoHacker = [...repositorioHacker].sort(() => Math.random() - 0.5);
             game.maoHacker = embaralhadoHacker.slice(0, 4);
@@ -220,13 +225,25 @@
             atualizarTela();
         }
 
+        // CORREÇÃO DO BUG DO MANUAL QUE NÃO ABRIA
+        function toggleManual() {
+            const conteudo = document.getElementById("manual-conteudo");
+            const icone = document.getElementById("manual-icone");
+            if (conteudo.classList.contains("hidden")) {
+                conteudo.classList.remove("hidden");
+                icone.innerText = "[-] CONCEITOS DO MANUAL";
+            } else {
+                conteudo.classList.add("hidden");
+                icone.innerText = "[+] ABRIR GUIA";
+            }
+        }
+
         function renderizarMao() {
             const carrossel = document.getElementById("carrossel-cartas");
             if (!carrossel) return;
             
             carrossel.innerHTML = "";
 
-            // REVELAR/OCULTAR MÃO PARA BLOQUEAR VISÃO NO PROJETOR
             if (game.ocultarMao) {
                 const nomeProximo = game.turno === "invasor" ? game.nomeHacker : game.nomeCorp;
                 carrossel.className = "flex justify-center items-center w-full min-h-[220px]";
@@ -320,7 +337,7 @@
             renderizarMao();
         }
 
-        // LÓGICA DE CHECAGEM COM TEXTO PEDAGÓGICO DE ERROS INTEGRADO
+        // LÓGICA DE CORREÇÃO PEDAGÓGICA INTEGRADA AO FINAL DO INCIDENTE
         function checarVitoria() {
             if (game.is <= 0) {
                 let analise = `Análise de Falha: O ${game.nomeCorp} negligenciou a Resposta a Incidentes (ITIL). Permitir que a Integridade do Servidor (IS) zere significa que não houve monitoramento preventivo e os Patches de Emergência demoraram a ser aplicados, priorizando processos burocráticos em vez da sustentabilidade do runtime.`;
@@ -412,7 +429,7 @@
             });
         }
 
-        function limparRanking() {
+        function limpiarRanking() {
             if (confirm("Limpar os logs salvos no navegador?")) {
                 localStorage.removeItem("protocolo_brecha_ranking");
                 renderizarRanking();
